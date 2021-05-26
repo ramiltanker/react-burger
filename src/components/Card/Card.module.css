@@ -1,0 +1,22 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+}
+
+.image {
+}
+
+.price_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+    margin: 0;
+    margin-right: 10px;
+}

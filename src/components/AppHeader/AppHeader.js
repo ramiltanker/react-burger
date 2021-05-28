@@ -14,120 +14,56 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI-компонентов
 
-// Картинки
+// Компоненты
+
+// Компоненты
 
 // Картинки
 
-class AppHeader extends React.Component {
-  state = {
-    isHoveredConstructorIcon: false,
-    isHoveredTapeIcon: false,
-    isHoveredProfileIcon: false,
-  };
+// Картинки
 
-  handleHoverIcon = (event) => {
-    if (event.target.id === "constructor") {
-      this.setState({
-        ...this.state,
-        isHoveredConstructorIcon: !this.state.isHoveredConstructorIcon,
-      });
-    }
-    if (event.target.id === "tape") {
-      this.setState({
-        ...this.state,
-        isHoveredTapeIcon: !this.state.isHoveredTapeIcon,
-      });
-    }
-    if (event.target.id === "profile") {
-      this.setState({
-        ...this.state,
-        isHoveredProfileIcon: !this.state.isHoveredProfileIcon,
-      });
-    }
-  };
-
-  handleUnHoverIcon = (event) => {
-    if (event.target.id === "constructor") {
-      this.setState({
-        ...this.state,
-        isHoveredConstructorIcon: !this.state.isHoveredConstructorIcon,
-      });
-    }
-    if (event.target.id === "tape") {
-      this.setState({
-        ...this.state,
-        isHoveredTapeIcon: !this.state.isHoveredTapeIcon,
-      });
-    }
-    if (event.target.id === "profile") {
-      this.setState({
-        ...this.state,
-        isHoveredProfileIcon: !this.state.isHoveredProfileIcon,
-      });
-    }
-  };
-
-  render() {
-    return (
-      <header className={headerStyles.header}>
-        <div className={headerStyles.container}>
-          <nav className={headerStyles.nav}>
-            <ul className={headerStyles.list}>
-              <li className={headerStyles.li}>
-                {this.state.isHoveredConstructorIcon ? (
-                  <BurgerIcon type="secondary" />
-                ) : (
-                  <BurgerIcon type="primary" />
-                )}
-                <Link
-                  className={`${headerStyles.nav_link_contructor}  text_type_main-default`}
-                  to="#"
-                  id="constructor"
-                  onMouseEnter={this.handleHoverIcon}
-                  onMouseLeave={this.handleUnHoverIcon}
-                >
-                  Конструктор
-                </Link>
-              </li>
-              <li className={headerStyles.li}>
-                {this.state.isHoveredTapeIcon ? (
-                  <ListIcon type="secondary" />
-                ) : (
-                  <ListIcon type="primary" />
-                )}
-                <Link
-                  className={`${headerStyles.nav_link_tape}  text_type_main-default`}
-                  to="#"
-                  id="tape"
-                  onMouseEnter={this.handleHoverIcon}
-                  onMouseLeave={this.handleUnHoverIcon}
-                >
-                  Лента заказов
-                </Link>
-              </li>
-            </ul>
-          </nav>
-          <Logo />
-          <div className={headerStyles.profile_box}>
-            {this.state.isHoveredProfileIcon ? (
-              <ProfileIcon type="secondary" />
-            ) : (
-              <ProfileIcon type="primary" />
-            )}
-            <Link
-              className={`${headerStyles.personal_account}  text_type_main-default`}
-              to="#"
-              id="profile"
-              onMouseEnter={this.handleHoverIcon}
-              onMouseLeave={this.handleUnHoverIcon}
-            >
-              Личный кабинет
-            </Link>
-          </div>
+function AppHeader() {
+  return (
+    <header className={headerStyles.header}>
+      <div className={`${headerStyles.container} mt-8 mb-8`}>
+        <nav className={headerStyles.nav}>
+          <ul className={headerStyles.list}>
+            <li className={headerStyles.li}>
+              <Link
+                className={`${headerStyles.nav_link_contructor} ${headerStyles.li}  text_type_main-default mr-2`}
+                to="#"
+                id="constructor"
+              >
+                Конструктор
+                <BurgerIcon type="primary" />
+              </Link>
+            </li>
+            <li className={headerStyles.li}>
+              <Link
+                className={`${headerStyles.nav_link_tape} ${headerStyles.li} text_type_main-default`}
+                to="#"
+                id="tape"
+              >
+                Лента заказов
+                <ListIcon type="primary" />
+              </Link>
+            </li>
+          </ul>
+        </nav>
+        <Logo />
+        <div className={headerStyles.profile_box}>
+          <Link
+            className={`${headerStyles.personal_account} ${headerStyles.li} text_type_main-default ml-2`}
+            to="#"
+            id="profile"
+          >
+            Личный кабинет
+            <ProfileIcon type="primary" />
+          </Link>
         </div>
-      </header>
-    );
-  }
+      </div>
+    </header>
+  );
 }
 
 export default AppHeader;

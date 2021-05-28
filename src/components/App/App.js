@@ -10,7 +10,6 @@ import {
 import "./App.css";
 
 // Компоненты
-import AppHeader from "../AppHeader/AppHeader.js";
 import Main from "../Main/Main.js";
 // Компоненты
 
@@ -19,10 +18,17 @@ import cardsInfo from "../../constants/cards.json";
 // Информация для карточек
 
 function App() {
+
+  function useHover() {
+    const [isHovered, setIsHovered] = React.useState(false);
+    const on = () => setIsHovered(true);
+    const off = () => setIsHovered(false);
+    return { isHovered, on, off };
+  }
+
   return (
     <>
-      <AppHeader />
-      <Main cardsInfo={cardsInfo} />
+      <Main cardsInfo={cardsInfo} useHover={useHover} />
     </>
   );
 }

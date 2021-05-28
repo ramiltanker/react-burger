@@ -1,5 +1,6 @@
 import React from "react";
 
+import PropTypes from "prop-types";
 // Стили
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 // Стили
@@ -16,6 +17,23 @@ import {
 import Card from "../Card/Card.js";
 // Компоненты
 
+const cardsInfoPropTypes = PropTypes.arrayOf(
+  PropTypes.shape({
+    _id: PropTypes.any.isRequired,
+    name: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
+    price: PropTypes.number.isRequired,
+    image: PropTypes.any,
+    image_mobile: PropTypes.any,
+    image_large: PropTypes.any,
+    __v: PropTypes.number.isRequired,
+  })
+);
+
 function BurgerIngredients(props) {
   const [current, setCurrent] = React.useState("bread-rolls");
 
@@ -25,7 +43,7 @@ function BurgerIngredients(props) {
 
   return (
     <section className={burgerIngredientsStyles.burger_ingridients}>
-      <h2 className={burgerIngredientsStyles.title}>Соберите бургер</h2>
+      <h2 className={`${burgerIngredientsStyles.title} mt-10 mb-5`}>Соберите бургер</h2>
       <div className={burgerIngredientsStyles.tabs}>
         <Tab
           value="bread-rolls"
@@ -45,9 +63,9 @@ function BurgerIngredients(props) {
           Начинки
         </Tab>
       </div>
-      <div className={burgerIngredientsStyles.parts_shell}>
+      <div className={`${burgerIngredientsStyles.parts_shell} mt-10 pr-2`}>
         <div className={burgerIngredientsStyles.parts_container}>
-          <h2 className={`${burgerIngredientsStyles.parts_title} ${burgerIngredientsStyles.parts_title_no_margin}`}>Булки</h2>
+          <h2 className={` ${burgerIngredientsStyles.parts_title_no_margin} mb-6 mt-10`}>Булки</h2>
           <div className={burgerIngredientsStyles.parts_box}>
             {buns.map((item, index) => (
               <Card card={item} key={index} />
@@ -74,5 +92,9 @@ function BurgerIngredients(props) {
     </section>
   );
 }
+
+BurgerIngredients.propTypes = {
+  cardsInfo: cardsInfoPropTypes.isRequired,
+};
 
 export default BurgerIngredients;

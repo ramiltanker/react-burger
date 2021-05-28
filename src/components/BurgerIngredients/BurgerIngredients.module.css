@@ -25,8 +25,6 @@
   color: #f2f2f3;
   text-align: left;
   align-self: flex-start;
-  margin-bottom: 36px;
-  margin-top: 40px;
 }
 
 .parts_container {
@@ -39,11 +37,6 @@
   display: flex;
 }
 
-.parts_title {
-  margin-top: 40px;
-  margin-bottom: 25px;
-}
-
 .parts_title_no_margin {
   margin-top: 0;
 }
@@ -51,9 +44,7 @@
 .parts_shell {
   display: block;
   max-height: 600px;
-  overflow-y: auto; 
-  margin-top: 40px;
-  padding-right: 20px;
+  overflow-y: auto;
 }
 
 .parts_shell::-webkit-scrollbar {

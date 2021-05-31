@@ -9,15 +9,39 @@ import {
 
 import "./App.css";
 
+// Api
+import ingridientsApi from "../../utils/IngridientsApi.js";
+// Api
+
 // Компоненты
 import Main from "../Main/Main.js";
+import IngredientDetails from "../IngredientDetails/IngredientDetails.js";
+import OrderDetails from "../OrderDetails/OrderDetails.js";
 // Компоненты
 
-// Информация для карточек
-import cardsInfo from "../../constants/cards.json";
-// Информация для карточек
-
 function App() {
+  const [ingridients, setIngridients] = React.useState([]);
+
+  // Переменные состояния для Ingridients modal
+  const [isIngridientModalOpen, setIsIngridientModalOpen] =
+    React.useState(false);
+  const [ingridientInfo, setIngridientInfo] = React.useState({});
+  // Переменные состояния для Ingridients modal
+
+  // Переменные состояния для Order modal
+  const [isOrderModalOpen, setIsOrderModalOpen] = React.useState(false);
+  const [orderData, setOrderData] = React.useState();
+  // Переменные состояния для Order modal
+  React.useEffect(() => {
+    ingridientsApi
+      .getInitialIngridients()
+      .then((res) => {
+        setIngridients(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   function useHover() {
     const [isHovered, setIsHovered] = React.useState(false);
@@ -26,9 +50,38 @@ function App() {
     return { isHovered, on, off };
   }
 
+  // Indgridients Modal
+  function handleOpenIngridientsModal(item) {
+    setIsIngridientModalOpen(true);
+    setIngridientInfo(item);
+  }
+  // Indgridients Modal
+
+  function handleCloseModal() {
+    setIsIngridientModalOpen(false);
+    setIsOrderModalOpen(false);
+  }
+
+  //  Order Modal
+  function handleOpenOrderModal() {
+    setIsOrderModalOpen(true);
+  }
+  //  Order Modal
   return (
     <>
-      <Main cardsInfo={cardsInfo} useHover={useHover} />
+      <Main
+        cardsInfo={ingridients}
+        useHover={useHover}
+        handleOpenIngridientsModal={handleOpenIngridientsModal}
+        handleOpenOrderModal={handleOpenOrderModal}
+      />
+
+      <IngredientDetails
+        isOpen={isIngridientModalOpen}
+        ingridientInfo={ingridientInfo}
+        handleCloseModal={handleCloseModal}
+      />
+      <OrderDetails isOpen={isOrderModalOpen} handleCloseModal={handleCloseModal} />
     </>
   );
 }

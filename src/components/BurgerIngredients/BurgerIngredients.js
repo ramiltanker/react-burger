@@ -68,7 +68,7 @@ function BurgerIngredients(props) {
           <h2 className={` ${burgerIngredientsStyles.parts_title_no_margin} mb-6 mt-10`}>Булки</h2>
           <div className={burgerIngredientsStyles.parts_box}>
             {buns.map((item, index) => (
-              <Card card={item} key={index} />
+              <Card card={item} key={index} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
             ))}
           </div>
         </div>
@@ -76,7 +76,7 @@ function BurgerIngredients(props) {
           <h2 className={burgerIngredientsStyles.parts_title}>Соусы</h2>
           <div className={burgerIngredientsStyles.parts_box}>
             {sauces.map((item, index) => (
-              <Card card={item} key={index} />
+              <Card card={item} key={index} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
             ))}
           </div>
         </div>
@@ -84,7 +84,7 @@ function BurgerIngredients(props) {
           <h2 className={burgerIngredientsStyles.parts_title}>Начинки</h2>
           <div className={burgerIngredientsStyles.parts_box}>
             {main.map((item, index) => (
-              <Card card={item} key={index} />
+              <Card card={item} key={index} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
             ))}
           </div>
         </div>
@@ -95,6 +95,7 @@ function BurgerIngredients(props) {
 
 BurgerIngredients.propTypes = {
   cardsInfo: cardsInfoPropTypes.isRequired,
+  handleOpenIngridientsModal: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

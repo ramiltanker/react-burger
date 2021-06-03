@@ -5,7 +5,6 @@ import PropTypes from "prop-types";
 import AppHeader from "../AppHeader/AppHeader.js";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients.js";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor.js";
-import Modal from "../Modal/Modal.js";
 // Компоненты
 
 // Стили

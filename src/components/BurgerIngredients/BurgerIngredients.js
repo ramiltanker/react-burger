@@ -67,24 +67,24 @@ function BurgerIngredients(props) {
         <div className={burgerIngredientsStyles.parts_container}>
           <h2 className={` ${burgerIngredientsStyles.parts_title_no_margin} mb-6 mt-10`}>Булки</h2>
           <div className={burgerIngredientsStyles.parts_box}>
-            {buns.map((item, index) => (
-              <Card card={item} key={index} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
+            {buns.map((item) => (
+              <Card card={item} key={item._id} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
             ))}
           </div>
         </div>
         <div className={burgerIngredientsStyles.parts_container}>
           <h2 className={burgerIngredientsStyles.parts_title}>Соусы</h2>
           <div className={burgerIngredientsStyles.parts_box}>
-            {sauces.map((item, index) => (
-              <Card card={item} key={index} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
+            {sauces.map((item) => (
+              <Card card={item} key={item._id} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
             ))}
           </div>
         </div>
         <div className={burgerIngredientsStyles.parts_container}>
           <h2 className={burgerIngredientsStyles.parts_title}>Начинки</h2>
           <div className={burgerIngredientsStyles.parts_box}>
-            {main.map((item, index) => (
-              <Card card={item} key={index} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
+            {main.map((item) => (
+              <Card card={item} key={item._id} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
             ))}
           </div>
         </div>

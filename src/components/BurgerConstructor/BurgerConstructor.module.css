@@ -47,7 +47,6 @@
   gap: 13px;
 }
 
-
 .box div {
   width: 100%;
   display: flex;
@@ -58,4 +57,18 @@
 .constructor-element__row {
   width: 488px;
   justify-content: space-between;
+}
+
+.first_card {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.last_card {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
 }

@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// Компоненты
-import Modal from "../Modal/Modal.js";
-// Компоненты
 
 // Стили
 import inngredientDetailsStyles from "./IngredientDetails.module.css";
@@ -11,11 +8,6 @@ import inngredientDetailsStyles from "./IngredientDetails.module.css";
 
 function IngredientDetails(props) {
   return (
-    <Modal
-      title="Детали ингредиента"
-      handleCloseModal={props.handleCloseModal}
-      isOpen={props.isOpen}
-      children={
         <div className={inngredientDetailsStyles.ingridients}>
           <img
             src={props.ingridientInfo.image_large}
@@ -62,15 +54,12 @@ function IngredientDetails(props) {
             </div>
           </div>
         </div>
-      }
-    />
   );
 }
 
 export default IngredientDetails;
 
 IngredientDetails.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
   ingridientInfo: PropTypes.shape({
     _id: PropTypes.any.isRequired,
     name: PropTypes.string.isRequired,
@@ -85,5 +74,4 @@ IngredientDetails.propTypes = {
     image_large: PropTypes.any,
     __v: PropTypes.number.isRequired,
   }),
-  handleCloseModal: PropTypes.func.isRequired,
 };

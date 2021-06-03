@@ -31,28 +31,36 @@ const cardsInfoPropTypes = PropTypes.arrayOf(
   })
 );
 
-
 function BurgerConstructor(props) {
-
   return (
     <section
       className={`${burgerConstructorStyles.burger_constructor} mt-25 ml-10`}
     >
+      <div className={burgerConstructorStyles.first_card}>
+        <ConstructorElement
+          className={burgerConstructorStyles.card}
+          type={"top"}
+          isLocked={"locked"}
+          text={"Краторная булка N-200i"}
+          price={"1255"}
+          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+        />
+      </div>
       <div className={burgerConstructorStyles.elements_container}>
         {props.cardsInfo.map((item, index) => {
-          const top = index === 0 ? "top" : "";
-          const bottom = index === props.cardsInfo.length - 1 ? "bottom" : "";
+          // const top = index === 0 ? "top" : "";
+          // const bottom = index === props.cardsInfo.length - 1 ? "bottom" : "";
           const dragIcon =
-            index === 0 || index === props.cardsInfo.length - 1 ? (
-              null
-            ) : <DragIcon type="primary" />;
-            const locked = index === 0 || index === props.cardsInfo.length - 1 ? true : false
+            index === 0 || index === props.cardsInfo.length - 1 ? null : (
+              <DragIcon type="primary" />
+            );
+          const locked =
+            index === 0 || index === props.cardsInfo.length - 1 ? true : false;
           return (
-            <div className={burgerConstructorStyles.box} key={index}>
+            <div className={burgerConstructorStyles.box} key={item._id}>
               {dragIcon}
               <ConstructorElement
                 className={burgerConstructorStyles.card}
-                type={top ? top : bottom}
                 isLocked={locked}
                 text={item.name}
                 price={item.price}
@@ -62,12 +70,26 @@ function BurgerConstructor(props) {
           );
         })}
       </div>
+      <div className={burgerConstructorStyles.last_card}>
+        <ConstructorElement
+          className={burgerConstructorStyles.card}
+          type={"bottom"}
+          isLocked={"locked"}
+          text={"Краторная булка N-200i"}
+          price={"1255"}
+          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+        />
+      </div>
       <div className={`${burgerConstructorStyles.general_price} mt-10`}>
         <div className={`${burgerConstructorStyles.price} mr-10`}>
           <p className={`mr-3`}>610</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button type="primary" size="medium" onClick={props.handleOpenOrderModal}>
+        <Button
+          type="primary"
+          size="medium"
+          onClick={props.handleOpenOrderModal}
+        >
           Оформить заказ
         </Button>
       </div>

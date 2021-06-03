@@ -17,6 +17,7 @@ import ingridientsApi from "../../utils/IngridientsApi.js";
 import Main from "../Main/Main.js";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.js";
 import OrderDetails from "../OrderDetails/OrderDetails.js";
+import Modal from "../Modal/Modal.js";
 // Компоненты
 
 function App() {
@@ -33,6 +34,13 @@ function App() {
   const [orderData, setOrderData] = React.useState();
   // Переменные состояния для Order modal
   React.useEffect(() => {
+    const handleEscClose = (e) => {
+      if(e.keyCode === 27) {
+        handleCloseModal();
+      }
+    };
+    document.addEventListener('keydown', handleEscClose);
+
     ingridientsApi
       .getInitialIngridients()
       .then((res) => {
@@ -41,6 +49,10 @@ function App() {
       .catch((error) => {
         console.log(error);
       });
+
+      return () => {
+        document.removeEventListener('keydown', handleEscClose);
+      }
   }, []);
 
   function useHover() {
@@ -67,6 +79,13 @@ function App() {
     setIsOrderModalOpen(true);
   }
   //  Order Modal
+
+  const IngredientDetailsModal = (
+    <IngredientDetails ingridientInfo={ingridientInfo} />
+  );
+
+  const OrderDetailsModal = <OrderDetails />;
+  
   return (
     <>
       <Main
@@ -76,12 +95,16 @@ function App() {
         handleOpenOrderModal={handleOpenOrderModal}
       />
 
-      <IngredientDetails
+      <Modal
+        children={IngredientDetailsModal}
         isOpen={isIngridientModalOpen}
-        ingridientInfo={ingridientInfo}
         handleCloseModal={handleCloseModal}
       />
-      <OrderDetails isOpen={isOrderModalOpen} handleCloseModal={handleCloseModal} />
+      <Modal
+        children={OrderDetailsModal}
+        isOpen={isOrderModalOpen}
+        handleCloseModal={handleCloseModal}
+      />
     </>
   );
 }

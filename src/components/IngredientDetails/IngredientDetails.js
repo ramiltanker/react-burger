@@ -61,7 +61,7 @@ export default IngredientDetails;
 
 IngredientDetails.propTypes = {
   ingridientInfo: PropTypes.shape({
-    _id: PropTypes.any.isRequired,
+    _id: PropTypes.any,
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     proteins: PropTypes.number.isRequired,

@@ -33,8 +33,8 @@ function Main(props) {
     <>
       <AppHeader useHover={props.useHover} />
       <main className={mainStyles.main}>
-        <BurgerIngredients cardsInfo={props.cardsInfo} handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
-        <BurgerConstructor cardsInfo={props.cardsInfo}  handleOpenOrderModal={props.handleOpenOrderModal} />
+        <BurgerIngredients  handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
+        <BurgerConstructor   handleOpenOrderModal={props.handleOpenOrderModal} />
       </main>
     </>
   );
@@ -44,7 +44,6 @@ export default Main;
 
 Main.propTypes = {
   useHover: PropTypes.func.isRequired,
-  cardsInfo: cardsInfoPropTypes.isRequired,
   handleOpenIngridientsModal: PropTypes.func.isRequired,
   handleOpenOrderModal: PropTypes.func.isRequired,
 };

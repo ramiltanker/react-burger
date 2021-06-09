@@ -14,6 +14,10 @@ import {
 import burgerConstructorStyles from "./BurgerConstructor.module.css";
 // Стили
 
+// Context
+import { IngridientsCostContext } from "../../services/ingridientsContext.js";
+// Context
+
 const cardsInfoPropTypes = PropTypes.arrayOf(
   PropTypes.shape({
     _id: PropTypes.any.isRequired,
@@ -32,6 +36,31 @@ const cardsInfoPropTypes = PropTypes.arrayOf(
 );
 
 function BurgerConstructor(props) {
+  const { ingridients, setIngridients } = React.useContext(
+    IngridientsCostContext
+  );
+  const [renderIngridients, setRenderIngridients] = React.useState([]);
+
+  React.useEffect(() => {
+    const generateIngridients = () => {
+      const generatedObject = ingridients.reduce(
+        (previousValue, currentItem, index, arr) => {
+          const buns = arr.filter((ingridient) => ingridient.type === "bun");
+          const main = arr.filter((ingridient) => (ingridient.type = "main"));
+          const sauce = arr.filter((ingridient) => ingridient.type === "sauce");
+          return {
+            buns: buns,
+            main: main,
+            sauce: sauce,
+          };
+        },
+        0
+      );
+      setRenderIngridients(generatedObject);
+    };
+    generateIngridients();
+  }, [ingridients]);
+
   return (
     <section
       className={`${burgerConstructorStyles.burger_constructor} mt-25 ml-10`}
@@ -46,30 +75,7 @@ function BurgerConstructor(props) {
           thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
         />
       </div>
-      <div className={burgerConstructorStyles.elements_container}>
-        {props.cardsInfo.map((item, index) => {
-          // const top = index === 0 ? "top" : "";
-          // const bottom = index === props.cardsInfo.length - 1 ? "bottom" : "";
-          const dragIcon =
-            index === 0 || index === props.cardsInfo.length - 1 ? null : (
-              <DragIcon type="primary" />
-            );
-          const locked =
-            index === 0 || index === props.cardsInfo.length - 1 ? true : false;
-          return (
-            <div className={burgerConstructorStyles.box} key={item._id}>
-              {dragIcon}
-              <ConstructorElement
-                className={burgerConstructorStyles.card}
-                isLocked={locked}
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </div>
-          );
-        })}
-      </div>
+      <div className={burgerConstructorStyles.elements_container}></div>
       <div className={burgerConstructorStyles.last_card}>
         <ConstructorElement
           className={burgerConstructorStyles.card}
@@ -98,7 +104,6 @@ function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-  cardsInfo: cardsInfoPropTypes.isRequired,
   handleOpenOrderModal: PropTypes.func.isRequired,
 };
 
@@ -171,3 +176,26 @@ price={200}
 thumbnail={"props.cardsInfo[0].image"}
 /> */
 }
+
+// {ingridients.map((item, index) => {
+//   // const top = index === 0 ? "top" : "";
+//   // const bottom = index === props.cardsInfo.length - 1 ? "bottom" : "";
+//   const dragIcon =
+//     index === 0 || index === ingridients.length - 1 ? null : (
+//       <DragIcon type="primary" />
+//     );
+//   const locked =
+//     index === 0 || index === ingridients.length - 1 ? true : false;
+//   return (
+//     <div className={burgerConstructorStyles.box} key={item._id}>
+//       {dragIcon}
+//       <ConstructorElement
+//         className={burgerConstructorStyles.card}
+//         isLocked={locked}
+//         text={item.name}
+//         price={item.price}
+//         thumbnail={item.image}
+//       />
+//     </div>
+//   );
+// })}

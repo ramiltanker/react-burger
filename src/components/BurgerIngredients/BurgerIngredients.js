@@ -17,6 +17,10 @@ import {
 import Card from "../Card/Card.js";
 // Компоненты
 
+// Context
+import { IngridientsCostContext } from "../../services/ingridientsContext.js";
+// Context
+
 const cardsInfoPropTypes = PropTypes.arrayOf(
   PropTypes.shape({
     _id: PropTypes.any.isRequired,
@@ -35,11 +39,13 @@ const cardsInfoPropTypes = PropTypes.arrayOf(
 );
 
 function BurgerIngredients(props) {
+  const {ingridients, setIngridients} = React.useContext(IngridientsCostContext);
+  
   const [current, setCurrent] = React.useState("bread-rolls");
 
-  const buns = props.cardsInfo.filter((item) => item.type === "bun");
-  const main = props.cardsInfo.filter((item) => item.type === "main");
-  const sauces = props.cardsInfo.filter((item) => item.type === "sauce");
+  const buns = ingridients.filter((item) => item.type === "bun");
+  const main = ingridients.filter((item) => item.type === "main");
+  const sauces = ingridients.filter((item) => item.type === "sauce");
 
   return (
     <section className={burgerIngredientsStyles.burger_ingridients}>
@@ -94,7 +100,6 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  cardsInfo: cardsInfoPropTypes.isRequired,
   handleOpenIngridientsModal: PropTypes.func.isRequired,
 };
 

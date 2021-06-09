@@ -20,6 +20,10 @@ import OrderDetails from "../OrderDetails/OrderDetails.js";
 import Modal from "../Modal/Modal.js";
 // Компоненты
 
+// Context
+import { IngridientsCostContext } from "../../services/ingridientsContext.js";
+// Context
+
 function App() {
   const [ingridients, setIngridients] = React.useState([]);
 
@@ -35,11 +39,11 @@ function App() {
   // Переменные состояния для Order modal
   React.useEffect(() => {
     const handleEscClose = (e) => {
-      if(e.keyCode === 27) {
+      if (e.keyCode === 27) {
         handleCloseModal();
       }
     };
-    document.addEventListener('keydown', handleEscClose);
+    document.addEventListener("keydown", handleEscClose);
 
     ingridientsApi
       .getInitialIngridients()
@@ -50,9 +54,9 @@ function App() {
         console.log(error);
       });
 
-      return () => {
-        document.removeEventListener('keydown', handleEscClose);
-      }
+    return () => {
+      document.removeEventListener("keydown", handleEscClose);
+    };
   }, []);
 
   function useHover() {
@@ -85,26 +89,28 @@ function App() {
   );
 
   const OrderDetailsModal = <OrderDetails />;
-  
+
+  console.log(ingridients);
   return (
     <>
-      <Main
-        cardsInfo={ingridients}
-        useHover={useHover}
-        handleOpenIngridientsModal={handleOpenIngridientsModal}
-        handleOpenOrderModal={handleOpenOrderModal}
-      />
+      <IngridientsCostContext.Provider value={{ingridients, setIngridients}}>
+        <Main
+          useHover={useHover}
+          handleOpenIngridientsModal={handleOpenIngridientsModal}
+          handleOpenOrderModal={handleOpenOrderModal}
+        />
 
-      <Modal
-        children={IngredientDetailsModal}
-        isOpen={isIngridientModalOpen}
-        handleCloseModal={handleCloseModal}
-      />
-      <Modal
-        children={OrderDetailsModal}
-        isOpen={isOrderModalOpen}
-        handleCloseModal={handleCloseModal}
-      />
+        <Modal
+          children={IngredientDetailsModal}
+          isOpen={isIngridientModalOpen}
+          handleCloseModal={handleCloseModal}
+        />
+        <Modal
+          children={OrderDetailsModal}
+          isOpen={isOrderModalOpen}
+          handleCloseModal={handleCloseModal}
+        />
+      </IngridientsCostContext.Provider>
     </>
   );
 }

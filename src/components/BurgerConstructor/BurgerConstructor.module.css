@@ -1,0 +1,74 @@
+.burger_constructor {
+  display: flex;
+  flex-direction: column;
+}
+
+.general_price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: flex-end;
+}
+
+.price {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.elements_container {
+  display: flex;
+  max-height: 600px;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  padding-right: 20px;
+  overflow-y: auto;
+}
+
+.elements_container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.elements_container::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+.elements_container::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.box {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 13px;
+}
+
+.box div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.constructor-element__row {
+  width: 488px;
+  justify-content: space-between;
+}
+
+.first_card {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.last_card {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}

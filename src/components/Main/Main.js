@@ -34,7 +34,7 @@ function Main(props) {
       <AppHeader useHover={props.useHover} />
       <main className={mainStyles.main}>
         <BurgerIngredients  handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
-        <BurgerConstructor   handleOpenOrderModal={props.handleOpenOrderModal} />
+        <BurgerConstructor   handleOpenOrderModal={props.handleOpenOrderModal} renderIngridients={props.renderIngridients} />
       </main>
     </>
   );

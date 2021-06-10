@@ -39,42 +39,23 @@ function BurgerConstructor(props) {
   const { ingridients, setIngridients } = React.useContext(
     IngridientsCostContext
   );
-  const [renderIngridients, setRenderIngridients] = React.useState([]);
-
-  React.useEffect(() => {
-    const generateIngridients = () => {
-      const generatedObject = ingridients.reduce(
-        (previousValue, currentItem, index, arr) => {
-          const buns = arr.filter((ingridient) => ingridient.type === "bun");
-          const main = arr.filter((ingridient) => (ingridient.type = "main"));
-          const sauce = arr.filter((ingridient) => ingridient.type === "sauce");
-          return {
-            buns: buns,
-            main: main,
-            sauce: sauce,
-          };
-        },
-        0
-      );
-      setRenderIngridients(generatedObject);
-    };
-    generateIngridients();
-  }, [ingridients]);
 
   return (
     <section
       className={`${burgerConstructorStyles.burger_constructor} mt-25 ml-10`}
     >
-      <div className={burgerConstructorStyles.first_card}>
-        <ConstructorElement
-          className={burgerConstructorStyles.card}
-          type={"top"}
-          isLocked={"locked"}
-          text={"Краторная булка N-200i"}
-          price={"1255"}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-        />
-      </div>
+      {props.renderIngridients.buns.map((item) => {
+        <div className={burgerConstructorStyles.first_card}>
+          <ConstructorElement
+            className={burgerConstructorStyles.card}
+            type={"top"}
+            isLocked={"locked"}
+            text={item.name}
+            price={item.price}
+            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+          />
+        </div>;
+      })}
       <div className={burgerConstructorStyles.elements_container}></div>
       <div className={burgerConstructorStyles.last_card}>
         <ConstructorElement

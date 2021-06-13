@@ -73,7 +73,7 @@ function App() {
             sauce: sauce,
           };
         },
-        0
+        {}
       );
       setRenderIngridients(generatedObject);
     };
@@ -118,7 +118,6 @@ function App() {
           useHover={useHover}
           handleOpenIngridientsModal={handleOpenIngridientsModal}
           handleOpenOrderModal={handleOpenOrderModal}
-          renderIngridients={renderIngridients}
         />
 
         <Modal

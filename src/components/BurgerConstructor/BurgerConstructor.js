@@ -34,42 +34,102 @@ const cardsInfoPropTypes = PropTypes.arrayOf(
     __v: PropTypes.number.isRequired,
   })
 );
+const initialState = { price: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case "calculate":
+      return { price: action.price };
+    default:
+      throw new Error(`Wrong type of action: ${action.type}`);
+  }
+}
 
 function BurgerConstructor(props) {
   const { ingridients, setIngridients } = React.useContext(
     IngridientsCostContext
   );
 
+  const [buns, setBuns] = React.useState([]);
+  const [orderIngridients, setOrderIngridients] = React.useState([]);
+  const [totalPriceState, dispatch] = React.useReducer(reducer, initialState);
+
+  React.useEffect(() => {
+    const sortBuns = () => {
+      const bunsArr = ingridients.filter((item) => item.type === "bun");
+      setBuns(bunsArr.slice(0, 1));
+    };
+    sortBuns();
+    const sortIngridients = () => {
+      const sortedIng = ingridients.filter((item) => item.type !== "bun");
+      setOrderIngridients(sortedIng);
+    };
+    sortIngridients();
+  }, [ingridients]);
+
+  React.useEffect(() => {
+    const handleCalculatePrice = () => {
+      const price = orderIngridients.concat(buns).reduce((prev, cur) => {
+        return prev + cur.price;
+      }, 0);
+      dispatch({ type: "calculate", price: price });
+    };
+    handleCalculatePrice();
+  }, [orderIngridients, buns]);
+
   return (
     <section
       className={`${burgerConstructorStyles.burger_constructor} mt-25 ml-10`}
     >
-      {props.renderIngridients.buns.map((item) => {
-        <div className={burgerConstructorStyles.first_card}>
-          <ConstructorElement
-            className={burgerConstructorStyles.card}
-            type={"top"}
-            isLocked={"locked"}
-            text={item.name}
-            price={item.price}
-            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          />
-        </div>;
-      })}
-      <div className={burgerConstructorStyles.elements_container}></div>
-      <div className={burgerConstructorStyles.last_card}>
-        <ConstructorElement
-          className={burgerConstructorStyles.card}
-          type={"bottom"}
-          isLocked={"locked"}
-          text={"Краторная булка N-200i"}
-          price={"1255"}
-          thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-        />
+      {buns &&
+        buns.map((item, index, arr) => {
+          return (
+            <div className={burgerConstructorStyles.first_card} key={index}>
+              <ConstructorElement
+                className={burgerConstructorStyles.card}
+                type={"top"}
+                isLocked={"locked"}
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          );
+        })}
+      <div className={burgerConstructorStyles.elements_container}>
+        {orderIngridients.map((item, index) => {
+          return (
+            <div className={burgerConstructorStyles.box} key={item._id}>
+              <DragIcon type="primary" />
+              <ConstructorElement
+                className={burgerConstructorStyles.card}
+                isLocked={"locked"}
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          );
+        })}
       </div>
+      {buns &&
+        buns.map((item, index, arr) => {
+          return (
+            <div className={burgerConstructorStyles.last_card} key={index}>
+              <ConstructorElement
+                className={burgerConstructorStyles.card}
+                type={"bottom"}
+                isLocked={"locked"}
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </div>
+          );
+        })}
       <div className={`${burgerConstructorStyles.general_price} mt-10`}>
         <div className={`${burgerConstructorStyles.price} mr-10`}>
-          <p className={`mr-3`}>610</p>
+          <p className={`mr-3`}>{totalPriceState.price}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button

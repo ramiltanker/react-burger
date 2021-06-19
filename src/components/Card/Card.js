@@ -11,14 +11,27 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI-компонентов
 
-function Card(props) {
+// DND
+import { useDrag } from "react-dnd";
+// DND
 
+function Card(props) {
   function handleOpenIngridientsModal() {
     props.handleOpenIngridientsModal(props.card);
   }
 
+  // DND
+  const [{ opacity }, ref] = useDrag({
+    type: "ingridients",
+    item: {id: props.card._id},
+    collect: (monitor) => ({
+      opacity: monitor.isDragging() ? 0.5 : 1,
+    }),
+  });
+  // DND
+
   return (
-    <div className={cardStyles.card} onClick={handleOpenIngridientsModal} >
+    <div className={cardStyles.card} onClick={handleOpenIngridientsModal} ref={ref} style={{opacity: opacity}}>
       <Counter />
       <img
         className={cardStyles.image}

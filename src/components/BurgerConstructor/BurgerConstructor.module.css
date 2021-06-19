@@ -1,6 +1,8 @@
 .burger_constructor {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
+  min-height: 700px;
 }
 
 .general_price {

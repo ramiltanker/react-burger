@@ -7,6 +7,8 @@ import {
   GET_BURGER_CONSTRUCTOR_FAILED,
   GET_BURGER_CONSTRUCTOR_ADD_ITEM,
   GET_BURGER_CONSTRUCTOR_DELETE_ITEM,
+  MOVE_CONSTRUCTOR_ITEM,
+  INCREASE_ITEM,
 } from "../actions/burgerIngridients.js";
 
 const initialState = {
@@ -15,6 +17,7 @@ const initialState = {
   burgerIngridientsFailed: false,
 
   burgerConstructorIngridients: [],
+  bun: {},
   burgerConstructorIngridientsFailed: false,
   burgerConstructorIngridientsRequest: false,
 
@@ -69,24 +72,80 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
       };
     }
     case GET_BURGER_CONSTRUCTOR_ADD_ITEM: {
+      if (action.ingType === "bun") {
+        return {
+          ...state,
+          bun: action.item,
+        };
+      } else {
+        return {
+          ...state,
+          burgerConstructorIngridients: [
+            ...state.burgerConstructorIngridients,
+            ...state.burgerIngridientsArr.filter((item) => {
+              return item._id === action.id;
+            }),
+          ],
+        };
+      }
+    }
+    case INCREASE_ITEM: {
+      if (action.ingType === "bun") {
+        let count = 0;
+        return {
+          ...state,
+          burgerIngridientsArr: [...state.burgerIngridientsArr].map((item) => {
+            item.__v = 0;
+            if (item._id === action.id) {
+              count = count + 1;
+              return { ...item, __v: count };
+            } else {
+              return item;
+            }
+          }),
+        };
+      }
       return {
         ...state,
-        burgerConstructorIngridients: [
-          ...state.burgerConstructorIngridients,
-          ...state.burgerIngridientsArr.filter((item) => { 
-            console.log(item.id);
-            console.log(action.id);
-            return item.id === action.id 
-          }),
-        ],
+        burgerIngridientsArr: [...state.burgerIngridientsArr].map((item) => {
+          if (item._id === action.id) {
+            return { ...item, __v: ++item.__v };
+          } else {
+            return item;
+          }
+        }),
       };
     }
     case GET_BURGER_CONSTRUCTOR_DELETE_ITEM: {
+      if (action.ingType === "bun") {
+        return {
+          ...state,
+          bun: state.bun._id === action.id ? "" : state.bun,
+        };
+      }
       return {
         ...state,
         burgerConstructorIngridients: [
           ...state.burgerConstructorIngridients,
-        ].filter((item) => item.id !== action.id),
+        ].filter((item, index) => {
+          return index !== action.ingIndex;
+        }),
+      };
+    }
+
+    case MOVE_CONSTRUCTOR_ITEM: {
+      const arr = [...state.burgerConstructorIngridients];
+      
+      const dragItem = arr[action.dragIndex];
+      const replacedItem = arr[action.replacedIndex];
+
+      arr[action.replacedIndex] = dragItem;
+      arr[action.dragIndex] = replacedItem;
+     
+
+      return {
+        ...state,
+        burgerConstructorIngridients: arr,
       };
     }
     default: {

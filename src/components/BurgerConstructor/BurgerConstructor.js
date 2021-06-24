@@ -20,7 +20,7 @@ import {
 // Redux
 
 // DND
-import { useDrop } from "react-dnd";
+import { useDrop, useDrag } from "react-dnd";
 // DND
 
 // Стили
@@ -30,6 +30,10 @@ import burgerConstructorStyles from "./BurgerConstructor.module.css";
 // Context
 import { IngridientsCostContext } from "../../services/ingridientsContext.js";
 // Context
+
+// Компоненты
+import ConstructorBurger from "../ConstructorBurgerCard/ConstructorBurgerCard.js";
+// Компоненты
 
 const cardsInfoPropTypes = PropTypes.arrayOf(
   PropTypes.shape({
@@ -59,11 +63,10 @@ function reducer(state, action) {
 }
 
 function BurgerConstructor(props) {
-  const { burgerConstructorIngridients } = useSelector(
+  const { burgerConstructorIngridients, bun } = useSelector(
     (state) => state.burgerIngridients
   );
 
-  const [buns, setBuns] = React.useState([]);
   const [orderIngridients, setOrderIngridients] = React.useState([]);
   const [totalPriceState, totalPriceDispatch] = React.useReducer(
     reducer,
@@ -71,29 +74,6 @@ function BurgerConstructor(props) {
   );
 
   const dispatch = useDispatch();
-
-  // React.useEffect(() => {
-  //   const sortBuns = () => {
-  //     const bunsArr = burgerConstructorIngridients.filter((item) => item.type === "bun");
-  //     setBuns(bunsArr.slice(0, 1));
-  //   };
-  //   sortBuns();
-  //   const sortIngridients = () => {
-  //     const sortedIng = burgerConstructorIngridients.filter((item) => item.type !== "bun");
-  //     setOrderIngridients(sortedIng);
-  //   };
-  //   sortIngridients();
-  // }, [burgerConstructorIngridients]);
-
-  // React.useEffect(() => {
-  //   const handleCalculatePrice = () => {
-  //     const price = orderIngridients.concat(buns).reduce((prev, cur) => {
-  //       return prev + cur.price;
-  //     }, 0);
-  //     totalPriceDispatch({ type: "calculate", price: price });
-  //   };
-  //   handleCalculatePrice();
-  // }, [orderIngridients, buns]);
 
   const [, dropTarget] = useDrop({
     accept: "ingridients",
@@ -106,61 +86,97 @@ function BurgerConstructor(props) {
     dispatch({
       type: GET_BURGER_CONSTRUCTOR_ADD_ITEM,
       id: item.id,
+      ingType: item.type,
+      item: item.ing,
     });
   };
+
+  const deleteIngridient = (index) => {
+    dispatch({ type: GET_BURGER_CONSTRUCTOR_DELETE_ITEM, ingIndex: index });
+  };
+
+  React.useEffect(() => {
+    const sortIngridients = () => {
+      const sortedIng = burgerConstructorIngridients.filter(
+        (item) => item.type !== "bun"
+      );
+      setOrderIngridients(sortedIng);
+    };
+    sortIngridients();
+  }, [burgerConstructorIngridients]);
+
+  const content = React.useMemo(
+    () =>
+      orderIngridients &&
+      orderIngridients.map((item, index) => {
+        return (
+          <ConstructorBurger
+            key={index}
+            item={item}
+            ingIndex={index}
+            сlose={() => {
+              deleteIngridient(index);
+            }}
+          />
+        );
+      }),
+    [orderIngridients]
+  );
+
+  const counters = React.useMemo(() => {
+    const counter = {};
+    burgerConstructorIngridients.forEach((ingredient) => {
+      if (!counter[ingredient._id]) counter[ingredient._id] = 0;
+      counter[ingredient._id]++;
+    });
+    if (bun) counter[bun._id] = 2;
+    return counter;
+  }, [burgerConstructorIngridients, bun]);
+
+  // Общая цена за все ингридиенты
+  React.useEffect(() => {
+    console.log(bun);
+    const bunPrice = bun.price ? bun.price * 2 : 0;
+    let totalPrice = burgerConstructorIngridients.reduce((prev, cur) => {
+      return cur.price + prev;
+    }, 0);
+    totalPrice = totalPrice + bunPrice;
+    totalPriceDispatch({ type: "calculate", price: totalPrice });
+  }, [bun, counters, burgerConstructorIngridients]);
+  // Общая цена за все ингридиенты
 
   return (
     <section
       className={`${burgerConstructorStyles.burger_constructor} mt-25 ml-10`}
       ref={dropTarget}
     >
-      {buns &&
-        buns.map((item, index, arr) => {
-          return (
-            <div className={burgerConstructorStyles.first_card} key={index}>
-              <ConstructorElement
-                className={burgerConstructorStyles.card}
-                type={"top"}
-                isLocked={"locked"}
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </div>
-          );
-        })}
+      {bun.name && (
+        <div className={burgerConstructorStyles.first_card}>
+          <ConstructorElement
+            className={burgerConstructorStyles.card}
+            type={"top"}
+            isLocked={true}
+            text={bun.name}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )}
       <div className={burgerConstructorStyles.elements_container}>
-        {burgerConstructorIngridients &&
-          burgerConstructorIngridients.map((item, index) => {
-            return (
-              <div className={burgerConstructorStyles.box} key={item._id}>
-                <DragIcon type="primary" />
-                <ConstructorElement
-                  className={burgerConstructorStyles.card}
-                  isLocked={"locked"}
-                  text={item.name}
-                  price={item.price}
-                  thumbnail={item.image}
-                />
-              </div>
-            );
-          })}
+        {content}
       </div>
-      {buns &&
-        buns.map((item, index, arr) => {
-          return (
-            <div className={burgerConstructorStyles.last_card} key={index}>
-              <ConstructorElement
-                className={burgerConstructorStyles.card}
-                type={"bottom"}
-                isLocked={"locked"}
-                text={item.name}
-                price={item.price}
-                thumbnail={item.image}
-              />
-            </div>
-          );
-        })}
+      {bun.name && (
+        <div className={burgerConstructorStyles.last_card}>
+          <ConstructorElement
+            className={burgerConstructorStyles.card}
+            type={"bottom"}
+            isLocked={true}
+            text={bun.name}
+            price={bun.price}
+            thumbnail={bun.image}
+          />
+        </div>
+      )}
       <div className={`${burgerConstructorStyles.general_price} mt-10`}>
         <div className={`${burgerConstructorStyles.price} mr-10`}>
           <p className={`mr-3`}>{totalPriceState.price}</p>

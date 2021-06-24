@@ -1,13 +1,16 @@
 .burger_constructor {
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: flex-end;
-  min-height: 700px;
+  min-height: 650px;
+  min-width: 300px;
 }
 
 .general_price {
   display: flex;
   justify-content: center;
+  justify-self: flex-end;
   align-items: center;
   align-self: flex-end;
 }

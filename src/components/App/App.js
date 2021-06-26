@@ -13,10 +13,6 @@ import "./App.css";
 import { useDispatch, useSelector } from 'react-redux';
 // Redux
 
-// Api
-import ingridientsApi from "../../utils/IngridientsApi.js";
-// Api
-
 // Компоненты
 import Main from "../Main/Main.js";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.js";

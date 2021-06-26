@@ -9,6 +9,9 @@ import {
   GET_BURGER_CONSTRUCTOR_DELETE_ITEM,
   MOVE_CONSTRUCTOR_ITEM,
   INCREASE_ITEM,
+  POST_SEND_ORDER_REQUEST,
+  POST_SEND_ORDER_SUCCESS,
+  POST_SEND_ORDER_FAILED
 } from "../actions/burgerIngridients.js";
 
 const initialState = {
@@ -24,6 +27,8 @@ const initialState = {
   currentIngridient: {},
 
   order: {},
+  orderRequest: false,
+  orderFailed: false
 };
 
 export const burgerIngridientsReducer = (state = initialState, action) => {
@@ -135,7 +140,7 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
 
     case MOVE_CONSTRUCTOR_ITEM: {
       const arr = [...state.burgerConstructorIngridients];
-      
+
       const dragItem = arr[action.dragIndex];
       const replacedItem = arr[action.replacedIndex];
 
@@ -147,6 +152,27 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
         ...state,
         burgerConstructorIngridients: arr,
       };
+    }
+    case POST_SEND_ORDER_REQUEST: {
+      return {
+        ...state, 
+        orderRequest: true
+      }
+    }
+    case POST_SEND_ORDER_SUCCESS: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: false,
+        order: action.order
+      }
+    }
+    case POST_SEND_ORDER_FAILED: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: true
+      }
     }
     default: {
       return state;

@@ -8,7 +8,14 @@ import orderDetailsStyles from "./OrderDetails.module.css";
 import done from "../../images/done.png";
 // Картинки
 
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+// Redux
+
 function OrderDetails(props) {
+
+  const order = useSelector(store => store.burgerIngridients.order);
+
   return (
     <div className={orderDetailsStyles.order}>
       <h2 className={`${orderDetailsStyles.number} mt-10 mb-8`}>034536</h2>

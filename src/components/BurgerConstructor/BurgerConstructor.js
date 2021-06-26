@@ -27,9 +27,9 @@ import { useDrop, useDrag } from "react-dnd";
 import burgerConstructorStyles from "./BurgerConstructor.module.css";
 // Стили
 
-// Context
-import { IngridientsCostContext } from "../../services/ingridientsContext.js";
-// Context
+// Actions
+import { sendOrder } from "../../services/actions/burgerIngridients.js";
+// Actions
 
 // Компоненты
 import ConstructorBurger from "../ConstructorBurgerCard/ConstructorBurgerCard.js";
@@ -133,9 +133,20 @@ function BurgerConstructor(props) {
     return counter;
   }, [burgerConstructorIngridients, bun]);
 
+  const ingridientsIds = React.useMemo(() => {
+    let ingridientsIdArr;
+    ingridientsIdArr = burgerConstructorIngridients.map((ing) => {
+      return ing._id;
+    });
+    if (bun) {
+      ingridientsIdArr.push(bun._id, bun._id);
+    }
+    return ingridientsIdArr;
+  }, [burgerConstructorIngridients, bun]);
+
+  
   // Общая цена за все ингридиенты
   React.useEffect(() => {
-    console.log(bun);
     const bunPrice = bun.price ? bun.price * 2 : 0;
     let totalPrice = burgerConstructorIngridients.reduce((prev, cur) => {
       return cur.price + prev;
@@ -144,6 +155,14 @@ function BurgerConstructor(props) {
     totalPriceDispatch({ type: "calculate", price: totalPrice });
   }, [bun, counters, burgerConstructorIngridients]);
   // Общая цена за все ингридиенты
+
+  // Отправка заказа
+  const handleSendOrder = (e) => {
+    e.preventDefault();
+
+    dispatch(sendOrder(ingridientsIds));
+  }
+  // Отправка заказа
 
   return (
     <section
@@ -185,7 +204,10 @@ function BurgerConstructor(props) {
         <Button
           type="primary"
           size="medium"
-          onClick={props.handleOpenOrderModal}
+          onClick={(e) => {
+            props.handleOpenOrderModal();
+            handleSendOrder(e);
+          }}
         >
           Оформить заказ
         </Button>
@@ -199,94 +221,3 @@ BurgerConstructor.propTypes = {
 };
 
 export default BurgerConstructor;
-
-{
-  /* <div className={burgerConstructorStyles.box}>
-<ConstructorElement
-  type="top"
-  isLocked={true}
-  text="Краторная булка N-200i (верх)"
-  price={200}
-  thumbnail={"props.cardsInfo[0].image"}
-/>
-</div>
-<div className={burgerConstructorStyles.box}>
-<DragIcon type="primary" />
-<ConstructorElement
-  text="Соус традиционный галактический"
-  price={30}
-  thumbnail={"props.cardsInfo[5].image"}
-  className={burgerConstructorStyles.element}
-/>
-</div>
-<div className={burgerConstructorStyles.box}>
-<DragIcon type="primary" />
-<ConstructorElement
-  text="Мясо бессмертных моллюсков Protostomia"
-  price={300}
-  thumbnail={"props.cardsInfo[4].image"}
-/>
-</div>
-<div className={burgerConstructorStyles.box}>
-<DragIcon type="primary" />
-<ConstructorElement
-  text="Плоды Фалленианского дерева"
-  price={300}
-  thumbnail={"props.cardsInfo[10].image"}
-/>
-</div>
-<div className={burgerConstructorStyles.box}>
-<DragIcon type="primary" />
-<ConstructorElement
-  text="Мясо бессмертных моллюсков Protostomia"
-  price={80}
-  thumbnail={"props.cardsInfo[7].image"}
-/>
-</div>
-<div className={burgerConstructorStyles.box}>
-<DragIcon type="primary" />
-<ConstructorElement
-  text="Хрустящие минеральные кольца"
-  price={80}
-  thumbnail={"props.cardsInfo[11].image"}
-/>
-</div>
-<div className={burgerConstructorStyles.box}>
-<DragIcon type="primary" />
-<ConstructorElement
-  text="Хрустящие минеральные кольца"
-  price={80}
-  thumbnail={"props.cardsInfo[11].image"}
-/>
-</div>
-<ConstructorElement
-type="bottom"
-isLocked={true}
-text="Краторная булка N-200i (верх)"
-price={200}
-thumbnail={"props.cardsInfo[0].image"}
-/> */
-}
-
-// {ingridients.map((item, index) => {
-//   // const top = index === 0 ? "top" : "";
-//   // const bottom = index === props.cardsInfo.length - 1 ? "bottom" : "";
-//   const dragIcon =
-//     index === 0 || index === ingridients.length - 1 ? null : (
-//       <DragIcon type="primary" />
-//     );
-//   const locked =
-//     index === 0 || index === ingridients.length - 1 ? true : false;
-//   return (
-//     <div className={burgerConstructorStyles.box} key={item._id}>
-//       {dragIcon}
-//       <ConstructorElement
-//         className={burgerConstructorStyles.card}
-//         isLocked={locked}
-//         text={item.name}
-//         price={item.price}
-//         thumbnail={item.image}
-//       />
-//     </div>
-//   );
-// })}

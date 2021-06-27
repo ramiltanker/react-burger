@@ -10,7 +10,7 @@ import {
 import "./App.css";
 
 // Redux
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 // Redux
 
 // Компоненты
@@ -18,11 +18,18 @@ import Main from "../Main/Main.js";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.js";
 import OrderDetails from "../OrderDetails/OrderDetails.js";
 import Modal from "../Modal/Modal.js";
+import { Z_BUF_ERROR } from "zlib";
 // Компоненты
-
 
 function App() {
   const dispatch = useDispatch();
+
+  const { burgerConstructorIngridients, bun } = useSelector(
+    (state) => state.burgerIngridients
+  );
+
+  const [isSauce, setIsSauce] = React.useState(false);
+  const [isMain, setIsMain] = React.useState(false);
 
   // Переменные состояния для Ingridients modal
   const [isIngridientModalOpen, setIsIngridientModalOpen] =
@@ -42,7 +49,7 @@ function App() {
       }
     };
     document.addEventListener("keydown", handleEscClose);
-    
+
     return () => {
       document.removeEventListener("keydown", handleEscClose);
     };
@@ -81,22 +88,24 @@ function App() {
 
   return (
     <>
-        <Main
-          useHover={useHover}
-          handleOpenIngridientsModal={handleOpenIngridientsModal}
-          handleOpenOrderModal={handleOpenOrderModal}
-        />
+      <Main
+        useHover={useHover}
+        handleOpenIngridientsModal={handleOpenIngridientsModal}
+        handleOpenOrderModal={handleOpenOrderModal}
+        isSauce={isSauce}
+        isMain={isMain}
+      />
 
-        <Modal
-          children={IngredientDetailsModal}
-          isOpen={isIngridientModalOpen}
-          handleCloseModal={handleCloseModal}
-        />
-        <Modal
-          children={OrderDetailsModal}
-          isOpen={isOrderModalOpen}
-          handleCloseModal={handleCloseModal}
-        />
+      <Modal
+        children={IngredientDetailsModal}
+        isOpen={isIngridientModalOpen}
+        handleCloseModal={handleCloseModal}
+      />
+      <Modal
+        children={OrderDetailsModal}
+        isOpen={isOrderModalOpen}
+        handleCloseModal={handleCloseModal}
+      />
     </>
   );
 }

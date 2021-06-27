@@ -8,8 +8,8 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor.js";
 // Компоненты
 
 // DND
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
 // DND
 
 // Стили
@@ -39,8 +39,14 @@ function Main(props) {
       <AppHeader useHover={props.useHover} />
       <main className={mainStyles.main}>
         <DndProvider backend={HTML5Backend}>
-        <BurgerIngredients  handleOpenIngridientsModal={props.handleOpenIngridientsModal} />
-        <BurgerConstructor   handleOpenOrderModal={props.handleOpenOrderModal} />
+          <BurgerIngredients
+            handleOpenIngridientsModal={props.handleOpenIngridientsModal}
+          />
+          <BurgerConstructor
+            handleOpenOrderModal={props.handleOpenOrderModal}
+            isSauce={props.isSauce}
+            isMain={props.isMain}
+          />
         </DndProvider>
       </main>
     </>

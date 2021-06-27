@@ -10,7 +10,7 @@ export class SendingOrderApi {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   
-    postSendingOrderApi(ingridients) {
+    postSendingOrderApi(ingredients) {
       return fetch(`${this._address}`, {
         method: "POST",
         headers: {
@@ -18,7 +18,7 @@ export class SendingOrderApi {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            ingridients
+            ingredients
         }),
       }).then((res) => this._getResponseData(res));
     }

@@ -144,7 +144,6 @@ function BurgerConstructor(props) {
     return ingridientsIdArr;
   }, [burgerConstructorIngridients, bun]);
 
-  
   // Общая цена за все ингридиенты
   React.useEffect(() => {
     const bunPrice = bun.price ? bun.price * 2 : 0;
@@ -159,9 +158,19 @@ function BurgerConstructor(props) {
   // Отправка заказа
   const handleSendOrder = (e) => {
     e.preventDefault();
+    const burgerConstructorIngridientsTypes = burgerConstructorIngridients.map(
+      (ing) => {
+        return ing.type;
+      }
+    );
+    const isSauce = burgerConstructorIngridientsTypes.indexOf("sauce") !== -1;
+    const isMain = burgerConstructorIngridientsTypes.indexOf("main") !== -1;
 
-    dispatch(sendOrder(ingridientsIds));
-  }
+    if ((isSauce && bun) || (isMain && bun)) {
+      props.handleOpenOrderModal();
+      dispatch(sendOrder(ingridientsIds));
+    }
+  };
   // Отправка заказа
 
   return (
@@ -205,7 +214,6 @@ function BurgerConstructor(props) {
           type="primary"
           size="medium"
           onClick={(e) => {
-            props.handleOpenOrderModal();
             handleSendOrder(e);
           }}
         >

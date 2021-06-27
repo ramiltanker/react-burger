@@ -51,7 +51,6 @@ export function sendOrder(burgerConstructorIngridients) {
       .postSendingOrderApi(burgerConstructorIngridients)
       .then((res) => {
         if (res && res.success) {
-          console.log(res);
           dispatch({
             type: POST_SEND_ORDER_SUCCESS,
             order: res,
@@ -61,6 +60,11 @@ export function sendOrder(burgerConstructorIngridients) {
             type: GET_BURGER_INGRIDIENTS_FAILED,
           });
         }
-      });
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          console.log({error: err});
+        }
+      })
   };
 }

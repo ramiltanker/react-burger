@@ -16,9 +16,10 @@ function OrderDetails(props) {
 
   const order = useSelector(store => store.burgerIngridients.order);
 
+  console.log(order);
   return (
     <div className={orderDetailsStyles.order}>
-      <h2 className={`${orderDetailsStyles.number} mt-10 mb-8`}>034536</h2>
+      <h2 className={`${orderDetailsStyles.number} mt-10 mb-8`}>{order.success && order.order.number}</h2>
       <p className={`${orderDetailsStyles.id} mb-15`}>идентификатор заказа</p>
       <img src={done} alt="Готово" />
       <div className={`${orderDetailsStyles.notification} mt-15 mb-30`}>

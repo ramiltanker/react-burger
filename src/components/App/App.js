@@ -18,7 +18,6 @@ import Main from "../Main/Main.js";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.js";
 import OrderDetails from "../OrderDetails/OrderDetails.js";
 import Modal from "../Modal/Modal.js";
-import { Z_BUF_ERROR } from "zlib";
 // Компоненты
 
 function App() {
@@ -89,7 +88,6 @@ function App() {
   return (
     <>
       <Main
-        useHover={useHover}
         handleOpenIngridientsModal={handleOpenIngridientsModal}
         handleOpenOrderModal={handleOpenOrderModal}
         isSauce={isSauce}

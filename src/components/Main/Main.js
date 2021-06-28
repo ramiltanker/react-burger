@@ -36,7 +36,7 @@ const cardsInfoPropTypes = PropTypes.arrayOf(
 function Main(props) {
   return (
     <>
-      <AppHeader useHover={props.useHover} />
+      <AppHeader />
       <main className={mainStyles.main}>
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients

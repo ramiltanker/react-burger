@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   GET_BURGER_CONSTRUCTOR_ADD_ITEM,
   GET_BURGER_CONSTRUCTOR_DELETE_ITEM,
+  COST_TOTAL_PRICE,
+  DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER
 } from "../../services/actions/burgerIngridients.js";
 // Redux
 
@@ -51,27 +53,15 @@ const cardsInfoPropTypes = PropTypes.arrayOf(
     __v: PropTypes.number.isRequired,
   })
 );
-const initialState = { price: 0 };
 
-function reducer(state, action) {
-  switch (action.type) {
-    case "calculate":
-      return { price: action.price };
-    default:
-      throw new Error(`Wrong type of action: ${action.type}`);
-  }
-}
 
 function BurgerConstructor(props) {
-  const { burgerConstructorIngridients, bun } = useSelector(
+  const { burgerConstructorIngridients, bun, totalPrice } = useSelector(
     (state) => state.burgerIngridients
   );
 
+
   const [orderIngridients, setOrderIngridients] = React.useState([]);
-  const [totalPriceState, totalPriceDispatch] = React.useReducer(
-    reducer,
-    initialState
-  );
 
   const dispatch = useDispatch();
 
@@ -82,6 +72,7 @@ function BurgerConstructor(props) {
     },
   });
 
+  // Перетаскивание внутри конструктора
   const moveBurgerConstructor = (item) => {
     dispatch({
       type: GET_BURGER_CONSTRUCTOR_ADD_ITEM,
@@ -89,12 +80,18 @@ function BurgerConstructor(props) {
       ingType: item.type,
       item: item.ing,
     });
+    dispatch({type: COST_TOTAL_PRICE});
   };
+  // Перетаскивание внутри конструктора
 
+  // Удаление ингридиента
   const deleteIngridient = (index) => {
     dispatch({ type: GET_BURGER_CONSTRUCTOR_DELETE_ITEM, ingIndex: index });
+    dispatch({ type: COST_TOTAL_PRICE});
   };
+  // Удаление ингридиента
 
+  // Сортировка ингридиентов
   React.useEffect(() => {
     const sortIngridients = () => {
       const sortedIng = burgerConstructorIngridients.filter(
@@ -104,6 +101,7 @@ function BurgerConstructor(props) {
     };
     sortIngridients();
   }, [burgerConstructorIngridients]);
+  // Сортировка ингридиентов
 
   const content = React.useMemo(
     () =>
@@ -123,16 +121,6 @@ function BurgerConstructor(props) {
     [orderIngridients]
   );
 
-  const counters = React.useMemo(() => {
-    const counter = {};
-    burgerConstructorIngridients.forEach((ingredient) => {
-      if (!counter[ingredient._id]) counter[ingredient._id] = 0;
-      counter[ingredient._id]++;
-    });
-    if (bun) counter[bun._id] = 2;
-    return counter;
-  }, [burgerConstructorIngridients, bun]);
-
   const ingridientsIds = React.useMemo(() => {
     let ingridientsIdArr;
     ingridientsIdArr = burgerConstructorIngridients.map((ing) => {
@@ -143,17 +131,6 @@ function BurgerConstructor(props) {
     }
     return ingridientsIdArr;
   }, [burgerConstructorIngridients, bun]);
-
-  // Общая цена за все ингридиенты
-  React.useEffect(() => {
-    const bunPrice = bun.price ? bun.price * 2 : 0;
-    let totalPrice = burgerConstructorIngridients.reduce((prev, cur) => {
-      return cur.price + prev;
-    }, 0);
-    totalPrice = totalPrice + bunPrice;
-    totalPriceDispatch({ type: "calculate", price: totalPrice });
-  }, [bun, counters, burgerConstructorIngridients]);
-  // Общая цена за все ингридиенты
 
   // Отправка заказа
   const handleSendOrder = (e) => {
@@ -170,6 +147,8 @@ function BurgerConstructor(props) {
       props.handleOpenOrderModal();
       dispatch(sendOrder(ingridientsIds));
     }
+
+    dispatch({type: DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER});
   };
   // Отправка заказа
 
@@ -207,7 +186,7 @@ function BurgerConstructor(props) {
       )}
       <div className={`${burgerConstructorStyles.general_price} mt-10`}>
         <div className={`${burgerConstructorStyles.price} mr-10`}>
-          <p className={`mr-3`}>{totalPriceState.price}</p>
+          <p className={`mr-3`}>{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button

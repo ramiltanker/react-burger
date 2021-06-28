@@ -100,13 +100,13 @@ function BurgerIngredients(props) {
       </h2>
       <div className={burgerIngredientsStyles.tabs}>
         <Tab
-          value="bread-rolls"
+          value="buns"
           active={current === "buns"}
           onClick={setCurrent}
         >
           Булки
         </Tab>
-        <Tab value="souces" active={current === "sauces"} onClick={setCurrent}>
+        <Tab value="sauces" active={current === "sauces"} onClick={setCurrent}>
           Соусы
         </Tab>
         <Tab value="main" active={current === "main"} onClick={setCurrent}>

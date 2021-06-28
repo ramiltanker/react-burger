@@ -21,23 +21,35 @@ export const POST_SEND_ORDER_REQUEST = "POST_SEND_ORDER_REQUEST";
 export const POST_SEND_ORDER_SUCCESS = "POST_SEND_ORDER_SUCCESS";
 export const POST_SEND_ORDER_FAILED = "POST_SEND_ORDER_FAILED";
 
+export const COST_TOTAL_PRICE = "COST_TOTAL_PRICE";
+
+export const DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER =
+  "DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER";
+
 export function getIngridients() {
   return function (dispatch) {
     dispatch({
       type: GET_BURGER_INGRIDIENTS_REQUEST,
     });
-    ingridientsApi.getInitialIngridients().then((res) => {
-      if (res && res.success) {
-        dispatch({
-          type: GET_BURGER_INGRIDIENTS_SUCCESS,
-          burgerIngridientsArr: res.data,
-        });
-      } else {
-        dispatch({
-          type: GET_BURGER_INGRIDIENTS_FAILED,
-        });
-      }
-    });
+    ingridientsApi
+      .getInitialIngridients()
+      .then((res) => {
+        if (res && res.success) {
+          dispatch({
+            type: GET_BURGER_INGRIDIENTS_SUCCESS,
+            burgerIngridientsArr: res.data,
+          });
+        } else {
+          dispatch({
+            type: GET_BURGER_INGRIDIENTS_FAILED,
+          });
+        }
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          console.log({ error: err });
+        }
+      });
   };
 }
 
@@ -62,9 +74,10 @@ export function sendOrder(burgerConstructorIngridients) {
         }
       })
       .catch((err) => {
+        dispatch({ type: POST_SEND_ORDER_FAILED });
         if (err.status === 400) {
-          console.log({error: err});
+          console.log({ error: err });
         }
-      })
+      });
   };
 }

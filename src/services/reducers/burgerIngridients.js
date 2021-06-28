@@ -1,3 +1,4 @@
+import { stat } from "fs";
 import {
   GET_BURGER_INGRIDIENTS_REQUEST,
   GET_BURGER_INGRIDIENTS_SUCCESS,
@@ -11,7 +12,9 @@ import {
   INCREASE_ITEM,
   POST_SEND_ORDER_REQUEST,
   POST_SEND_ORDER_SUCCESS,
-  POST_SEND_ORDER_FAILED
+  POST_SEND_ORDER_FAILED,
+  COST_TOTAL_PRICE,
+  DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER
 } from "../actions/burgerIngridients.js";
 
 const initialState = {
@@ -28,7 +31,9 @@ const initialState = {
 
   order: {},
   orderRequest: false,
-  orderFailed: false
+  orderFailed: false,
+
+  totalPrice: 0,
 };
 
 export const burgerIngridientsReducer = (state = initialState, action) => {
@@ -146,7 +151,6 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
 
       arr[action.replacedIndex] = dragItem;
       arr[action.dragIndex] = replacedItem;
-     
 
       return {
         ...state,
@@ -155,23 +159,42 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
     }
     case POST_SEND_ORDER_REQUEST: {
       return {
-        ...state, 
-        orderRequest: true
-      }
+        ...state,
+        orderRequest: true,
+      };
     }
     case POST_SEND_ORDER_SUCCESS: {
       return {
         ...state,
         orderRequest: false,
         orderFailed: false,
-        order: action.order
-      }
+        order: action.order,
+      };
     }
     case POST_SEND_ORDER_FAILED: {
       return {
         ...state,
         orderRequest: false,
-        orderFailed: true
+        orderFailed: true,
+      };
+    }
+    case COST_TOTAL_PRICE: {
+      const bunPrice = !(Object.keys(state.bun).length === 0) ? state.bun.price * 2 : 0;
+      const totalPrice = state.burgerConstructorIngridients.reduce((prev, cur) => {
+        return cur.price + prev;
+      }, 0);
+
+      return {
+        ...state,
+        totalPrice: totalPrice + bunPrice,
+      };
+    }
+    case DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER: {
+      return {
+        ...state,
+        totalPrice: 0,
+        burgerConstructorIngridients: [],
+        bun: {}
       }
     }
     default: {

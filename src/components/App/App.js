@@ -7,7 +7,7 @@ import {
   useLocation,
 } from "react-router-dom";
 
-import "./App.css";
+import appStyles from "./App.module.css";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";

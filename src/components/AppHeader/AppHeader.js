@@ -34,7 +34,7 @@ function AppHeader() {
           <ul className={headerStyles.list}>
             <li className={headerStyles.li}>
               <Link
-                className={`${headerStyles.nav_link_contructor} ${headerStyles.li}  text_type_main-default mr-2`}
+                className={`${headerStyles.nav_link_contructor} ${headerStyles.li}  text_type_main-default mr-15`}
                 to="#"
                 id="constructor"
               >
@@ -44,7 +44,7 @@ function AppHeader() {
             </li>
             <li className={headerStyles.li}>
               <Link
-                className={`${headerStyles.nav_link_tape} ${headerStyles.li} text_type_main-default`}
+                className={`${headerStyles.nav_link_tape} ${headerStyles.li} text_type_main-default mr-15`}
                 to="#"
                 id="tape"
               >
@@ -57,7 +57,7 @@ function AppHeader() {
         <Logo />
         <div className={headerStyles.profile_box}>
           <Link
-            className={`${headerStyles.personal_account} ${headerStyles.li} text_type_main-default ml-2`}
+            className={`${headerStyles.personal_account} ${headerStyles.li} text_type_main-default ml-15`}
             to="#"
             id="profile"
           >

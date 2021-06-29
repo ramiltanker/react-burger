@@ -56,7 +56,8 @@ function Main(props) {
 export default Main;
 
 Main.propTypes = {
-  useHover: PropTypes.func.isRequired,
+  isSauce: PropTypes.bool,
+  isMain:PropTypes.bool,
   handleOpenIngridientsModal: PropTypes.func.isRequired,
   handleOpenOrderModal: PropTypes.func.isRequired,
 };

@@ -54,7 +54,6 @@ export function getIngridients() {
 }
 
 export function sendOrder(burgerConstructorIngridients) {
-  console.log(burgerConstructorIngridients);
   return function (dispatch) {
     dispatch({
       type: POST_SEND_ORDER_REQUEST,

@@ -1,0 +1,23 @@
+.orders {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.container {
+  display: block;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.container::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+
+.container::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}

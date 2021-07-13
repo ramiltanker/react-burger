@@ -1,0 +1,24 @@
+.route_box {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  margin-right: 60px;
+}
+
+.link {
+  text-decoration: none;
+  color: #8585ad;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+}
+
+.link_active {
+  color: #f2f2f3;
+}
+
+.text {
+  color: #8585ad;
+  width: 320px;
+  opacity: 0.4;
+}

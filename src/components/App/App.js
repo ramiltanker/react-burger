@@ -2,6 +2,7 @@ import React from "react";
 import {
   Route,
   Switch,
+  Router,
   useHistory,
   withRouter,
   useLocation,
@@ -13,11 +14,25 @@ import appStyles from "./App.module.css";
 import { useDispatch, useSelector } from "react-redux";
 // Redux
 
+import {
+  handleCheckToken,
+  handleGetUserData,
+} from "../../services/actions/auth";
+
 // Компоненты
 import Main from "../Main/Main.js";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.js";
 import OrderDetails from "../OrderDetails/OrderDetails.js";
 import Modal from "../Modal/Modal.js";
+import SignIn from "../SignIn/SignIn.js";
+import SignUp from "../SignUp/SignUp";
+import RecoverPassword from "../RecoverPassword/RecoverPassword";
+import ResetPassword from "../ResetPassword/ResetPassword";
+import Profile from "../Profile/Profile";
+import Orders from "../Orders/Orders";
+import Feed from "../Feed/Feed";
+import OrderModal from "../OrderModal/OrderModal";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 // Компоненты
 
 function App() {
@@ -37,9 +52,12 @@ function App() {
   // Переменные состояния для Ingridients modal
 
   // Переменные состояния для Order modal
-  const [isOrderModalOpen, setIsOrderModalOpen] = React.useState(false);
-  const [orderData, setOrderData] = React.useState();
+  const [isOrderDetailsOpen, setIsOrderDetailsOpen] = React.useState(false);
   // Переменные состояния для Order modal
+
+  //  Переменные состояния для OrderModal
+  const [isOrderModalOpen, setIsOrderModalOpen] = React.useState(false);
+  //  Переменные состояния для OrderModal
 
   React.useEffect(() => {
     const handleEscClose = (e) => {
@@ -53,6 +71,12 @@ function App() {
       document.removeEventListener("keydown", handleEscClose);
     };
   }, []);
+
+
+  React.useEffect(() => {
+    const refreshToken = localStorage.getItem('refreshToken');
+      if (refreshToken) dispatch(handleCheckToken(refreshToken));
+  }, [dispatch]);
 
   function useHover() {
     const [isHovered, setIsHovered] = React.useState(false);
@@ -70,14 +94,21 @@ function App() {
 
   function handleCloseModal() {
     setIsIngridientModalOpen(false);
+    setIsOrderDetailsOpen(false);
     setIsOrderModalOpen(false);
   }
 
-  //  Order Modal
+  //  OrderDetaulsModal
+  function handleOpenOrderDetailsModal() {
+    setIsOrderDetailsOpen(true);
+  }
+  //  OrderDetaulsModal
+
+  // OrderModal
   function handleOpenOrderModal() {
     setIsOrderModalOpen(true);
   }
-  //  Order Modal
+  // OrderModal
 
   const IngredientDetailsModal = (
     <IngredientDetails ingridientInfo={ingridientInfo} />
@@ -87,13 +118,40 @@ function App() {
 
   return (
     <>
-      <Main
-        handleOpenIngridientsModal={handleOpenIngridientsModal}
-        handleOpenOrderModal={handleOpenOrderModal}
-        isSauce={isSauce}
-        isMain={isMain}
-      />
-
+      <Switch>
+        <Route path="/" exact>
+          <Main
+            handleOpenIngridientsModal={handleOpenIngridientsModal}
+            handleOpenOrderDetailsModal={handleOpenOrderDetailsModal}
+            isSauce={isSauce}
+            isMain={isMain}
+          />
+        </Route>
+        <Route path="/login" exact>
+          <SignIn />
+        </Route>
+        <Route path="/register" exact>
+          <SignUp />
+        </Route>
+        <Route path="/forgot-password" exact>
+          <RecoverPassword />
+        </Route>
+        <Route path="/reset-password" exact>
+          <ResetPassword />
+        </Route>
+        <ProtectedRoute path="/profile" exact>
+          <Profile />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders" exact>
+          <Orders handleOpenOrderModal={handleOpenOrderModal} />
+        </ProtectedRoute>
+        <ProtectedRoute path="/profile/orders/:id" exact>
+          <OrderModal />
+        </ProtectedRoute>
+        <Route path="/feed" exact>
+          <Feed />
+        </Route>
+      </Switch>
       <Modal
         children={IngredientDetailsModal}
         isOpen={isIngridientModalOpen}
@@ -101,7 +159,7 @@ function App() {
       />
       <Modal
         children={OrderDetailsModal}
-        isOpen={isOrderModalOpen}
+        isOpen={isOrderDetailsOpen}
         handleCloseModal={handleCloseModal}
       />
     </>

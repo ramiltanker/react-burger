@@ -144,7 +144,7 @@ function BurgerConstructor(props) {
     const isMain = burgerConstructorIngridientsTypes.indexOf("main") !== -1;
 
     if ((isSauce && bun) || (isMain && bun)) {
-      props.handleOpenOrderModal();
+      props.handleOpenOrderDetailsModal();
       dispatch(sendOrder(ingridientsIds));
     }
 
@@ -202,9 +202,5 @@ function BurgerConstructor(props) {
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  handleOpenOrderModal: PropTypes.func.isRequired,
-};
 
 export default BurgerConstructor;

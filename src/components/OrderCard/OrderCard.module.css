@@ -1,0 +1,88 @@
+.card {
+  width: 800px;
+  background: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+  margin-bottom: 25px;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-bottom: 24px;
+  padding-top: 24px;
+  cursor: pointer;
+}
+
+.card:hover {
+  background: #2f2f37;
+}
+
+.box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.time {
+  margin: 0;
+}
+
+.burger_info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.images_list {
+  display: flex;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.image_li {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background: #131316;
+  border: 2px solid #4c4cff;
+  border-radius: 100px;
+}
+
+.image_li:nth-child(n) {
+  left: calc(n * 25px);
+}
+
+.image {
+  width: 64px;
+  height: 64px;
+}
+
+.price_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  margin: 0;
+  margin-right: 10px;
+}
+
+.code {
+  margin: 0;
+}
+
+.name {
+  margin: 0;
+  margin-bottom: 6px;
+}
+
+.status {
+  margin: 0;
+  margin-bottom: 24px;
+}

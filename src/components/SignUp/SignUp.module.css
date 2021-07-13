@@ -1,0 +1,56 @@
+.sign_up {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
+  margin-bottom: 120px;
+}
+
+.form {
+  display: flex;
+  width: 480px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.fieldset {
+  display: flex;
+  width: 100%;
+  border: none;
+  padding: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recover_box {
+  composes: signup_box;
+}
+
+.signup_text {
+  margin: 0;
+}
+
+.recover_box {
+  margin: 0;
+}
+
+.link {
+  text-decoration: none;
+  color: #4c4cff;
+}

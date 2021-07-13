@@ -1,0 +1,29 @@
+.profile {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.fieldset {
+  padding: 0;
+  border: none;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.buttons_hide {
+  display: none;
+}

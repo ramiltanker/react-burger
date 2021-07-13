@@ -1,8 +1,8 @@
 .header {
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
   background: #1c1c21;
   box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04),
     0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04),
@@ -50,6 +50,7 @@
 }
 
 .personal_account {
+  margin-left: 250px;
   composes: nav_link_tape;
 }
 
@@ -71,6 +72,10 @@
   align-items: center;
   flex-direction: row-reverse;
   gap: 8px;
+}
+
+.link_active {
+  color: #8585ad;
 }
 
 .profile_box {

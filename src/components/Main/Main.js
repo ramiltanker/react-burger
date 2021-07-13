@@ -43,7 +43,7 @@ function Main(props) {
             handleOpenIngridientsModal={props.handleOpenIngridientsModal}
           />
           <BurgerConstructor
-            handleOpenOrderModal={props.handleOpenOrderModal}
+            handleOpenOrderDetailsModal={props.handleOpenOrderDetailsModal}
             isSauce={props.isSauce}
             isMain={props.isMain}
           />
@@ -59,5 +59,4 @@ Main.propTypes = {
   isSauce: PropTypes.bool,
   isMain:PropTypes.bool,
   handleOpenIngridientsModal: PropTypes.func.isRequired,
-  handleOpenOrderModal: PropTypes.func.isRequired,
 };

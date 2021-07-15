@@ -15,7 +15,7 @@ const tokenCheck = (refreshToken) => {
       })
       .then((res) => {
         return res;
-      });
+      })
   }
 
   export default tokenCheck;

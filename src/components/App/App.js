@@ -5,6 +5,7 @@ import {
   Router,
   useHistory,
   withRouter,
+  useParams,
   useLocation,
 } from "react-router-dom";
 
@@ -33,12 +34,20 @@ import Orders from "../Orders/Orders";
 import Feed from "../Feed/Feed";
 import OrderModal from "../OrderModal/OrderModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { getCookie } from "../../utils/cookie";
+import IngridientsIdPage from "../IngridientsIdPage/IngridientsIdPage";
 // Компоненты
 
 function App() {
   const dispatch = useDispatch();
 
-  const { burgerConstructorIngridients, bun } = useSelector(
+  const history = useHistory();
+
+  const location = useLocation();
+
+  const { id } = useParams();
+
+  const { burgerIngridientsArr } = useSelector(
     (state) => state.burgerIngridients
   );
 
@@ -72,27 +81,28 @@ function App() {
     };
   }, []);
 
-
   React.useEffect(() => {
-    const refreshToken = localStorage.getItem('refreshToken');
-      if (refreshToken) dispatch(handleCheckToken(refreshToken));
+    const accessToken = getCookie("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    const cb = () => dispatch(handleGetUserData(accessToken));
+    dispatch(handleCheckToken(refreshToken, cb));
+    if (refreshToken) dispatch(handleCheckToken(refreshToken, cb));
   }, [dispatch]);
-
-  function useHover() {
-    const [isHovered, setIsHovered] = React.useState(false);
-    const on = () => setIsHovered(true);
-    const off = () => setIsHovered(false);
-    return { isHovered, on, off };
-  }
 
   // Indgridients Modal
   function handleOpenIngridientsModal(item) {
+    history.push({
+      pathname: `/ingredients/${item._id}`,
+      state: { background: location },
+    });
     setIsIngridientModalOpen(true);
     setIngridientInfo(item);
   }
   // Indgridients Modal
 
-  function handleCloseModal() {
+  function handleCloseModal(e) {
+    e.stopPropagation();
+    history.push("/");
     setIsIngridientModalOpen(false);
     setIsOrderDetailsOpen(false);
     setIsOrderModalOpen(false);
@@ -114,11 +124,18 @@ function App() {
     <IngredientDetails ingridientInfo={ingridientInfo} />
   );
 
+  const ingridientsIdPage = (
+    <IngridientsIdPage ingridientInfo={ingridientInfo} />
+  );
+
+  let background =
+    history.action === "PUSH" && location.state && location.state.background;
+
   const OrderDetailsModal = <OrderDetails />;
 
   return (
     <>
-      <Switch>
+      <Switch location={background || location}>
         <Route path="/" exact>
           <Main
             handleOpenIngridientsModal={handleOpenIngridientsModal}
@@ -127,6 +144,7 @@ function App() {
             isMain={isMain}
           />
         </Route>
+        <Route path="/ingridients/:id" children={ingridientsIdPage} />
         <Route path="/login" exact>
           <SignIn />
         </Route>
@@ -145,18 +163,25 @@ function App() {
         <ProtectedRoute path="/profile/orders" exact>
           <Orders handleOpenOrderModal={handleOpenOrderModal} />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders/:id" exact>
+        <ProtectedRoute path="/profile/orders/:id">
           <OrderModal />
         </ProtectedRoute>
         <Route path="/feed" exact>
           <Feed />
         </Route>
       </Switch>
-      <Modal
-        children={IngredientDetailsModal}
-        isOpen={isIngridientModalOpen}
-        handleCloseModal={handleCloseModal}
-      />
+      {background && (
+        <Route
+          path="/ingridients/:id"
+          children={
+            <Modal
+              children={IngredientDetailsModal}
+              isOpen={isIngridientModalOpen}
+              handleCloseModal={handleCloseModal}
+            />
+          }
+        />
+      )}
       <Modal
         children={OrderDetailsModal}
         isOpen={isOrderDetailsOpen}

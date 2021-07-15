@@ -13,7 +13,7 @@ import {
   POST_SEND_ORDER_SUCCESS,
   POST_SEND_ORDER_FAILED,
   COST_TOTAL_PRICE,
-  DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER
+  DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER,
 } from "../actions/burgerIngridients.js";
 
 const initialState = {

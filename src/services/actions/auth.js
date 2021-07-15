@@ -75,11 +75,11 @@ export function handleLogin(email, password) {
     login(email, password)
       .then((res) => {
         if (res && res.success) {
+          localStorage.setItem("refreshToken", res.refreshToken);
           setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
           dispatch({
             type: USER_LOGIN_SUCCES,
             user: res.user,
-            refreshToken: res.refreshToken,
           });
         } else {
           dispatch({
@@ -129,7 +129,7 @@ export function handleGetUserData(token) {
   };
 }
 
-export function handleCheckToken(refreshToken) {
+export function handleCheckToken(refreshToken, nextFunc) {
   return function (dispatch) {
     dispatch({
       type: TOKEN_CHECK_REQUEST,
@@ -139,6 +139,7 @@ export function handleCheckToken(refreshToken) {
         if (res && res.success) {
           setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
           localStorage.setItem("refreshToken", res.refreshToken);
+          nextFunc();
           dispatch({
             type: TOKEN_CHECK_SUCCES,
           });

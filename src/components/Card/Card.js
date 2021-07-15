@@ -4,6 +4,12 @@ import React from "react";
 import cardStyles from "./Card.module.css";
 // Стили
 
+import { Link, useLocation } from "react-router-dom";
+
+// redux
+import { useDispatch } from "react-redux";
+// redux
+
 // Библиотека UI-компонентов
 import {
   Counter,
@@ -20,7 +26,12 @@ import { useDrag } from "react-dnd";
 // DND
 
 function Card(props) {
-  const { burgerConstructorIngridients, bun } = useSelector(
+
+  const dispatch = useDispatch();
+
+  const location = useLocation();
+  
+  const { burgerConstructorIngridients, bun, currentIng } = useSelector(
     (store) => store.burgerIngridients
   );
 
@@ -49,11 +60,12 @@ function Card(props) {
   // DND
 
   return (
-    <div
+    <Link
       className={cardStyles.card}
       onClick={handleOpenIngridientsModal}
       ref={ref}
       style={{ opacity: opacity }}
+      to={{pathname: `/ingridients/${props.card._id}`, state: { background: location}}}
     >
       <Counter count={counters[props.card._id]} />
       <img
@@ -66,7 +78,7 @@ function Card(props) {
         <CurrencyIcon type="primary" />
       </div>
       <p className={cardStyles.name}>{props.card.name}</p>
-    </div>
+    </Link>
   );
 }
 

@@ -103,7 +103,6 @@ export const authReducer = (state = initialState, action) => {
       };
     }
     case USER_LOGIN_SUCCES: {
-      localStorage.setItem("refreshToken", action.refreshToken);
       return {
         ...state,
         loginRequest: false,

@@ -31,6 +31,7 @@ function AppHeader() {
 
   const isProfileActive = location.pathname === "/profile";
   const isFeedActive = location.pathname === "/feed";
+  const isConstructor = location.pathname === "/";
 
   return (
     <header className={headerStyles.header}>
@@ -39,12 +40,18 @@ function AppHeader() {
           <ul className={headerStyles.list}>
             <li className={headerStyles.li}>
               <Link
-                className={`${headerStyles.nav_link_contructor} ${headerStyles.li}  text_type_main-default mr-15`}
+                className={`${headerStyles.nav_link_contructor} ${
+                  headerStyles.li
+                } ${
+                  isConstructor
+                    ? headerStyles.link_active
+                    : headerStyles.nav_link_tape
+                } text_type_main-default mr-15`}
                 to="/"
                 id="constructor"
               >
                 Конструктор
-                <BurgerIcon type="primary" />
+                <BurgerIcon type={isConstructor ? "secondary" : "primary"} />
               </Link>
             </li>
             <li className={headerStyles.li}>

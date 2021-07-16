@@ -7,7 +7,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+
+import { getCookie } from "../../utils/cookie";
 
 // Компоненты
 import AppHeader from "../AppHeader/AppHeader";
@@ -18,6 +20,16 @@ import resetPasswordStyles from "./ResetPassword.module.css";
 // Стили
 
 function ResetPassword() {
+  if (getCookie("accessToken")) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
+
   return (
     <section className={resetPasswordStyles.reset}>
       <AppHeader />

@@ -9,11 +9,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
-import { Link } from "react-router-dom";
+import { Link,Redirect } from "react-router-dom";
 
 // Компоненты
 import AppHeader from "../AppHeader/AppHeader";
 // Компоненты
+
+import { getCookie } from "../../utils/cookie";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -47,6 +49,16 @@ function SignUp() {
     const passwordValue = password.values.password;
 
     dispatch(handleRegistrationUser(nameValue, emailValue, passwordValue));
+  }
+
+  if (getCookie("accessToken")) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
   }
 
   return (

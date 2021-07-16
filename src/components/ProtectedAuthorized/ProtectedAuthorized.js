@@ -7,8 +7,10 @@ import { getCookie } from "../../utils/cookie";
 
 import { handleGetUserData } from "../../services/actions/auth";
 
-export function ProtectedRoute({ children, ...rest }) {
+export function ProtectedAuthorized({ children, ...rest }) {
   const dispatch = useDispatch();
+
+  const location = useLocation();
 
   const init = async () => {
     const accessToken = getCookie("accessToken");
@@ -19,24 +21,27 @@ export function ProtectedRoute({ children, ...rest }) {
     init();
   }, []);
 
-  if (!getCookie("accessToken")) {
-    return (
-      <Route
-        {...rest}
-        render={({ location }) => {
-          console.log(location);
-          return <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-  }}
-      />
-    );
+  const path = location.pathname;
+
+    console.log(location);
+
+  if (getCookie("accessToken")) {
+    return <Route>{children}</Route>;
   }
 
-  return <Route>{children}</Route>;
+  return (
+    <Route
+      {...rest}
+      render={({ location }) => (
+        <Redirect
+          to={{
+            pathname: "/",
+            state: { from: location },
+          }}
+        />
+      )}
+    />
+  );
 }
 
-export default ProtectedRoute;
+export default ProtectedAuthorized;

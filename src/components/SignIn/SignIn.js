@@ -9,7 +9,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 
 // Компоненты
 import AppHeader from "../AppHeader/AppHeader";
@@ -26,9 +26,12 @@ import { useSelector, useDispatch } from "react-redux";
 // Redux
 
 import { useFormWithValidation } from "../../customHooks/FormValidation/FormValidation.js";
+import { getCookie } from "../../utils/cookie";
 
 function SignIn() {
   const dispatch = useDispatch();
+
+  const { loginSuccess } = useSelector((state) => state.authUser);
 
   const history = useHistory();
 
@@ -36,23 +39,37 @@ function SignIn() {
   const password = useFormWithValidation();
 
   const handleUserLogin = (e) => {
-    e.preventDefault()
-    
+    e.preventDefault();
     const emailValue = email.values.email;
     const passwordValue = password.values.password;
-
     dispatch(handleLogin(emailValue, passwordValue));
-    history.push('/');
   };
+
+  React.useEffect(() => {
+    if (loginSuccess) history.push("/");
+  }, [history, loginSuccess]);
+
+  if (getCookie("accessToken")) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   return (
     <section className={signInStyles.sign_in}>
       <AppHeader />
       <div className={signInStyles.container}>
         <h2 className={`${signInStyles.title} mb-6`}>Вход</h2>
-        <form className={signInStyles.form} onSubmit={(e) => {
-          handleUserLogin(e)
-        }}>
+        <form
+          className={signInStyles.form}
+          onSubmit={(e) => {
+            handleUserLogin(e);
+          }}
+        >
           <fieldset className={`${signInStyles.fieldset} mb-6`}>
             <Input
               type="email"

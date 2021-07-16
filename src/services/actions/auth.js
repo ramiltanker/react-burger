@@ -7,7 +7,6 @@ import forgotPassword from "../../utils/forgotPassword";
 import updateUser from "../../utils/updateUser";
 
 import { getCookie, setCookie, deleteCookie } from "../../utils/cookie";
-import { func } from "prop-types";
 
 export const USER_REGISTRATION_REQUEST = "USER_REGISTRATION_REQUEST";
 export const USER_REGISTRATION_SUCCES = "USER_REGISTRATION_SUCCES";
@@ -118,7 +117,7 @@ export function handleGetUserData(token) {
         dispatch({
           type: GET_USER_FAILED,
         });
-        if (error.message === "jwt expiredgh") {
+        if (error.message === "jwt expired") {
           const refreshToken = localStorage.getItem("refreshToken");
           dispatch(handleCheckToken(refreshToken));
           const accessToken = getCookie("accessToken");
@@ -153,6 +152,10 @@ export function handleCheckToken(refreshToken, nextFunc) {
         dispatch({
           type: TOKEN_CHECK_FAILED,
         });
+        if (error.message === "Token is invalid") {
+          const refreshToken = localStorage.getItem("refreshToken");
+          dispatch(handleCheckToken(refreshToken));
+        }
         console.log(error);
       });
   };

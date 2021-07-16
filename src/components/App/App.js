@@ -34,6 +34,7 @@ import Orders from "../Orders/Orders";
 import Feed from "../Feed/Feed";
 import OrderModal from "../OrderModal/OrderModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import ProtectedAuthorized from "../ProtectedAuthorized/ProtectedAuthorized";
 import { getCookie } from "../../utils/cookie";
 import IngridientsIdPage from "../IngridientsIdPage/IngridientsIdPage";
 // Компоненты
@@ -84,17 +85,13 @@ function App() {
   React.useEffect(() => {
     const accessToken = getCookie("accessToken");
     const refreshToken = localStorage.getItem("refreshToken");
-    const cb = () => dispatch(handleGetUserData(accessToken));
+    const cb = () => dispatch(handleGetUserData(accessToken))
     dispatch(handleCheckToken(refreshToken, cb));
     if (refreshToken) dispatch(handleCheckToken(refreshToken, cb));
   }, [dispatch]);
 
   // Indgridients Modal
   function handleOpenIngridientsModal(item) {
-    history.push({
-      pathname: `/ingredients/${item._id}`,
-      state: { background: location },
-    });
     setIsIngridientModalOpen(true);
     setIngridientInfo(item);
   }
@@ -119,15 +116,6 @@ function App() {
     setIsOrderModalOpen(true);
   }
   // OrderModal
-
-  const IngredientDetailsModal = (
-    <IngredientDetails ingridientInfo={ingridientInfo} />
-  );
-
-  const ingridientsIdPage = (
-    <IngridientsIdPage ingridientInfo={ingridientInfo} />
-  );
-
   let background =
     history.action === "PUSH" && location.state && location.state.background;
 
@@ -144,19 +132,25 @@ function App() {
             isMain={isMain}
           />
         </Route>
-        <Route path="/ingridients/:id" children={ingridientsIdPage} />
-        <Route path="/login" exact>
-          <SignIn />
+        <Route path="/ingridients/:id" exact>
+          <IngridientsIdPage />
         </Route>
-        <Route path="/register" exact>
-          <SignUp />
-        </Route>
-        <Route path="/forgot-password" exact>
-          <RecoverPassword />
-        </Route>
-        <Route path="/reset-password" exact>
-          <ResetPassword />
-        </Route>
+        
+          <Route path="/login" exact>
+            <SignIn />
+          </Route>
+        
+          <Route path="/register" exact>
+            <SignUp />
+          </Route>
+        
+          <Route path="/forgot-password" exact>
+            <RecoverPassword />
+          </Route>
+        
+          <Route path="/reset-password" exact>
+            <ResetPassword />
+          </Route>
         <ProtectedRoute path="/profile" exact>
           <Profile />
         </ProtectedRoute>
@@ -175,10 +169,11 @@ function App() {
           path="/ingridients/:id"
           children={
             <Modal
-              children={IngredientDetailsModal}
               isOpen={isIngridientModalOpen}
               handleCloseModal={handleCloseModal}
-            />
+            >
+              <IngredientDetails ingridientInfo={ingridientInfo} />
+            </Modal>
           }
         />
       )}

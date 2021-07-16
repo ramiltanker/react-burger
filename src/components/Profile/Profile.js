@@ -35,8 +35,6 @@ function Profile() {
   const email = useFormWithValidation();
   const password = useFormWithValidation();
 
-  console.log(name);
-  
   return (
     <>
       <AppHeader />

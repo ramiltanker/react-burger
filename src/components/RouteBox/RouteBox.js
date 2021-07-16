@@ -24,7 +24,7 @@ function RouteBox() {
 
   const handleLogout = () => {
     const refreshToken = localStorage.getItem("refreshToken");
-
+    history.push("/");
     if (refreshToken) dispatch(handleUserLogout(refreshToken));
   };
 
@@ -46,7 +46,11 @@ function RouteBox() {
       >
         История заказов
       </Link>
-      <Link className={`${routesStyles.link} mb-20`} to="#" onClick={handleLogout}>
+      <Link
+        className={`${routesStyles.link} mb-20`}
+        to="#"
+        onClick={handleLogout}
+      >
         Выход
       </Link>
       <p className={routesStyles.text}>

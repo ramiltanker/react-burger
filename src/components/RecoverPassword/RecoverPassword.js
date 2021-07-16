@@ -8,7 +8,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+
+import { getCookie } from "../../utils/cookie";
 
 // Компоненты
 import AppHeader from "../AppHeader/AppHeader";
@@ -19,6 +21,16 @@ import recoverPasswordStyles from "./RecoverPassword.module.css";
 // Стили
 
 function RecoverPassword() {
+  if (getCookie("accessToken")) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
+
   return (
     <section className={recoverPasswordStyles.recover}>
       <AppHeader />
@@ -36,7 +48,9 @@ function RecoverPassword() {
         </form>
         <div className={`${recoverPasswordStyles.recover_box} mt-20`}>
           <p className={recoverPasswordStyles.recover_box}>Вспомнили пароль?</p>
-          <Link className={`${recoverPasswordStyles.link} ml-2`} to="/login">Войти</Link>
+          <Link className={`${recoverPasswordStyles.link} ml-2`} to="/login">
+            Войти
+          </Link>
         </div>
       </div>
     </section>

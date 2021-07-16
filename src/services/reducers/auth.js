@@ -27,6 +27,7 @@ const initialState = {
 
   loginRequest: false,
   loginFailed: false,
+  loginSuccess: false,
 
   getUserRequest: false,
   getUserFailed: false,
@@ -107,6 +108,7 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         loginRequest: false,
         loginFailed: false,
+        loginSuccess: true,
         user: action.user,
       };
     }

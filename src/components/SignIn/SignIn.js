@@ -46,7 +46,11 @@ function SignIn() {
   };
 
   React.useEffect(() => {
-    if (loginSuccess) history.push("/");
+    if (loginSuccess) {
+      history.push("/");
+    } else {
+      history.push("/login");
+    }
   }, [history, loginSuccess]);
 
   if (getCookie("accessToken")) {

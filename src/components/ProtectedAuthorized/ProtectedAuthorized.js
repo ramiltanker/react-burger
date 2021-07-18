@@ -10,8 +10,6 @@ import { handleGetUserData } from "../../services/actions/auth";
 export function ProtectedAuthorized({ children, ...rest }) {
   const dispatch = useDispatch();
 
-  const location = useLocation();
-
   const init = async () => {
     const accessToken = getCookie("accessToken");
     if (accessToken) dispatch(handleGetUserData(accessToken));
@@ -21,25 +19,14 @@ export function ProtectedAuthorized({ children, ...rest }) {
     init();
   }, []);
 
-  const path = location.pathname;
+  const { user } = useSelector((state) => state.authUser.user);
 
-    console.log(location);
-
-  if (getCookie("accessToken")) {
-    return <Route>{children}</Route>;
-  }
+  console.log(user);
 
   return (
     <Route
       {...rest}
-      render={({ location }) => (
-        <Redirect
-          to={{
-            pathname: "/",
-            state: { from: location },
-          }}
-        />
-      )}
+      render={() => (!user ? children : <Redirect to="/" />)}
     />
   );
 }

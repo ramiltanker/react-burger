@@ -24,7 +24,6 @@ export function ProtectedRoute({ children, ...rest }) {
       <Route
         {...rest}
         render={({ location }) => {
-          console.log(location);
           return <Redirect
             to={{
               pathname: "/login",

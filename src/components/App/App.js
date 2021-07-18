@@ -82,14 +82,6 @@ function App() {
     };
   }, []);
 
-  React.useEffect(() => {
-    const accessToken = getCookie("accessToken");
-    const refreshToken = localStorage.getItem("refreshToken");
-    const cb = () => dispatch(handleGetUserData(accessToken))
-    dispatch(handleCheckToken(refreshToken, cb));
-    if (refreshToken) dispatch(handleCheckToken(refreshToken, cb));
-  }, [dispatch]);
-
   // Indgridients Modal
   function handleOpenIngridientsModal(item) {
     setIsIngridientModalOpen(true);
@@ -135,22 +127,20 @@ function App() {
         <Route path="/ingridients/:id" exact>
           <IngridientsIdPage />
         </Route>
-        
-          <Route path="/login" exact>
-            <SignIn />
-          </Route>
-        
-          <Route path="/register" exact>
-            <SignUp />
-          </Route>
-        
-          <Route path="/forgot-password" exact>
-            <RecoverPassword />
-          </Route>
-        
-          <Route path="/reset-password" exact>
-            <ResetPassword />
-          </Route>
+        <ProtectedAuthorized path="/login">
+          <SignIn />
+        </ProtectedAuthorized>
+        <Route path="/register" exact>
+          <SignUp />
+        </Route>
+
+        <Route path="/forgot-password" exact>
+          <RecoverPassword />
+        </Route>
+
+        <Route path="/reset-password" exact>
+          <ResetPassword />
+        </Route>
         <ProtectedRoute path="/profile" exact>
           <Profile />
         </ProtectedRoute>

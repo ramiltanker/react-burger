@@ -47,7 +47,7 @@ function AppHeader() {
                     ? headerStyles.link_active
                     : headerStyles.nav_link_tape
                 } text_type_main-default mr-15`}
-                to="/"
+                to={{pathname: `/`, state: { from: location}}}
                 id="constructor"
               >
                 Конструктор
@@ -61,7 +61,7 @@ function AppHeader() {
                     ? headerStyles.link_active
                     : headerStyles.nav_link_tape
                 } text_type_main-default mr-15`}
-                to="/feed"
+                to={{pathname: `/feed`, state: { from: location}}}
                 id="tape"
               >
                 Лента заказов
@@ -78,7 +78,7 @@ function AppHeader() {
                 ? headerStyles.link_active
                 : headerStyles.personal_account
             } text_type_main-default`}
-            to="/profile"
+            to={{pathname: `/profile`, state: { from: location}}}
             id="profile"
           >
             Личный кабинет

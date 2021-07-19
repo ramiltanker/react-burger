@@ -14,7 +14,7 @@ const getUserData = (token) => {
     })
     .then((res) => {
       return res;
-    })
+    });
 };
 
 export default getUserData;

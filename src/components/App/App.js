@@ -70,6 +70,10 @@ function App() {
   //  Переменные состояния для OrderModal
 
   React.useEffect(() => {
+    dispatch(handleGetUserData());
+  }, []);
+
+  React.useEffect(() => {
     const handleEscClose = (e) => {
       if (e.keyCode === 27) {
         handleCloseModal();
@@ -130,17 +134,15 @@ function App() {
         <ProtectedAuthorized path="/login">
           <SignIn />
         </ProtectedAuthorized>
-        <Route path="/register" exact>
+        <ProtectedAuthorized path="/register">
           <SignUp />
-        </Route>
-
-        <Route path="/forgot-password" exact>
+        </ProtectedAuthorized>
+        <ProtectedAuthorized path="/forgot-password">
           <RecoverPassword />
-        </Route>
-
-        <Route path="/reset-password" exact>
+        </ProtectedAuthorized>
+        <ProtectedAuthorized path="/reset-password">
           <ResetPassword />
-        </Route>
+        </ProtectedAuthorized>
         <ProtectedRoute path="/profile" exact>
           <Profile />
         </ProtectedRoute>

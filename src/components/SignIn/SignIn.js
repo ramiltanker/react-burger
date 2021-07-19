@@ -9,7 +9,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
-import { Link, useHistory, Redirect } from "react-router-dom";
+import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 
 // Компоненты
 import AppHeader from "../AppHeader/AppHeader";
@@ -29,11 +29,10 @@ import { useFormWithValidation } from "../../customHooks/FormValidation/FormVali
 import { getCookie } from "../../utils/cookie";
 
 function SignIn() {
+  console.log("in sign in");
   const dispatch = useDispatch();
 
-  const { loginSuccess } = useSelector((state) => state.authUser);
-
-  const history = useHistory();
+  const { name } = useSelector((state) => state.authUser.user);
 
   const email = useFormWithValidation();
   const password = useFormWithValidation();
@@ -45,20 +44,14 @@ function SignIn() {
     dispatch(handleLogin(emailValue, passwordValue));
   };
 
-  React.useEffect(() => {
-    if (loginSuccess) {
-      history.push("/");
-    } else {
-      history.push("/login");
-    }
-  }, [history, loginSuccess]);
+  const location = useLocation();
 
-  if (getCookie("accessToken")) {
+  if (name) {
+    const { from } = location.state || { from: { pathname: "/" } };
     return (
       <Redirect
-        to={{
-          pathname: "/",
-        }}
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={from}
       />
     );
   }

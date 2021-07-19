@@ -95,7 +95,8 @@ export function handleLogin(email, password) {
   };
 }
 
-export function handleGetUserData(token) {
+export function handleGetUserData() {
+  const token = getCookie("accessToken");
   return function (dispatch) {
     dispatch({
       type: GET_USER_REQUEST,
@@ -119,9 +120,7 @@ export function handleGetUserData(token) {
         });
         if (error.message === "jwt expired") {
           const refreshToken = localStorage.getItem("refreshToken");
-          dispatch(handleCheckToken(refreshToken));
-          const accessToken = getCookie("accessToken");
-          dispatch(handleGetUserData(accessToken));
+          dispatch(handleCheckToken(refreshToken, handleGetUserData));
         }
         console.log(error);
       });

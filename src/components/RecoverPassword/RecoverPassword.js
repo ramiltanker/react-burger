@@ -8,9 +8,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 
 import { getCookie } from "../../utils/cookie";
+
+// Redux
+import { useSelector } from "react-redux";
+// Redux
 
 // Компоненты
 import AppHeader from "../AppHeader/AppHeader";
@@ -21,12 +25,16 @@ import recoverPasswordStyles from "./RecoverPassword.module.css";
 // Стили
 
 function RecoverPassword() {
-  if (getCookie("accessToken")) {
+  const location = useLocation();
+
+  const { name } = useSelector((state) => state.authUser.user);
+
+  if (name) {
+    const { from } = location.state || { from: { pathname: "/" } };
     return (
       <Redirect
-        to={{
-          pathname: "/",
-        }}
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={from}
       />
     );
   }

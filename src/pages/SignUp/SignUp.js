@@ -12,10 +12,8 @@ import {
 import { Link, Redirect, useLocation } from "react-router-dom";
 
 // Компоненты
-import AppHeader from "../AppHeader/AppHeader";
+import AppHeader from "../../components/AppHeader/AppHeader";
 // Компоненты
-
-import { getCookie } from "../../utils/cookie";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
@@ -79,6 +77,7 @@ function SignUp() {
               placeholder="Имя"
               name="name"
               onChange={nameInput.handleChange}
+              value={nameInput.values.name || ""}
             />
           </fieldset>
           <fieldset className={`${signUpStyles.fieldset} mb-6`}>
@@ -87,6 +86,7 @@ function SignUp() {
               placeholder="E-mail"
               name="email"
               onChange={email.handleChange}
+              value={email.values.name || ""}
             />
           </fieldset>
           <fieldset className={`${signUpStyles.fieldset} mb-6`}>
@@ -94,6 +94,7 @@ function SignUp() {
               placeholder="Пароль"
               name="password"
               onChange={password.handleChange}
+              value={password.values.name || ""}
             />
           </fieldset>
           <Button type="primary" size="medium">

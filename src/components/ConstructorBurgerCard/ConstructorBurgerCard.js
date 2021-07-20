@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   ConstructorElement,
   DragIcon,
@@ -11,9 +11,7 @@ import { useDrop, useDrag } from "react-dnd";
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 
-import {
-  MOVE_CONSTRUCTOR_ITEM
-} from "../../services/actions/burgerIngridients.js";
+import { MOVE_CONSTRUCTOR_ITEM } from "../../services/actions/burgerIngridients.js";
 // Redux
 
 //   Стили
@@ -46,25 +44,26 @@ function ConstructorBurgerCard(props) {
 
       if (dragIndex === replacedIndex) {
         return;
-    }
+      }
 
-    const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
-    const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
-    const clientOffset = monitor.getClientOffset();
+      const clientOffset = monitor.getClientOffset();
 
-    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-    if (dragIndex < replacedIndex && hoverClientY < hoverMiddleY) {
+      if (dragIndex < replacedIndex && hoverClientY < hoverMiddleY) {
         return;
-    }
+      }
 
-    if (dragIndex > replacedIndex && hoverClientY > hoverMiddleY) {
+      if (dragIndex > replacedIndex && hoverClientY > hoverMiddleY) {
         return;
-    }
+      }
       dispatch({ type: MOVE_CONSTRUCTOR_ITEM, dragIndex, replacedIndex });
-      
+
       item.ingIndex = replacedIndex;
     },
   });
@@ -82,7 +81,7 @@ function ConstructorBurgerCard(props) {
       <ConstructorElement
         isLocked={false}
         text={props.item.name}
-        handleClose={props.сlose}
+        handleClose={props.close}
         price={props.item.price}
         thumbnail={props.item.image}
       />

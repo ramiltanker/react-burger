@@ -16,27 +16,26 @@ import { useDispatch, useSelector } from "react-redux";
 // Redux
 
 import {
-  handleCheckToken,
   handleGetUserData,
 } from "../../services/actions/auth";
 
 // Компоненты
-import Main from "../Main/Main.js";
+import Main from "../../pages/Main/Main.js";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.js";
 import OrderDetails from "../OrderDetails/OrderDetails.js";
 import Modal from "../Modal/Modal.js";
-import SignIn from "../SignIn/SignIn.js";
-import SignUp from "../SignUp/SignUp";
-import RecoverPassword from "../RecoverPassword/RecoverPassword";
-import ResetPassword from "../ResetPassword/ResetPassword";
-import Profile from "../Profile/Profile";
-import Orders from "../Orders/Orders";
-import Feed from "../Feed/Feed";
+import SignIn from "../../pages/SignIn/SignIn.js";
+import SignUp from "../../pages/SignUp/SignUp";
+import RecoverPassword from "../../pages/RecoverPassword/RecoverPassword";
+import ResetPassword from "../../pages/ResetPassword/ResetPassword";
+import Profile from "../../pages/Profile/Profile";
+import Orders from "../../pages/Orders/Orders";
+import Feed from "../../pages/Feed/Feed";
 import OrderModal from "../OrderModal/OrderModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProtectedAuthorized from "../ProtectedAuthorized/ProtectedAuthorized";
 import { getCookie } from "../../utils/cookie";
-import IngridientsIdPage from "../IngridientsIdPage/IngridientsIdPage";
+import IngridientsIdPage from "../../pages/IngridientsIdPage/IngridientsIdPage";
 // Компоненты
 
 function App() {
@@ -70,13 +69,14 @@ function App() {
   //  Переменные состояния для OrderModal
 
   React.useEffect(() => {
-    dispatch(handleGetUserData());
-  }, []);
+    const accessToken = getCookie('accessToken');
+    accessToken && dispatch(handleGetUserData());
+  }, [dispatch]);
 
   React.useEffect(() => {
     const handleEscClose = (e) => {
       if (e.keyCode === 27) {
-        handleCloseModal();
+        handleCloseModal(e);
       }
     };
     document.addEventListener("keydown", handleEscClose);

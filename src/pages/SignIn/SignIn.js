@@ -12,7 +12,7 @@ import {
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 
 // Компоненты
-import AppHeader from "../AppHeader/AppHeader";
+import AppHeader from "../../components/AppHeader/AppHeader";
 // Компоненты
 
 import { handleLogin } from "../../services/actions/auth";
@@ -29,7 +29,6 @@ import { useFormWithValidation } from "../../customHooks/FormValidation/FormVali
 import { getCookie } from "../../utils/cookie";
 
 function SignIn() {
-  console.log("in sign in");
   const dispatch = useDispatch();
 
   const { name } = useSelector((state) => state.authUser.user);
@@ -72,6 +71,7 @@ function SignIn() {
               type="email"
               placeholder="E-mail"
               name="email"
+              value={email.values.email || ''}
               onChange={email.handleChange}
             />
           </fieldset>
@@ -79,6 +79,7 @@ function SignIn() {
             <PasswordInput
               placeholder="Пароль"
               name="password"
+              value={password.values.password || ''}
               onChange={password.handleChange}
             />
           </fieldset>

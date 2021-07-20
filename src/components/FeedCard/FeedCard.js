@@ -46,6 +46,7 @@ function FeedCard() {
               <li
                 className={feedCardStyles.image_li}
                 style={{ left: leftMove }}
+                key={index}
               >
                 <img src={src} alt="test" className={feedCardStyles.image} />
               </li>

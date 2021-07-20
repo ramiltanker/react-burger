@@ -5,8 +5,8 @@ import feedStyles from "./Feed.module.css";
 // Стили
 
 // Компоненты
-import AppHeader from "../AppHeader/AppHeader";
-import FeedCard from "../FeedCard/FeedCard";
+import AppHeader from "../../components/AppHeader/AppHeader";
+import FeedCard from "../../components/FeedCard/FeedCard";
 // Компоненты
 
 function Feed() {

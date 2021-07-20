@@ -4,18 +4,27 @@ import React from "react";
 import {
   Button,
   Input,
+  PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
 import { Link, Redirect, useLocation } from "react-router-dom";
 
 // Redux
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 // Redux
 
+// Actions
+import { handleResetPassword } from "../../services/actions/auth";
+// Actions
+
 // Компоненты
-import AppHeader from "../AppHeader/AppHeader";
+import AppHeader from "../../components/AppHeader/AppHeader";
 // Компоненты
+
+// Custom hooks
+import { useFormWithValidation } from "../../customHooks/FormValidation/FormValidation";
+// Custom hooks
 
 // Стили
 import resetPasswordStyles from "./ResetPassword.module.css";
@@ -24,7 +33,44 @@ import resetPasswordStyles from "./ResetPassword.module.css";
 function ResetPassword() {
   const location = useLocation();
 
+  const dispatch = useDispatch();
+
   const { name } = useSelector((state) => state.authUser.user);
+
+  const resetPasswordSucces = useSelector(
+    (state) => state.authUser.resetPasswordSucces
+  );
+
+  const forgotPasswordSucces = useSelector(
+    (state) => state.authUser.forgotPasswordSucces
+  );
+
+  const password = useFormWithValidation();
+  const code = useFormWithValidation();
+
+  const resetPasswordHandler = (e) => {
+    e.preventDefault();
+
+    const passwordValue = password.values.password;
+    const codeValue = code.values.code;
+
+    dispatch(handleResetPassword(passwordValue, codeValue));
+  };
+
+  if (resetPasswordSucces) {
+    return <Redirect to="/login" />;
+  }
+
+  if (!forgotPasswordSucces) {
+    const { from } = location.state || { from: { pathname: "/" } };
+    console.log(from);
+    return (
+      <Redirect
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={from}
+      />
+    );
+  }
 
   if (name) {
     const { from } = location.state || { from: { pathname: "/" } };
@@ -45,11 +91,13 @@ function ResetPassword() {
         </h2>
         <form className={resetPasswordStyles.form}>
           <fieldset className={`${resetPasswordStyles.fieldset} mb-6`}>
-            <Input
+            <PasswordInput
               type="password"
               placeholder="Введите новый пароль"
               name="password"
               icon="ShowIcon"
+              value={password.values.password || ""}
+              onChange={password.handleChange}
             />
           </fieldset>
           <fieldset className={`${resetPasswordStyles.fieldset} mb-6`}>
@@ -57,9 +105,17 @@ function ResetPassword() {
               type="text"
               placeholder="Введите код из письма"
               name="code"
+              value={code.values.code || ""}
+              onChange={code.handleChange}
             />
           </fieldset>
-          <Button type="primary" size="medium">
+          <Button
+            type="primary"
+            size="medium"
+            onClick={(e) => {
+              resetPasswordHandler(e);
+            }}
+          >
             Сохранить
           </Button>
         </form>

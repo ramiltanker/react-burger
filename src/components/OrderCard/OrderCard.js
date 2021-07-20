@@ -52,6 +52,7 @@ function OrderCard(props) {
               <li
                 className={orderCardStyles.image_li}
                 style={{ left: leftMove }}
+                key={index}
               >
                 <img src={src} alt="test" className={orderCardStyles.image} />
               </li>

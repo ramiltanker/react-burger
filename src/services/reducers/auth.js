@@ -17,6 +17,12 @@ import {
   UPDATE_USER_REQUEST,
   UPDATE_USER_SUCCES,
   UPDATE_USER_FAILED,
+  FORGOT_PASSWORD_REQUEST,
+  FORGOT_PASSWORD_SUCCES,
+  FORGOT_PASSWORD_FAILED,
+  RESET_PASSWORD_REQUEST,
+  RESET_PASSWORD_SUCCES,
+  RESET_PASSWORD_FAILED,
 } from "../actions/auth.js";
 
 const initialState = {
@@ -40,6 +46,14 @@ const initialState = {
 
   updateUserRequest: false,
   updateUserFailed: false,
+
+  forgotPasswordRequest: false,
+  forgotPasswordFailed: false,
+  forgotPasswordSucces: false,
+
+  reserPasswordRequest: false,
+  reserPasswordFailed: false,
+  reserPasswordSucces: false,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -178,6 +192,54 @@ export const authReducer = (state = initialState, action) => {
         ...state,
         updateUserRequest: false,
         updateUserFailed: true,
+      };
+    }
+    case FORGOT_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        forgotPasswordRequest: true,
+        forgotPasswordFailed: false,
+        forgotPasswordSucces: false,
+      };
+    }
+    case FORGOT_PASSWORD_SUCCES: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: false,
+        forgotPasswordSucces: true,
+      };
+    }
+    case FORGOT_PASSWORD_FAILED: {
+      return {
+        ...state,
+        forgotPasswordRequest: false,
+        forgotPasswordFailed: true,
+        forgotPasswordSucces: false,
+      };
+    }
+    case RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        resetPasswordRequest: true,
+        resetPasswordFailed: false,
+        resetPasswordSucces: false,
+      };
+    }
+    case RESET_PASSWORD_SUCCES: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordFailed: false,
+        resetPasswordSucces: true,
+      };
+    }
+    case RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        resetPasswordRequest: false,
+        resetPasswordFailed: true,
+        resetPasswordSucces: false,
       };
     }
     default: {

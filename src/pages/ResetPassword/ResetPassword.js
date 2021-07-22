@@ -58,7 +58,7 @@ function ResetPassword() {
   };
 
   if (resetPasswordSucces) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   }
 
   if (!forgotPasswordSucces) {

@@ -31,14 +31,20 @@ import RouteBox from "../../components/RouteBox/RouteBox";
 function Profile() {
   const [isButtonsActive, setIsButtonsActive] = React.useState(false);
 
-  const dispatch = useDispatch();
-
   const { name, email } = useSelector((store) => store.authUser.user);
 
   const [user, setUser] = React.useState({
-    name: name ? name : "",
-    email: email ? email : "",
+    name: "",
+    email: "",
   });
+  
+  React.useEffect(() => {
+    if (name && email) {
+      setUser({ name: name, email: email });
+    }
+  }, [email, name]);
+
+  const dispatch = useDispatch();
 
   const onChange = (event) => {
     setUser({ ...user, [event.target.name]: event.target.value });
@@ -58,6 +64,11 @@ function Profile() {
     }
   };
 
+  const handleResetChanges = (e) => {
+    e.preventDefault();
+    setUser({ name: name, email: email });
+  };
+
   return (
     <>
       <AppHeader />
@@ -69,7 +80,7 @@ function Profile() {
               <Input
                 type="text"
                 name="name"
-                value={user.name || ""}
+                value={user.name}
                 placeholder="Имя"
                 icon="EditIcon"
                 onChange={(e) => {
@@ -107,7 +118,13 @@ function Profile() {
                   : profileStyles.buttons_hide
               }
             >
-              <Button type="secondary" size="small">
+              <Button
+                type="secondary"
+                size="small"
+                onClick={(e) => {
+                  handleResetChanges(e);
+                }}
+              >
                 Отмена
               </Button>
               <Button

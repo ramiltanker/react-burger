@@ -36,6 +36,7 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import ProtectedAuthorized from "../ProtectedAuthorized/ProtectedAuthorized";
 import { getCookie } from "../../utils/cookie";
 import IngridientsIdPage from "../../pages/IngridientsIdPage/IngridientsIdPage";
+import NotFoundPage from "../../pages/NotFoundPage/NotFoundPage";
 // Компоненты
 
 function App() {
@@ -154,6 +155,9 @@ function App() {
         </ProtectedRoute>
         <Route path="/feed" exact>
           <Feed />
+        </Route>
+        <Route>
+          <NotFoundPage />
         </Route>
       </Switch>
       {background && (

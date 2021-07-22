@@ -13,6 +13,10 @@ import { getIngridients } from "../../services/actions/burgerIngridients";
 import ingridientsIdPageStyles from "./IngridientsIdPage.module.css";
 // СТИЛИ
 
+// Компоненты
+import AppHeader from "../../components/AppHeader/AppHeader";
+// Компоненты
+
 function IngridientsIdPage(props) {
   const [currentIng, setCurrentIng] = React.useState({});
 
@@ -43,6 +47,8 @@ function IngridientsIdPage(props) {
 
 
   return (
+    <>
+    <AppHeader />
     <div className={ingridientsIdPageStyles.ingridients}>
       <h2 className={`${ingridientsIdPageStyles.title} text text_type_main-large`}>Детали ингредиента</h2>
       <img
@@ -84,6 +90,7 @@ function IngridientsIdPage(props) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 

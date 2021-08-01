@@ -10,6 +10,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI-компонентов
 
+import { useHistory } from "react-router";
+
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 
@@ -17,7 +19,7 @@ import {
   GET_BURGER_CONSTRUCTOR_ADD_ITEM,
   GET_BURGER_CONSTRUCTOR_DELETE_ITEM,
   COST_TOTAL_PRICE,
-  DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER
+  DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER,
 } from "../../services/actions/burgerIngridients.js";
 // Redux
 
@@ -35,6 +37,7 @@ import { sendOrder } from "../../services/actions/burgerIngridients.js";
 
 // Компоненты
 import ConstructorBurger from "../ConstructorBurgerCard/ConstructorBurgerCard.js";
+import { getCookie } from "../../utils/cookie.js";
 // Компоненты
 
 const cardsInfoPropTypes = PropTypes.arrayOf(
@@ -54,12 +57,12 @@ const cardsInfoPropTypes = PropTypes.arrayOf(
   })
 );
 
-
 function BurgerConstructor(props) {
   const { burgerConstructorIngridients, bun, totalPrice } = useSelector(
     (state) => state.burgerIngridients
   );
 
+  const history = useHistory();
 
   const [orderIngridients, setOrderIngridients] = React.useState([]);
 
@@ -80,14 +83,14 @@ function BurgerConstructor(props) {
       ingType: item.type,
       item: item.ing,
     });
-    dispatch({type: COST_TOTAL_PRICE});
+    dispatch({ type: COST_TOTAL_PRICE });
   };
   // Перетаскивание внутри конструктора
 
   // Удаление ингридиента
   const deleteIngridient = (index) => {
     dispatch({ type: GET_BURGER_CONSTRUCTOR_DELETE_ITEM, ingIndex: index });
-    dispatch({ type: COST_TOTAL_PRICE});
+    dispatch({ type: COST_TOTAL_PRICE });
   };
   // Удаление ингридиента
 
@@ -135,20 +138,24 @@ function BurgerConstructor(props) {
   // Отправка заказа
   const handleSendOrder = (e) => {
     e.preventDefault();
-    const burgerConstructorIngridientsTypes = burgerConstructorIngridients.map(
-      (ing) => {
-        return ing.type;
+
+    if (!getCookie("accessToken")) {
+      history.push("/login");
+    } else {
+      const burgerConstructorIngridientsTypes =
+        burgerConstructorIngridients.map((ing) => {
+          return ing.type;
+        });
+      const isSauce = burgerConstructorIngridientsTypes.indexOf("sauce") !== -1;
+      const isMain = burgerConstructorIngridientsTypes.indexOf("main") !== -1;
+
+      if ((isSauce && bun) || (isMain && bun)) {
+        props.handleOpenOrderDetailsModal();
+        dispatch(sendOrder(ingridientsIds));
       }
-    );
-    const isSauce = burgerConstructorIngridientsTypes.indexOf("sauce") !== -1;
-    const isMain = burgerConstructorIngridientsTypes.indexOf("main") !== -1;
 
-    if ((isSauce && bun) || (isMain && bun)) {
-      props.handleOpenOrderDetailsModal();
-      dispatch(sendOrder(ingridientsIds));
+      dispatch({ type: DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER });
     }
-
-    dispatch({type: DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER});
   };
   // Отправка заказа
 

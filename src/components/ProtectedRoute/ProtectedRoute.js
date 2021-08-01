@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { Route, Redirect, useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import { Route, Redirect } from "react-router-dom";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { getCookie } from "../../utils/cookie";
 
@@ -23,14 +23,16 @@ export function ProtectedRoute({ children, ...rest }) {
     return (
       <Route
         {...rest}
-        render={({ location }) => (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location },
-            }}
-          />
-        )}
+        render={({ location }) => {
+          return (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location },
+              }}
+            />
+          );
+        }}
       />
     );
   }

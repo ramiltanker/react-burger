@@ -5,6 +5,7 @@ import {
   Router,
   useHistory,
   withRouter,
+  useParams,
   useLocation,
 } from "react-router-dom";
 
@@ -15,30 +16,39 @@ import { useDispatch, useSelector } from "react-redux";
 // Redux
 
 import {
-  handleCheckToken,
   handleGetUserData,
 } from "../../services/actions/auth";
 
 // Компоненты
-import Main from "../Main/Main.js";
+import Main from "../../pages/Main/Main.js";
 import IngredientDetails from "../IngredientDetails/IngredientDetails.js";
 import OrderDetails from "../OrderDetails/OrderDetails.js";
 import Modal from "../Modal/Modal.js";
-import SignIn from "../SignIn/SignIn.js";
-import SignUp from "../SignUp/SignUp";
-import RecoverPassword from "../RecoverPassword/RecoverPassword";
-import ResetPassword from "../ResetPassword/ResetPassword";
-import Profile from "../Profile/Profile";
-import Orders from "../Orders/Orders";
-import Feed from "../Feed/Feed";
+import SignIn from "../../pages/SignIn/SignIn.js";
+import SignUp from "../../pages/SignUp/SignUp";
+import RecoverPassword from "../../pages/RecoverPassword/RecoverPassword";
+import ResetPassword from "../../pages/ResetPassword/ResetPassword";
+import Profile from "../../pages/Profile/Profile";
+import Orders from "../../pages/Orders/Orders";
+import Feed from "../../pages/Feed/Feed";
 import OrderModal from "../OrderModal/OrderModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import ProtectedAuthorized from "../ProtectedAuthorized/ProtectedAuthorized";
+import { getCookie } from "../../utils/cookie";
+import IngridientsIdPage from "../../pages/IngridientsIdPage/IngridientsIdPage";
+import NotFoundPage from "../../pages/NotFoundPage/NotFoundPage";
 // Компоненты
 
 function App() {
   const dispatch = useDispatch();
 
-  const { burgerConstructorIngridients, bun } = useSelector(
+  const history = useHistory();
+
+  const location = useLocation();
+
+  const { id } = useParams();
+
+  const { burgerIngridientsArr } = useSelector(
     (state) => state.burgerIngridients
   );
 
@@ -60,9 +70,14 @@ function App() {
   //  Переменные состояния для OrderModal
 
   React.useEffect(() => {
+    const accessToken = getCookie('accessToken');
+    accessToken && dispatch(handleGetUserData());
+  }, [dispatch]);
+
+  React.useEffect(() => {
     const handleEscClose = (e) => {
       if (e.keyCode === 27) {
-        handleCloseModal();
+        handleCloseModal(e);
       }
     };
     document.addEventListener("keydown", handleEscClose);
@@ -72,19 +87,6 @@ function App() {
     };
   }, []);
 
-
-  React.useEffect(() => {
-    const refreshToken = localStorage.getItem('refreshToken');
-      if (refreshToken) dispatch(handleCheckToken(refreshToken));
-  }, [dispatch]);
-
-  function useHover() {
-    const [isHovered, setIsHovered] = React.useState(false);
-    const on = () => setIsHovered(true);
-    const off = () => setIsHovered(false);
-    return { isHovered, on, off };
-  }
-
   // Indgridients Modal
   function handleOpenIngridientsModal(item) {
     setIsIngridientModalOpen(true);
@@ -92,7 +94,9 @@ function App() {
   }
   // Indgridients Modal
 
-  function handleCloseModal() {
+  function handleCloseModal(e) {
+    e.stopPropagation();
+    history.push("/");
     setIsIngridientModalOpen(false);
     setIsOrderDetailsOpen(false);
     setIsOrderModalOpen(false);
@@ -109,16 +113,14 @@ function App() {
     setIsOrderModalOpen(true);
   }
   // OrderModal
-
-  const IngredientDetailsModal = (
-    <IngredientDetails ingridientInfo={ingridientInfo} />
-  );
+  let background =
+    history.action === "PUSH" && location.state && location.state.background;
 
   const OrderDetailsModal = <OrderDetails />;
 
   return (
     <>
-      <Switch>
+      <Switch location={background || location}>
         <Route path="/" exact>
           <Main
             handleOpenIngridientsModal={handleOpenIngridientsModal}
@@ -127,36 +129,50 @@ function App() {
             isMain={isMain}
           />
         </Route>
-        <Route path="/login" exact>
+        <Route path="/ingridients/:id" exact>
+          <IngridientsIdPage />
+        </Route>
+        <ProtectedAuthorized path="/login">
           <SignIn />
-        </Route>
-        <Route path="/register" exact>
+        </ProtectedAuthorized>
+        <ProtectedAuthorized path="/register">
           <SignUp />
-        </Route>
-        <Route path="/forgot-password" exact>
+        </ProtectedAuthorized>
+        <ProtectedAuthorized path="/forgot-password">
           <RecoverPassword />
-        </Route>
-        <Route path="/reset-password" exact>
+        </ProtectedAuthorized>
+        <ProtectedAuthorized path="/reset-password">
           <ResetPassword />
-        </Route>
+        </ProtectedAuthorized>
         <ProtectedRoute path="/profile" exact>
           <Profile />
         </ProtectedRoute>
         <ProtectedRoute path="/profile/orders" exact>
           <Orders handleOpenOrderModal={handleOpenOrderModal} />
         </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders/:id" exact>
+        <ProtectedRoute path="/profile/orders/:id">
           <OrderModal />
         </ProtectedRoute>
         <Route path="/feed" exact>
           <Feed />
         </Route>
+        <Route>
+          <NotFoundPage />
+        </Route>
       </Switch>
-      <Modal
-        children={IngredientDetailsModal}
-        isOpen={isIngridientModalOpen}
-        handleCloseModal={handleCloseModal}
-      />
+      {background && (
+        <Route
+          path="/ingridients/:id"
+          children={
+            <Modal
+              isOpen={isIngridientModalOpen}
+              handleCloseModal={handleCloseModal}
+            >
+              <IngredientDetails ingridientInfo={ingridientInfo} />
+            </Modal>
+          }
+        />
+      )}
       <Modal
         children={OrderDetailsModal}
         isOpen={isOrderDetailsOpen}

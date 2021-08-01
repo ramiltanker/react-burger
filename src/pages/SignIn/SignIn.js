@@ -9,10 +9,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI
 
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 
 // Компоненты
-import AppHeader from "../AppHeader/AppHeader";
+import AppHeader from "../../components/AppHeader/AppHeader";
 // Компоненты
 
 import { handleLogin } from "../../services/actions/auth";
@@ -26,38 +26,52 @@ import { useSelector, useDispatch } from "react-redux";
 // Redux
 
 import { useFormWithValidation } from "../../customHooks/FormValidation/FormValidation.js";
+import { getCookie } from "../../utils/cookie";
 
 function SignIn() {
   const dispatch = useDispatch();
 
-  const history = useHistory();
+  const { name } = useSelector((state) => state.authUser.user);
 
   const email = useFormWithValidation();
   const password = useFormWithValidation();
 
   const handleUserLogin = (e) => {
-    e.preventDefault()
-    
+    e.preventDefault();
     const emailValue = email.values.email;
     const passwordValue = password.values.password;
-
     dispatch(handleLogin(emailValue, passwordValue));
-    history.push('/');
   };
+
+  const location = useLocation();
+
+  if (name) {
+    const { from } = location.state || { from: { pathname: "/" } };
+    return (
+      <Redirect
+        // Если объект state не является undefined, вернём пользователя назад.
+        to={from}
+      />
+    );
+  }
 
   return (
     <section className={signInStyles.sign_in}>
       <AppHeader />
       <div className={signInStyles.container}>
         <h2 className={`${signInStyles.title} mb-6`}>Вход</h2>
-        <form className={signInStyles.form} onSubmit={(e) => {
-          handleUserLogin(e)
-        }}>
+        <form
+          className={signInStyles.form}
+          onSubmit={(e) => {
+            handleUserLogin(e);
+          }}
+        >
           <fieldset className={`${signInStyles.fieldset} mb-6`}>
             <Input
               type="email"
               placeholder="E-mail"
               name="email"
+              value={email.values.email || ''}
               onChange={email.handleChange}
             />
           </fieldset>
@@ -65,6 +79,7 @@ function SignIn() {
             <PasswordInput
               placeholder="Пароль"
               name="password"
+              value={password.values.password || ''}
               onChange={password.handleChange}
             />
           </fieldset>

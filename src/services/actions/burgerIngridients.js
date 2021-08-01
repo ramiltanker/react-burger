@@ -26,6 +26,8 @@ export const COST_TOTAL_PRICE = "COST_TOTAL_PRICE";
 export const DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER =
   "DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER";
 
+
+
 export function getIngridients() {
   return function (dispatch) {
     dispatch({

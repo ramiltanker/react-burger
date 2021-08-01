@@ -2,9 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 
 // Компоненты
-import AppHeader from "../AppHeader/AppHeader.js";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients.js";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor.js";
+import AppHeader from "../../components/AppHeader/AppHeader.js";
+import BurgerIngredients from "../../components/BurgerIngredients/BurgerIngredients.js";
+import BurgerConstructor from "../../components/BurgerConstructor/BurgerConstructor.js";
 // Компоненты
 
 // DND

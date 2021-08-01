@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 
 import { handleUserLogout } from "../../services/actions/auth";
 
@@ -14,6 +14,8 @@ import routesStyles from "./RouteBox.module.css";
 function RouteBox() {
   const history = useHistory();
 
+  const location = useLocation();
+
   const dispatch = useDispatch();
 
   const isProfileActive =
@@ -22,10 +24,11 @@ function RouteBox() {
   const isOrdersActive =
     history.location.pathname === "/profile/orders" ? true : false;
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
     const refreshToken = localStorage.getItem("refreshToken");
-
     if (refreshToken) dispatch(handleUserLogout(refreshToken));
+    history.push("/login");
   };
 
   return (
@@ -46,7 +49,13 @@ function RouteBox() {
       >
         История заказов
       </Link>
-      <Link className={`${routesStyles.link} mb-20`} to="#" onClick={handleLogout}>
+      <Link
+        className={`${routesStyles.link} mb-20`}
+        to="#"
+        onClick={(e) => {
+          handleLogout(e);
+        }}
+      >
         Выход
       </Link>
       <p className={routesStyles.text}>

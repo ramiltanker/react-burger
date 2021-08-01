@@ -93,6 +93,7 @@ function BurgerIngredients(props) {
     }
   }, [inViewBuns, inViewFilling, inViewSauces]);
 
+
   return (
     <section className={burgerIngredientsStyles.burger_ingridients}>
       <h2 className={`${burgerIngredientsStyles.title} mt-10 mb-5`}>

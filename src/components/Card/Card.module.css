@@ -1,5 +1,7 @@
 .card {
   display: flex;
+  text-decoration: none;
+  color: #f2f2f3;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -18,6 +20,6 @@
 }
 
 .price {
-    margin: 0;
-    margin-right: 10px;
+  margin: 0;
+  margin-right: 10px;
 }

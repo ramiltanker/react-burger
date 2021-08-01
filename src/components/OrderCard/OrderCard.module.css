@@ -1,3 +1,8 @@
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
+}
+
 .card {
   width: 800px;
   background: #1c1c21;
@@ -10,6 +15,7 @@
   padding-bottom: 24px;
   padding-top: 24px;
   cursor: pointer;
+  margin-right: 8px;
 }
 
 .card:hover {

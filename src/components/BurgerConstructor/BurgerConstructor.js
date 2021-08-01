@@ -142,6 +142,8 @@ function BurgerConstructor(props) {
     if (!getCookie("accessToken")) {
       history.push("/login");
     } else {
+      const accessToken = getCookie("accessToken");
+
       const burgerConstructorIngridientsTypes =
         burgerConstructorIngridients.map((ing) => {
           return ing.type;
@@ -151,7 +153,7 @@ function BurgerConstructor(props) {
 
       if ((isSauce && bun) || (isMain && bun)) {
         props.handleOpenOrderDetailsModal();
-        dispatch(sendOrder(ingridientsIds));
+        dispatch(sendOrder(ingridientsIds, accessToken));
       }
 
       dispatch({ type: DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER });

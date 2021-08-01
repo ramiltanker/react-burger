@@ -55,13 +55,13 @@ export function getIngridients() {
   };
 }
 
-export function sendOrder(burgerConstructorIngridients) {
+export function sendOrder(burgerConstructorIngridients, token) {
   return function (dispatch) {
     dispatch({
       type: POST_SEND_ORDER_REQUEST,
     });
     sendOrderApi
-      .postSendingOrderApi(burgerConstructorIngridients)
+      .postSendingOrderApi(burgerConstructorIngridients, token)
       .then((res) => {
         if (res && res.success) {
           dispatch({

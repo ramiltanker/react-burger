@@ -1,5 +1,6 @@
 .card {
-  width: 584px;
+  max-width: 584px;
+  height: 250px;
   background: #1c1c21;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
     0px 0px 1px rgba(0, 0, 0, 0.04);
@@ -9,6 +10,21 @@
   padding-right: 24px;
   padding-bottom: 24px;
   padding-top: 24px;
+  box-sizing: border-box;
+  opacity: 1;
+  transition: opacity linear 0.25s;
+  -webkit-transition: opacity linear 0.25s;
+  margin-right: 8px;
+}
+
+.link {
+  text-decoration: none;
+  color: #f2f2f3;
+}
+
+.card:hover {
+  cursor: pointer;
+  opacity: 0.6;
 }
 
 .box {
@@ -16,12 +32,14 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  box-sizing: border-box;
 }
 
 .burger_info {
   width: 100%;
   display: flex;
   justify-content: space-between;
+  box-sizing: border-box;
 }
 
 .images_list {
@@ -29,6 +47,7 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
+  box-sizing: border-box;
 }
 
 .image_li {
@@ -42,10 +61,11 @@
   background: #131316;
   border: 2px solid #4c4cff;
   border-radius: 100px;
+  box-sizing: border-box;
 }
 
-.image_li:nth-child(n) {
-  left: calc(n * 25px);
+.lastImage {
+  opacity: 0.5;
 }
 
 .image {
@@ -74,5 +94,13 @@
 
 .name {
   margin: 0;
-  margin-bottom: 6px;
+  margin-bottom: 24px;
+}
+
+.image_number {
+  position: absolute;
+}
+
+.image_number_none {
+  display: none;
 }

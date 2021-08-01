@@ -17,7 +17,7 @@ import ingridientsIdPageStyles from "./IngridientsIdPage.module.css";
 import AppHeader from "../../components/AppHeader/AppHeader";
 // Компоненты
 
-function IngridientsIdPage(props) {
+function IngridientsIdPage() {
   const [currentIng, setCurrentIng] = React.useState({});
 
   const dispatch = useDispatch();

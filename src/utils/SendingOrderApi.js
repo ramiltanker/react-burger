@@ -10,12 +10,13 @@ export class SendingOrderApi {
       return Promise.reject(`Ошибка: ${res.status}`);
     }
   
-    postSendingOrderApi(ingredients) {
+    postSendingOrderApi(ingredients, token) {
       return fetch(`${this._address}`, {
         method: "POST",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
             ingredients

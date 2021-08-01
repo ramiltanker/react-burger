@@ -28,9 +28,6 @@ import { getIngridients } from "../../services/actions/burgerIngridients.js";
 import Card from "../Card/Card.js";
 // Компоненты
 
-// Context
-import { IngridientsCostContext } from "../../services/ingridientsContext.js";
-// Context
 
 import { useInView } from "react-intersection-observer";
 

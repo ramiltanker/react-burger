@@ -11,6 +11,9 @@ import "./index.css";
 import App from "./components/App/App.js";
 import reportWebVitals from "./reportWebVitals";
 
+import { socketMiddleware } from "./services/middleware/SocketMiddleware";
+import { socketMiddlewareAuth } from "./services/middleware/socketMiddlewareAuth";
+
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
@@ -19,7 +22,13 @@ declare global {
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+const enhancer = composeEnhancers(
+  applyMiddleware(
+    socketMiddleware("wss://norma.nomoreparties.space/orders/all"),
+    socketMiddlewareAuth("wss://norma.nomoreparties.space/orders"),
+    thunk
+  )
+);
 
 const store = createStore(rootReducer, enhancer);
 

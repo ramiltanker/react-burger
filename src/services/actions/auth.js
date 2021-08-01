@@ -152,7 +152,7 @@ export function handleGetUserData() {
         dispatch({
           type: GET_USER_FAILED,
         });
-        if (token && error.message === "jwt expired") {
+        if (error.message === "jwt expired") {
           const refreshToken = localStorage.getItem("refreshToken");
            dispatch(handleCheckToken(refreshToken, handleGetUserData));
         }

@@ -17,7 +17,8 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import AppHeader from "../../components/AppHeader/AppHeader";
 // Компоненты
 
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
+
 // Redux
 import { useDispatch, useSelector } from "react-redux";
 // Redux
@@ -32,8 +33,6 @@ function UserOrderPage() {
 
   const { id } = useParams();
 
-  console.log(id);
-  
   React.useEffect(() => {
     dispatch(wsAuthInit());
     dispatch(getIngridients());

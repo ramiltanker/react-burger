@@ -2,17 +2,12 @@ import React from "react";
 import {
   Route,
   Switch,
-  Router,
   useHistory,
-  withRouter,
-  useParams,
   useLocation,
 } from "react-router-dom";
 
-import appStyles from "./App.module.css";
-
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 // Redux
 
 import { handleGetUserData } from "../../services/actions/auth";
@@ -47,12 +42,6 @@ function App() {
   const history = useHistory();
 
   const location = useLocation();
-
-  const { id } = useParams();
-
-  const { burgerIngridientsArr } = useSelector(
-    (state) => state.burgerIngridients
-  );
 
   const [isSauce, setIsSauce] = React.useState(false);
   const [isMain, setIsMain] = React.useState(false);

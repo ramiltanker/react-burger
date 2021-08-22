@@ -12,15 +12,22 @@ export function setCookie(name, value, props = {}) {
     path: "/",
     ...props,
   };
+
+  // Переменная жизни куки
   let exp = props.expires;
+
+  // Проверяем, что переменная с типом число и то, что она вообще существует
   if (typeof exp == "number" && exp) {
+    // Получаем текущее время и дату с помощью
     const d = new Date();
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
   }
+
   if (exp && exp.toUTCString) {
     props.expires = exp.toUTCString();
   }
+
   value = encodeURIComponent(value);
   let updatedCookie = name + "=" + value;
   for (const propName in props) {

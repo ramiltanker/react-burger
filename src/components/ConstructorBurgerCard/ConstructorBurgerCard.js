@@ -9,7 +9,7 @@ import { useDrop, useDrag } from "react-dnd";
 // DND
 
 // Redux
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { MOVE_CONSTRUCTOR_ITEM } from "../../services/actions/burgerIngridients.js";
 // Redux
@@ -76,6 +76,7 @@ function ConstructorBurgerCard(props) {
       className={constructorBurgerStyles.box}
       ref={ref}
       style={{ opacity: opacity }}
+      data-testid="ingridient-card"
     >
       <DragIcon type="primary" />
       <ConstructorElement

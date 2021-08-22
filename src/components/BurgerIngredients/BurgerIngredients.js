@@ -92,7 +92,7 @@ function BurgerIngredients(props) {
 
 
   return (
-    <section className={burgerIngredientsStyles.burger_ingridients}>
+    <section className={burgerIngredientsStyles.burger_ingridients} data-testid="burger-ingridients">
       <h2 className={`${burgerIngredientsStyles.title} mt-10 mb-5`}>
         Соберите бургер
       </h2>

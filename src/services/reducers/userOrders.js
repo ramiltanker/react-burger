@@ -7,7 +7,7 @@ import {
     WS_AUTH_SEND_MESSAGE,
   } from "../actions/wsActions";
   
-  const initialState = {
+  export const initialState = {
     wsConnected: false,
     wsError: null,
     ordersData: {},

@@ -165,6 +165,7 @@ function BurgerConstructor(props) {
     <section
       className={`${burgerConstructorStyles.burger_constructor} mt-25 ml-10`}
       ref={dropTarget}
+      data-testid="burger-constructor"
     >
       {bun.name && (
         <div className={burgerConstructorStyles.first_card}>
@@ -178,7 +179,7 @@ function BurgerConstructor(props) {
           />
         </div>
       )}
-      <div className={burgerConstructorStyles.elements_container}>
+      <div className={burgerConstructorStyles.elements_container} data-testid="ingridients-container">
         {content}
       </div>
       {bun.name && (

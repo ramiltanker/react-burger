@@ -25,7 +25,7 @@ import {
   RESET_PASSWORD_FAILED,
 } from "../actions/auth.js";
 
-const initialState = {
+export const initialState = {
   user: {},
 
   registrationRequest: false,

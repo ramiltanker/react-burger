@@ -8,7 +8,6 @@ import {
   GET_BURGER_CONSTRUCTOR_ADD_ITEM,
   GET_BURGER_CONSTRUCTOR_DELETE_ITEM,
   MOVE_CONSTRUCTOR_ITEM,
-  INCREASE_ITEM,
   POST_SEND_ORDER_REQUEST,
   POST_SEND_ORDER_SUCCESS,
   POST_SEND_ORDER_FAILED,
@@ -16,7 +15,7 @@ import {
   DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER,
 } from "../actions/burgerIngridients.js";
 
-const initialState = {
+export const initialState = {
   burgerIngridientsArr: [],
   burgerIngridientsRequest: false,
   burgerIngridientsFailed: false,
@@ -98,33 +97,6 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
         };
       }
     }
-    case INCREASE_ITEM: {
-      if (action.ingType === "bun") {
-        let count = 0;
-        return {
-          ...state,
-          burgerIngridientsArr: [...state.burgerIngridientsArr].map((item) => {
-            item.__v = 0;
-            if (item._id === action.id) {
-              count = count + 1;
-              return { ...item, __v: count };
-            } else {
-              return item;
-            }
-          }),
-        };
-      }
-      return {
-        ...state,
-        burgerIngridientsArr: [...state.burgerIngridientsArr].map((item) => {
-          if (item._id === action.id) {
-            return { ...item, __v: ++item.__v };
-          } else {
-            return item;
-          }
-        }),
-      };
-    }
     case GET_BURGER_CONSTRUCTOR_DELETE_ITEM: {
       if (action.ingType === "bun") {
         return {
@@ -156,6 +128,7 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
         burgerConstructorIngridients: arr,
       };
     }
+
     case POST_SEND_ORDER_REQUEST: {
       return {
         ...state,
@@ -178,10 +151,15 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
       };
     }
     case COST_TOTAL_PRICE: {
-      const bunPrice = !(Object.keys(state.bun).length === 0) ? state.bun.price * 2 : 0;
-      const totalPrice = state.burgerConstructorIngridients.reduce((prev, cur) => {
-        return cur.price + prev;
-      }, 0);
+      const bunPrice = !(Object.keys(state.bun).length === 0)
+        ? state.bun.price * 2
+        : 0;
+      const totalPrice = state.burgerConstructorIngridients.reduce(
+        (prev, cur) => {
+          return cur.price + prev;
+        },
+        0
+      );
 
       return {
         ...state,
@@ -193,8 +171,8 @@ export const burgerIngridientsReducer = (state = initialState, action) => {
         ...state,
         totalPrice: 0,
         burgerConstructorIngridients: [],
-        bun: {}
-      }
+        bun: {},
+      };
     }
     default: {
       return state;

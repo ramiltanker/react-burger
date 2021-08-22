@@ -7,7 +7,7 @@ import {
   WS_SEND_MESSAGE,
 } from "../actions/wsActions";
 
-const initialState = {
+export const initialState = {
   wsConnected: false,
   wsError: null,
   feedData: {},

@@ -24,7 +24,17 @@ describe("drag-and-drop works correctly", function () {
     cy.get("@sauce_two").trigger("dragstart");
     cy.get("@burger-constructor").trigger("drop");
 
-    cy.get("@sauce_one").trigger("dragstart");
-    cy.get("@sauce_two").trigger("drop");
+    cy.get("@burger-constructor")
+      .find("div")
+      .contains("Соус Spicy-X")
+      .as("sauce_spicy");
+
+    cy.get("@burger-constructor")
+      .find("div")
+      .contains("Соус традиционный галактический")
+      .as("sauce_galaxy");
+
+    cy.get("@sauce_spicy").trigger("dragstart");
+    cy.get("@sauce_galaxy").trigger("drop");
   });
 });

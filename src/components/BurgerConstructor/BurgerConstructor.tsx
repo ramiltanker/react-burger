@@ -32,7 +32,7 @@ import { sendOrder } from "../../services/actions/burgerIngridients";
 
 // Компоненты
 import ConstructorBurgerCard from "../ConstructorBurgerCard/ConstructorBurgerCard";
-import { getCookie } from "../../utils/cookie.js";
+import { getCookie } from "../../utils/cookie";
 // Компоненты
 
 // Types
@@ -172,7 +172,6 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
       {bun.name && (
         <div className={burgerConstructorStyles.first_card}>
           <ConstructorElement
-            className={burgerConstructorStyles.card}
             type={"top"}
             isLocked={true}
             text={bun.name}
@@ -190,7 +189,6 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
       {bun.name && (
         <div className={burgerConstructorStyles.last_card}>
           <ConstructorElement
-            className={burgerConstructorStyles.card}
             type={"bottom"}
             isLocked={true}
             text={bun.name}

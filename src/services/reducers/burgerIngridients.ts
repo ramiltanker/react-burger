@@ -29,13 +29,13 @@ import { TburgerIngridientsActions } from "../actions/burgerIngridients";
 
 type TBurgerIngridientsState = {
   burgerIngridientsArr: TBurgerIngridients;
-  burgerIngridientsRequest: Boolean;
-  burgerIngridientsFailed: Boolean;
+  burgerIngridientsRequest: boolean;
+  burgerIngridientsFailed: boolean;
 
   burgerConstructorIngridients: TBurgerConstructorIngridients;
   bun: any;
-  burgerConstructorIngridientsFailed: Boolean;
-  burgerConstructorIngridientsRequest: Boolean;
+  burgerConstructorIngridientsFailed: boolean;
+  burgerConstructorIngridientsRequest: boolean;
 
   order?: TBurgerIngridientsOrder;
   orderRequest: boolean;

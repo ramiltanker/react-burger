@@ -138,9 +138,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
   }, [burgerConstructorIngridients, bun]);
 
   // Отправка заказа
-  const handleSendOrder = (e: any) => {
-    e.preventDefault();
-
+  const handleSendOrder = () => {
     if (!getCookie("accessToken")) {
       history.push("/login");
     } else {
@@ -205,8 +203,8 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
         <Button
           type="primary"
           size="medium"
-          onClick={(e: any) => {
-            handleSendOrder(e);
+          onClick={() => {
+            handleSendOrder();
           }}
         >
           Оформить заказ

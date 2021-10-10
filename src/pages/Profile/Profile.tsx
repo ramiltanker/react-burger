@@ -66,16 +66,14 @@ function Profile() {
       : setIsButtonsActive(true);
   }, [email, name, user.email, user.name]);
 
-  const handleUpdateUserData = (e: any) => {
-    e.preventDefault();
+  const handleUpdateUserData = () => {
     const accessToken = getCookie("accessToken");
     if (accessToken) {
       dispatch(handleUpdateUser(accessToken, user.email, user.name));
     }
   };
 
-  const handleResetChanges = (e: any) => {
-    e.preventDefault();
+  const handleResetChanges = () => {
     setUser({ name: name, email: email });
   };
 
@@ -131,8 +129,8 @@ function Profile() {
               <Button
                 type="secondary"
                 size="small"
-                onClick={(e) => {
-                  handleResetChanges(e);
+                onClick={() => {
+                  handleResetChanges();
                 }}
               >
                 Отмена
@@ -140,8 +138,8 @@ function Profile() {
               <Button
                 type="primary"
                 size="small"
-                onClick={(e) => {
-                  handleUpdateUserData(e);
+                onClick={() => {
+                  handleUpdateUserData();
                 }}
               >
                 Сохранить

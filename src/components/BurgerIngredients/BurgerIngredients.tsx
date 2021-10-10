@@ -8,7 +8,6 @@ import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 // Библиотека UI-компонентов
 import {
   Tab,
-  Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI-компонентов
 

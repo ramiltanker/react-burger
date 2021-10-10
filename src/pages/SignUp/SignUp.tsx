@@ -102,7 +102,7 @@ function SignUp() {
               placeholder="E-mail"
               name="email"
               onChange={email.handleChange}
-              value={email.values.name || ""}
+              value={email.values.email || ""}
             />
           </fieldset>
           <fieldset className={`${signUpStyles.fieldset} mb-6`}>

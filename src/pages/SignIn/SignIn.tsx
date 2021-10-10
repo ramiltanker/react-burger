@@ -11,40 +11,21 @@ import {
 
 import { Link, useHistory, Redirect, useLocation } from "react-router-dom";
 
-// Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
-// Компоненты
-
 import { handleLogin } from "../../services/actions/auth";
 
 // Стили
 import signInStyles from "./SignIn.module.css";
 // Стили
 
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-// Redux
-
 // Types
 import { TLocation } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 import { useFormWithValidation } from "../../customHooks/FormValidation/FormValidation";
-import { getCookie } from "../../utils/cookie";
 
 function SignIn() {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const dispatch = useDispatch();
 
   const { name } = useSelector((state) => state.authUser.user);
@@ -73,7 +54,6 @@ function SignIn() {
 
   return (
     <section className={signInStyles.sign_in}>
-      <AppHeader />
       <div className={signInStyles.container}>
         <h2 className={`${signInStyles.title} mb-6`}>Вход</h2>
         <form

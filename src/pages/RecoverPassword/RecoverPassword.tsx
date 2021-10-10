@@ -12,17 +12,9 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 
 import { getCookie } from "../../utils/cookie";
 
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-// Redux
-
 // Actions
 import { handleForgotPassword } from "../../services/actions/auth";
 // Actions
-
-// Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
-// Компоненты
 
 // Стили
 import recoverPasswordStyles from "./RecoverPassword.module.css";
@@ -31,12 +23,7 @@ import recoverPasswordStyles from "./RecoverPassword.module.css";
 // Types
 import { TLocation } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 // Custom Hooks
@@ -44,11 +31,6 @@ import { useFormWithValidation } from "../../customHooks/FormValidation/FormVali
 // Custom Hooks
 
 function RecoverPassword() {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const location = useLocation<TLocation>();
 
   const dispatch = useDispatch();
@@ -82,12 +64,16 @@ function RecoverPassword() {
 
   return (
     <section className={recoverPasswordStyles.recover}>
-      <AppHeader />
       <div className={recoverPasswordStyles.container}>
         <h2 className={`${recoverPasswordStyles.title} mb-6`}>
           Восстановление пароля
         </h2>
-        <form className={recoverPasswordStyles.form}>
+        <form
+          className={recoverPasswordStyles.form}
+          onSubmit={(e) => {
+            forgotPasswordHandler(e);
+          }}
+        >
           <fieldset className={`${recoverPasswordStyles.fieldset} mb-6`}>
             <Input
               type="email"
@@ -97,13 +83,7 @@ function RecoverPassword() {
               onChange={email.handleChange}
             />
           </fieldset>
-          <Button
-            type="primary"
-            size="medium"
-            onClick={(e) => {
-              forgotPasswordHandler(e);
-            }}
-          >
+          <Button type="primary" size="medium">
             Восстановить
           </Button>
         </form>

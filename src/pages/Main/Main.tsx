@@ -2,7 +2,6 @@ import React, { FunctionComponent } from "react";
 import PropTypes from "prop-types";
 
 // Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
 import BurgerIngredients from "../../components/BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../../components/BurgerConstructor/BurgerConstructor";
 // Компоненты
@@ -19,8 +18,8 @@ import mainStyles from "./Main.module.css";
 interface IMainProps {
   handleOpenIngridientsModal: (item: any) => void;
   handleOpenOrderDetailsModal: () => void;
-  isSauce: boolean;
-  isMain: boolean;
+  isSauce: Boolean;
+  isMain: Boolean;
 }
 
 type FC<P = IMainProps> = FunctionComponent<P>;
@@ -28,7 +27,6 @@ type FC<P = IMainProps> = FunctionComponent<P>;
 const Main: FC<IMainProps> = (props) => {
   return (
     <>
-      <AppHeader />
       <main className={mainStyles.main}>
         <DndProvider backend={HTML5Backend}>
           <BurgerIngredients

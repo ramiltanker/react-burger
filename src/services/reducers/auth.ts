@@ -34,32 +34,32 @@ import { TUserNameAndEmail } from "../../types/auth";
 
 type TAuthState = {
   user: TUserNameAndEmail;
-  registrationRequest: Boolean;
-  registratioFailded: Boolean;
+  registrationRequest: boolean;
+  registratioFailded: boolean;
 
-  loginRequest: Boolean;
-  loginFailed: Boolean;
-  loginSuccess: Boolean;
+  loginRequest: boolean;
+  loginFailed: boolean;
+  loginSuccess: boolean;
 
-  getUserRequest: Boolean;
-  getUserFailed: Boolean;
+  getUserRequest: boolean;
+  getUserFailed: boolean;
 
-  tokenRequest: Boolean;
-  tokenFailed: Boolean;
+  tokenRequest: boolean;
+  tokenFailed: boolean;
 
-  logoutRequest: Boolean;
-  logoutFailed: Boolean;
+  logoutRequest: boolean;
+  logoutFailed: boolean;
 
-  updateUserRequest: Boolean;
-  updateUserFailed: Boolean;
+  updateUserRequest: boolean;
+  updateUserFailed: boolean;
 
-  forgotPasswordRequest: Boolean;
-  forgotPasswordFailed: Boolean;
-  forgotPasswordSucces: Boolean;
+  forgotPasswordRequest: boolean;
+  forgotPasswordFailed: boolean;
+  forgotPasswordSucces: boolean;
 
-  resetPasswordRequest: Boolean;
-  resetPasswordFailed: Boolean;
-  resetPasswordSucces: Boolean;
+  resetPasswordRequest: boolean;
+  resetPasswordFailed: boolean;
+  resetPasswordSucces: boolean;
 };
 
 export const initialState: TAuthState = {

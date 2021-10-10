@@ -6,18 +6,13 @@ import modalStyles from "./FeedOrderModal.module.css";
 
 import { getIngridients } from "../../services/actions/burgerIngridients";
 
-// Redux
-import { useSelector } from "react-redux";
-// Redux
-
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 // Types
 import { TFeedOrder } from "../../types/feed";
 import { TCounter } from "../../types";
 
-import { TypedUseSelectorHook, useSelector as selectorHook } from "react-redux";
-import { RootState } from "../../types/index";
+import { useSelector } from "../../types/typedHooks";
 import { TIngridient } from "../../types/burgerIngridients";
 // Types
 
@@ -28,10 +23,9 @@ interface IFeedOrderModalProps {
 type FC<P = IFeedOrderModalProps> = FunctionComponent<P>;
 
 const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-
   const [totalPrice, setTotalPrice] = React.useState<number>();
+
+  const [ingridient, setIngridient] = React.useState<TIngridient>();
 
   const [filteredIngridients, setFilteredIngridients] =
     React.useState<Array<string>>();
@@ -43,12 +37,13 @@ const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
   const date = new Date();
   const todayDay = date.getDate();
 
-  const createdTime: any = props.feedOrderData && props.feedOrderData.createdAt;
+  const createdTime: string | undefined =
+    props.feedOrderData && props.feedOrderData.createdAt;
 
-  const time = createdTime && createdTime.match(/\d\d:\d\d/gm)[0];
+  const time = createdTime && createdTime.match(/\d\d:\d\d/gm)![0];
 
-  const day =
-    createdTime && +createdTime.match(/\d\dT/gm)[0].match(/\d\d/gm)[0];
+  const day: string | undefined =
+    createdTime && createdTime.match(/\d\dT/gm)![0].match(/\d\d/gm)![0];
 
   React.useEffect(() => {
     let totalPriceArr: Array<TIngridient> = [];
@@ -108,27 +103,25 @@ const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
         <ul className={modalStyles.list}>
           {filteredIngridients &&
             filteredIngridients.map((ingId) => {
-              let ingridient: any;
-
               burgerIngridientsArr.forEach((item) => {
                 if (item._id === ingId) {
-                  ingridient = item;
+                  setIngridient(item);
                 }
               });
               return (
                 <li className={modalStyles.li} key={ingId}>
                   <img
                     className={modalStyles.image}
-                    src={ingridient.image}
-                    alt={ingridient.name}
+                    src={ingridient!.image}
+                    alt={ingridient!.name}
                   />
                   <p className={`text ${modalStyles.ing_name}`}>
-                    {ingridient.name}
+                    {ingridient!.name}
                   </p>
                   <div className={modalStyles.price_box}>
                     <p className={modalStyles.price}>
                       {counters[ingId] > 1 ? counters[ingId] + ` x ` : ""}
-                      {ingridient.price}
+                      {ingridient!.price}
                     </p>
                     <CurrencyIcon type={"secondary"} />
                   </div>
@@ -140,11 +133,11 @@ const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
           <p
             className={`text text_type_main-default text_color_inactive ${modalStyles.time}`}
           >
-            {todayDay === day
+            {todayDay === Number(day)
               ? `Сегодня, `
-              : todayDay - day === 1
-              ? `${todayDay - day} день назад, `
-              : `${todayDay - day} дня назад, `}
+              : todayDay - Number(day) === 1
+              ? `${todayDay - Number(day)} день назад, `
+              : `${todayDay - Number(day)} дня назад, `}
             {time} i-GMT+3
           </p>
           <div className={modalStyles.price_box}>

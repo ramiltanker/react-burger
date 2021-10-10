@@ -17,10 +17,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI-компонентов
 
-// Redux
-import { useSelector } from "react-redux";
-// Redux
-
 // DND
 import { useDrag } from "react-dnd";
 // DND
@@ -30,16 +26,11 @@ import { TIngridient } from "../../types/burgerIngridients";
 
 import { TCounter } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useSelector } from "../../types/typedHooks";
 // Types
 
 interface ICardProps {
-  card: any;
+  card: TIngridient;
   key: string;
   handleOpenIngridientsModal: (item: TIngridient) => void;
 }
@@ -47,9 +38,6 @@ interface ICardProps {
 type FC<P = ICardProps> = FunctionComponent<P>;
 
 const Card: FC<ICardProps> = (props) => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-
   const location = useLocation();
 
   const { burgerConstructorIngridients, bun } = useSelector(

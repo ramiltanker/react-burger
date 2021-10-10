@@ -9,14 +9,10 @@ import done from "../../images/done.png";
 // Картинки
 
 // Types
-import { TypedUseSelectorHook, useSelector as selectorHook } from "react-redux";
-import { RootState } from "../../types/index";
+import { useSelector } from "../../types/typedHooks";
 // Types
 
 function OrderDetails() {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-
   const { order, orderRequest } = useSelector(
     (store) => store.burgerIngridients
   );

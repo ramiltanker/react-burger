@@ -22,6 +22,7 @@ export type TBurgerIngridient = {
   _id: string;
   type: string;
   ing: TIngridient;
+  ingIndex?: number;
 };
 
 export type TCounter = {
@@ -33,3 +34,8 @@ export type TIngridients = Array<string>;
 export type TImages = Array<string>;
 
 export type TPriceArr = Array<TIngridient>;
+
+export type TClientOffset = {
+  x: number;
+  y: number;
+};

@@ -11,8 +11,7 @@ import { TUserOrder } from "../../types/userOrders";
 import { TIngridient } from "../../types/burgerIngridients";
 import { TCounter } from "../../types";
 
-import { TypedUseSelectorHook, useSelector as selectorHook } from "react-redux";
-import { RootState } from "../../types/index";
+import { useSelector } from "../../types/typedHooks";
 // Types
 
 interface IUserOrderModalProps {
@@ -22,9 +21,6 @@ interface IUserOrderModalProps {
 type FC<P = IUserOrderModalProps> = FunctionComponent<P>;
 
 const UserOrderModal: FC<IUserOrderModalProps> = (props) => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-
   const [totalPrice, setTotalPrice] = React.useState<number>();
 
   const [filteredIngridients, setFilteredIngridients] =

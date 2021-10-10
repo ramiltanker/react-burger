@@ -12,17 +12,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI-компонентов
 
-// Redux
-import { useDispatch, useSelector } from "react-redux";
-// Redux
-
 // DND
 import { useDrag } from "react-dnd";
 // DND
-
-// Actions
-import { getIngridients } from "../../services/actions/burgerIngridients";
-// Actions
 
 // Компоненты
 import Card from "../Card/Card";
@@ -31,12 +23,7 @@ import Card from "../Card/Card";
 // Types
 import { TIngridient } from "../../types/burgerIngridients";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 import { useInView } from "react-intersection-observer";
@@ -48,11 +35,6 @@ interface IBurgerIngridientsProps {
 type FC<P = IBurgerIngridientsProps> = FunctionComponent<P>;
 
 const BurgerIngredients: FC<IBurgerIngridientsProps> = (props) => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   // Массив ингридиентов
   const { burgerIngridientsArr } = useSelector(
     (state) => state.burgerIngridients
@@ -70,10 +52,6 @@ const BurgerIngredients: FC<IBurgerIngridientsProps> = (props) => {
   const buns = burgerIngridientsArr.filter((item) => item.type === "bun");
   const main = burgerIngridientsArr.filter((item) => item.type === "main");
   const sauces = burgerIngridientsArr.filter((item) => item.type === "sauce");
-
-  React.useEffect(() => {
-    dispatch(getIngridients());
-  }, [dispatch]);
 
   const [bunsContainerRef, inViewBuns, entryBuns] = useInView({ threshold: 0 });
 

@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, KeyboardEvent, MouseEvent } from "react";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
 // Redux
@@ -8,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { handleGetUserData } from "../../services/actions/auth";
 
 // Компоненты
+import AppHeader from "../AppHeader/AppHeader";
 import Main from "../../pages/Main/Main";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
@@ -36,6 +37,7 @@ import { TLocation } from "../../types";
 import { TIngridient } from "../../types/burgerIngridients";
 import { TUserOrder } from "../../types/userOrders";
 import { TFeedOrder } from "../../types/feed";
+import { getIngridients } from "../../services/actions/burgerIngridients";
 // Types
 
 type FC<P = {}> = FunctionComponent<P>;
@@ -77,6 +79,10 @@ const App: FC<{}> = () => {
   // Переменные состояния для FeedOrderModalOpen
 
   React.useEffect(() => {
+    dispatch(getIngridients());
+  }, [dispatch]);
+
+  React.useEffect(() => {
     const accessToken = getCookie("accessToken");
     accessToken && dispatch(handleGetUserData());
   }, [dispatch]);
@@ -87,10 +93,14 @@ const App: FC<{}> = () => {
         handleCloseModal(e);
       }
     };
-    document.addEventListener("keydown", handleEscClose);
+    document.addEventListener("keydown", (e) => {
+      handleEscClose(e);
+    });
 
     return () => {
-      document.removeEventListener("keydown", handleEscClose);
+      document.removeEventListener("keydown", (e) => {
+        handleEscClose(e);
+      });
     };
   }, []);
 
@@ -148,6 +158,7 @@ const App: FC<{}> = () => {
 
   return (
     <>
+      <AppHeader />
       <Switch location={background || location}>
         <Route path="/" exact>
           <Main

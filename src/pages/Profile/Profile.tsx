@@ -6,19 +6,10 @@ import profileStyles from "./Profile.module.css";
 
 import { handleUpdateUser } from "../../services/actions/auth";
 
-// redux
-import { useSelector, useDispatch } from "react-redux";
-// redux
-
 import { getCookie } from "../../utils/cookie";
 
 // Types
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 // UI
@@ -29,16 +20,10 @@ import {
 // UI
 
 // Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
 import RouteBox from "../../components/RouteBox/RouteBox";
 // Компоненты
 
 function Profile() {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const [isButtonsActive, setIsButtonsActive] = React.useState<boolean>(false);
 
   const { name, email } = useSelector((store) => store.authUser.user);
@@ -81,11 +66,18 @@ function Profile() {
 
   return (
     <>
-      <AppHeader />
       <section className={profileStyles.profile}>
         <div className={profileStyles.container}>
           <RouteBox />
-          <form className={profileStyles.form}>
+          <form
+            className={profileStyles.form}
+            onSubmit={(e) => {
+              handleUpdateUserData(e);
+            }}
+            onReset={(e) => {
+              handleResetChanges(e);
+            }}
+          >
             <fieldset className={`${profileStyles.fieldset} mb-6`}>
               <Input
                 type="text"
@@ -128,22 +120,10 @@ function Profile() {
                   : profileStyles.buttons_hide
               }
             >
-              <Button
-                type="secondary"
-                size="small"
-                onClick={(e) => {
-                  handleResetChanges(e);
-                }}
-              >
+              <Button type="secondary" size="small">
                 Отмена
               </Button>
-              <Button
-                type="primary"
-                size="small"
-                onClick={(e) => {
-                  handleUpdateUserData(e);
-                }}
-              >
+              <Button type="primary" size="small">
                 Сохранить
               </Button>
             </div>

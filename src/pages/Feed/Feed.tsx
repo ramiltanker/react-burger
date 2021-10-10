@@ -4,29 +4,21 @@ import React, { FunctionComponent } from "react";
 import feedStyles from "./Feed.module.css";
 // Стили
 
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-// Redux
-
 import { wsInit } from "../../services/actions/wsActions";
 
-import { getIngridients } from "../../services/actions/burgerIngridients";
-
 // Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
 import FeedCard from "../../components/FeedCard/FeedCard";
 // Компоненты
+
+// Redux
+import { WS_CONNECTION_CLOSED } from "../../services/actions/wsActions";
+// Redux
 
 // Types
 import { TFeedOrder } from "../../types/feed";
 import { TIngridients, TImages, TPriceArr } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 interface IFeedProps {
@@ -36,19 +28,16 @@ interface IFeedProps {
 type FC<P = IFeedProps> = FunctionComponent<P>;
 
 const Feed: FC<IFeedProps> = (props) => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(wsInit());
-    dispatch(getIngridients());
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
   }, [dispatch]);
 
-  const { feedData } = useSelector((store: RootState) => store.feed);
+  const { feedData } = useSelector((store) => store.feed);
 
   const burgerIngridientsArr = useSelector(
     (store) => store.burgerIngridients.burgerIngridientsArr
@@ -107,7 +96,6 @@ const Feed: FC<IFeedProps> = (props) => {
 
   return (
     <>
-      <AppHeader />
       <section className={feedStyles.feed}>
         <div className={feedStyles.container}>
           <h2 className={feedStyles.title}>Лента заказов</h2>

@@ -7,18 +7,14 @@ import ordersStyles from "./Orders.module.css";
 // Стили
 
 // Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
 import RouteBox from "../../components/RouteBox/RouteBox";
 import OrderCard from "../../components/OrderCard/OrderCard";
 // Компоненты
 
-// Redux
-import { useDispatch, useSelector } from "react-redux";
-// Redux
-
 // Actions
 import { wsAuthInit } from "../../services/actions/wsActions";
-import { getIngridients } from "../../services/actions/burgerIngridients";
+
+import { WS_CONNECTION_CLOSED } from "../../services/actions/wsActions";
 // Actions
 
 // Types
@@ -26,12 +22,7 @@ import { TUserOrder } from "../../types/userOrders";
 import { TPriceArr } from "../../types";
 import { TIngridient } from "../../types/burgerIngridients";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 interface IOrdersProps {
@@ -41,20 +32,13 @@ interface IOrdersProps {
 type FC<P = IOrdersProps> = FunctionComponent<P>;
 
 const Orders: FC<IOrdersProps> = (props) => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
-  const { path } = useRouteMatch();
-  const history = useHistory();
-  const location = useLocation();
-
   const dispatch = useDispatch();
 
   React.useEffect(() => {
     dispatch(wsAuthInit());
-    dispatch(getIngridients());
+    return () => {
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    };
   }, [dispatch]);
 
   const ordersData = useSelector((store) => store.userOrders.ordersData);
@@ -98,7 +82,6 @@ const Orders: FC<IOrdersProps> = (props) => {
 
   return (
     <>
-      <AppHeader />
       <section className={ordersStyles.orders}>
         <RouteBox />
         <div className={ordersStyles.container}>

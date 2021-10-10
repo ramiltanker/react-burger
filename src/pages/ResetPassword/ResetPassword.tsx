@@ -10,17 +10,9 @@ import {
 
 import { Link, Redirect, useLocation } from "react-router-dom";
 
-// Redux
-import { useSelector, useDispatch } from "react-redux";
-// Redux
-
 // Actions
 import { handleResetPassword } from "../../services/actions/auth";
 // Actions
-
-// Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
-// Компоненты
 
 // Custom hooks
 import { useFormWithValidation } from "../../customHooks/FormValidation/FormValidation";
@@ -33,20 +25,10 @@ import resetPasswordStyles from "./ResetPassword.module.css";
 // Types
 import { TLocation } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 function ResetPassword() {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const location = useLocation<TLocation>();
 
   const dispatch = useDispatch();
@@ -100,12 +82,16 @@ function ResetPassword() {
 
   return (
     <section className={resetPasswordStyles.reset}>
-      <AppHeader />
       <div className={resetPasswordStyles.container}>
         <h2 className={`${resetPasswordStyles.title} mb-6`}>
           Восстановление пароля
         </h2>
-        <form className={resetPasswordStyles.form}>
+        <form
+          className={resetPasswordStyles.form}
+          onSubmit={(e) => {
+            resetPasswordHandler(e);
+          }}
+        >
           <fieldset className={`${resetPasswordStyles.fieldset} mb-6`}>
             <PasswordInput
               name="password"
@@ -122,13 +108,7 @@ function ResetPassword() {
               onChange={code.handleChange}
             />
           </fieldset>
-          <Button
-            type="primary"
-            size="medium"
-            onClick={(e) => {
-              resetPasswordHandler(e);
-            }}
-          >
+          <Button type="primary" size="medium">
             Сохранить
           </Button>
         </form>

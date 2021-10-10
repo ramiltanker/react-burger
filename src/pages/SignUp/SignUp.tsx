@@ -11,13 +11,7 @@ import {
 
 import { Link, Redirect, useLocation } from "react-router-dom";
 
-// Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
-// Компоненты
-
 // Redux
-import { useDispatch, useSelector } from "react-redux";
-
 import { handleRegistrationUser } from "../../services/actions/auth";
 
 import {} from "../../services/actions/burgerIngridients";
@@ -26,12 +20,7 @@ import {} from "../../services/actions/burgerIngridients";
 // Types
 import { TLocation } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 // Стили
@@ -41,11 +30,6 @@ import signUpStyles from "./SignUp.module.css";
 import { useFormWithValidation } from "../../customHooks/FormValidation/FormValidation";
 
 function SignUp() {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const dispatch = useDispatch();
 
   const location = useLocation<TLocation>();
@@ -78,7 +62,6 @@ function SignUp() {
 
   return (
     <section className={signUpStyles.sign_up}>
-      <AppHeader />
       <div className={signUpStyles.container}>
         <h2 className={`${signUpStyles.title} mb-6`}>Регистрация</h2>
         <form

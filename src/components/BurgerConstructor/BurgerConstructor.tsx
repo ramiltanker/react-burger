@@ -36,37 +36,30 @@ import { getCookie } from "../../utils/cookie";
 // Компоненты
 
 // Types
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 
+import { TIngridient } from "../../types/burgerIngridients";
 import { TBurgerIngridient } from "../../types";
 // Types
 
 interface IBurgerConstructorProps {
   handleOpenOrderDetailsModal: () => void;
-  isSauce: boolean;
-  isMain: boolean;
+  isSauce: Boolean;
+  isMain: Boolean;
 }
 
 type FC<P = IBurgerConstructorProps> = FunctionComponent<P>;
 
 const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const { burgerConstructorIngridients, bun, totalPrice } = useSelector(
     (state) => state.burgerIngridients
   );
 
   const history = useHistory();
 
-  const [orderIngridients, setOrderIngridients] = React.useState<any>([]);
+  const [orderIngridients, setOrderIngridients] = React.useState<
+    Array<TIngridient>
+  >([]);
 
   const dispatch = useDispatch();
 
@@ -111,7 +104,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
   const content = React.useMemo(
     () =>
       orderIngridients &&
-      orderIngridients.map((item: TBurgerIngridient, index: number) => {
+      orderIngridients.map((item: TIngridient, index: number) => {
         return (
           <ConstructorBurgerCard
             key={index}
@@ -138,7 +131,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
   }, [burgerConstructorIngridients, bun]);
 
   // Отправка заказа
-  const handleSendOrder = (e: any) => {
+  const handleSendOrder = (e: Event) => {
     e.preventDefault();
 
     if (!getCookie("accessToken")) {
@@ -205,7 +198,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
         <Button
           type="primary"
           size="medium"
-          onClick={(e: any) => {
+          onClick={(e: Event) => {
             handleSendOrder(e);
           }}
         >

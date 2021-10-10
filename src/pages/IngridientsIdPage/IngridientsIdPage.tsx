@@ -1,48 +1,23 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { useParams } from "react-router";
 
-// redux
-import { useSelector, useDispatch } from "react-redux";
-
-import { getIngridients } from "../../services/actions/burgerIngridients";
-// redux
-
 // Types
 import { TIngridient } from "../../types/burgerIngridients";
-
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
 // Types
 
 // СТИЛИ
 import ingridientsIdPageStyles from "./IngridientsIdPage.module.css";
 // СТИЛИ
 
-// Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
-// Компоненты
+// Types
+import { useSelector } from "../../types/typedHooks";
+// Types
 
 function IngridientsIdPage() {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const [currentIng, setCurrentIng] = React.useState<TIngridient>();
 
-  const dispatch = useDispatch();
-
   const { id } = useParams<{ id?: string }>();
-
-  React.useEffect(() => {
-    dispatch(getIngridients());
-  }, [dispatch]);
 
   const { burgerIngridientsArr } = useSelector(
     (state) => state.burgerIngridients
@@ -59,7 +34,6 @@ function IngridientsIdPage() {
 
   return (
     <>
-      <AppHeader />
       <div className={ingridientsIdPageStyles.ingridients}>
         <h2
           className={`${ingridientsIdPageStyles.title} text text_type_main-large`}

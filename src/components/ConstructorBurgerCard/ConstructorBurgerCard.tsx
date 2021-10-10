@@ -17,13 +17,15 @@ import constructorBurgerStyles from "./ConstructorBurgerCard.module.css";
 // Стили
 
 // Types
-import { useDispatch as dispatchHook } from "react-redux";
-import { AppThunk, AppDispatch } from "../../types/index";
+import { TIngridient } from "../../types/burgerIngridients";
+import { TBurgerIngridient, TClientOffset } from "../../types";
+
+import { useDispatch } from "../../types/typedHooks";
 // Types
 
 interface IConstructorBurgerCard {
   key: number;
-  item: any;
+  item: TIngridient;
   ingIndex: number;
   close: () => void;
 }
@@ -31,9 +33,6 @@ interface IConstructorBurgerCard {
 type FC<P = IConstructorBurgerCard> = FunctionComponent<P>;
 
 const ConstructorBurgerCard: FC<IConstructorBurgerCard> = (props) => {
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const ref = React.useRef<any | null>(null);
 
   const dispatch = useDispatch();
@@ -41,7 +40,7 @@ const ConstructorBurgerCard: FC<IConstructorBurgerCard> = (props) => {
   const [{ opacity }, dragRef] = useDrag({
     type: "constructor",
     item: {
-      id: props.item._id,
+      _id: props.item._id,
       type: props.item.type,
       ing: props.item,
       ingIndex: props.ingIndex,
@@ -53,7 +52,7 @@ const ConstructorBurgerCard: FC<IConstructorBurgerCard> = (props) => {
 
   const [, dropTarget] = useDrop({
     accept: "constructor",
-    hover(item: any, monitor) {
+    hover(item: TBurgerIngridient, monitor) {
       const dragIndex = item.ingIndex;
       const replacedIndex = props.ingIndex;
 
@@ -66,15 +65,15 @@ const ConstructorBurgerCard: FC<IConstructorBurgerCard> = (props) => {
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
-      const clientOffset: any = monitor.getClientOffset();
+      const clientOffset: TClientOffset | null = monitor.getClientOffset();
 
-      const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
 
-      if (dragIndex < replacedIndex && hoverClientY < hoverMiddleY) {
+      if (dragIndex! < replacedIndex && hoverClientY < hoverMiddleY) {
         return;
       }
 
-      if (dragIndex > replacedIndex && hoverClientY > hoverMiddleY) {
+      if (dragIndex! > replacedIndex && hoverClientY > hoverMiddleY) {
         return;
       }
       dispatch({ type: MOVE_CONSTRUCTOR_ITEM, dragIndex, replacedIndex });

@@ -6,43 +6,25 @@ import pageStyles from "./FeedOrderPage.module.css";
 
 // Actions
 import { wsInit } from "../../services/actions/wsActions";
-import { getIngridients } from "../../services/actions/burgerIngridients";
 // Actions
 
 // Yandex UI
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 // Yandex UI
 
-// Компоненты
-import AppHeader from "../../components/AppHeader/AppHeader";
-// Компоненты
-
 import { useParams } from "react-router";
-// Redux
-import { useDispatch, useSelector } from "react-redux";
-// Redux
 
 // Types
 import { TFeedOrder } from "../../types/feed";
 import { TIngridient } from "../../types/burgerIngridients";
 import { TCounter } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { useDispatch, useSelector } from "../../types/typedHooks";
 // Types
 
 type FC<P = {}> = FunctionComponent<P>;
 
 const FeedOrderPage: FC<{}> = () => {
-  // Теперь этот хук «знает» структуру хранилища
-  const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
-  // Хук не даст отправить экшен, который ему не знаком
-  const useDispatch = () => dispatchHook<AppDispatch | AppThunk>();
-
   const [currentOrder, setCurrentOrder] = React.useState<TFeedOrder>();
   const [totalPrice, setTotalPrice] = React.useState<number>();
 
@@ -54,7 +36,6 @@ const FeedOrderPage: FC<{}> = () => {
 
   React.useEffect(() => {
     dispatch(wsInit());
-    dispatch(getIngridients());
   }, [dispatch]);
 
   const { burgerIngridientsArr } = useSelector(
@@ -125,7 +106,6 @@ const FeedOrderPage: FC<{}> = () => {
 
   return (
     <>
-      <AppHeader />
       <div className={pageStyles.container}>
         <div className={pageStyles.info}>
           <p className={`text text_type_digits-default ${pageStyles.number}`}>

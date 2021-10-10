@@ -3,8 +3,8 @@ export type TFeedOrder = {
   ingredients: Array<string>;
   status: string;
   name: string;
-  createdAt?: string | null;
-  updatedAt?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
   number: number;
 };
 

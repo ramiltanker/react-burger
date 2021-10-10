@@ -64,7 +64,9 @@ function ResetPassword() {
   const password: any = useFormWithValidation();
   const code: any = useFormWithValidation();
 
-  const resetPasswordHandler = () => {
+  const resetPasswordHandler = (e: any) => {
+    e.preventDefault();
+
     const passwordValue = password.values.password;
     const codeValue = code.values.code;
 
@@ -123,8 +125,8 @@ function ResetPassword() {
           <Button
             type="primary"
             size="medium"
-            onClick={() => {
-              resetPasswordHandler();
+            onClick={(e) => {
+              resetPasswordHandler(e);
             }}
           >
             Сохранить

@@ -19,10 +19,15 @@ const ProtectedAuthorized: FC<IProtectedAuthorizedProps> = ({
   // Теперь этот хук «знает» структуру хранилища
   const useSelector: TypedUseSelectorHook<RootState> = selectorHook;
 
-  const user = useSelector((state) => state.authUser.user);
+  const { email, name } = useSelector((state) => state.authUser.user);
 
   return (
-    <Route {...rest} render={() => (!user ? children : <Redirect to="/" />)} />
+    <Route
+      {...rest}
+      render={() =>
+        email.length !== 0 && name.length !== 0 ? <Redirect to="/" /> : children
+      }
+    />
   );
 };
 

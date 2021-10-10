@@ -2,35 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter } from "react-router-dom";
 
-import { compose, createStore, applyMiddleware } from "redux";
+import { compose } from "redux";
 import { Provider } from "react-redux";
-import { rootReducer } from "./services/reducers/index.js";
-import thunk from "redux-thunk";
 
 import "./index.css";
-import App from "./components/App/App.js";
+import App from "./components/App/App";
 import reportWebVitals from "./reportWebVitals";
 
-import { socketMiddleware } from "./services/middleware/SocketMiddleware";
-import { socketMiddlewareAuth } from "./services/middleware/socketMiddlewareAuth";
+import { store } from "./services/store";
 
 declare global {
   interface Window {
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
   }
 }
-
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const enhancer = composeEnhancers(
-  applyMiddleware(
-    socketMiddleware("wss://norma.nomoreparties.space/orders/all"),
-    socketMiddlewareAuth("wss://norma.nomoreparties.space/orders"),
-    thunk
-  )
-);
-
-const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(
   <React.StrictMode>

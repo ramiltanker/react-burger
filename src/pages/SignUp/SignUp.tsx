@@ -109,7 +109,7 @@ function SignUp() {
             <PasswordInput
               name="password"
               onChange={password.handleChange}
-              value={password.values.name || ""}
+              value={password.values.password || ""}
             />
           </fieldset>
           <Button type="primary" size="medium">

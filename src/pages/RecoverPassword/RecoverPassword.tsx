@@ -61,8 +61,7 @@ function RecoverPassword() {
 
   const email: any = useFormWithValidation();
 
-  const forgotPasswordHandler = (e: any) => {
-    e.preventDefault();
+  const forgotPasswordHandler = () => {
     dispatch(handleForgotPassword(email.values.email));
   };
 
@@ -100,8 +99,8 @@ function RecoverPassword() {
           <Button
             type="primary"
             size="medium"
-            onClick={(e) => {
-              forgotPasswordHandler(e);
+            onClick={() => {
+              forgotPasswordHandler();
             }}
           >
             Восстановить

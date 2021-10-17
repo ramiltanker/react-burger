@@ -17,10 +17,6 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 // Библиотека UI-компонентов
 
-// Redux
-import { useSelector } from "react-redux";
-// Redux
-
 // DND
 import { useDrag } from "react-dnd";
 // DND
@@ -30,12 +26,8 @@ import { TIngridient } from "../../types/burgerIngridients";
 
 import { TCounter } from "../../types";
 
-import {
-  TypedUseSelectorHook,
-  useSelector as selectorHook,
-  useDispatch as dispatchHook,
-} from "react-redux";
-import { RootState, AppThunk, AppDispatch } from "../../types/index";
+import { TypedUseSelectorHook, useSelector as selectorHook } from "react-redux";
+import { RootState } from "../../types/index";
 // Types
 
 interface ICardProps {

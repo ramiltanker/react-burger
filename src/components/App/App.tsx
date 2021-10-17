@@ -77,20 +77,18 @@ const App: FC<{}> = () => {
   // Переменные состояния для FeedOrderModalOpen
 
   React.useEffect(() => {
-    const accessToken = getCookie("accessToken");
-    accessToken && dispatch(handleGetUserData());
-  }, [dispatch]);
-
-  React.useEffect(() => {
-    const handleEscClose = (e: any) => {
-      if (e.keyCode === 27) {
+    const handleEscClose = (e: KeyboardEvent) => {
+      if (e.key === "27") {
         handleCloseModal(e);
       }
     };
-    document.addEventListener("keydown", handleEscClose);
-
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
+      handleEscClose(e);
+    });
     return () => {
-      document.removeEventListener("keydown", handleEscClose);
+      document.removeEventListener("keydown", (e: KeyboardEvent) => {
+        handleEscClose(e);
+      });
     };
   }, []);
 
@@ -101,7 +99,7 @@ const App: FC<{}> = () => {
   }
   // Indgridients Modal
 
-  function handleCloseModal(e: any) {
+  function handleCloseModal(e: MouseEvent | KeyboardEvent) {
     e.stopPropagation();
     history.push("/");
     setIsIngridientModalOpen(false);
@@ -120,7 +118,7 @@ const App: FC<{}> = () => {
     setUserrderData(data);
   }
 
-  function handleCloseOrderModal(e: any) {
+  function handleCloseOrderModal(e: KeyboardEvent) {
     e.stopPropagation();
     history.push("/profile/orders");
     setIsProfileOrderModalOpen(false);
@@ -134,7 +132,7 @@ const App: FC<{}> = () => {
     setFeedOrderData(data);
   }
 
-  function handleCloseFeedModal(e: any) {
+  function handleCloseFeedModal(e: KeyboardEvent) {
     e.stopPropagation();
     history.push("/feed");
     setIsFeedOrderModalOpen(false);

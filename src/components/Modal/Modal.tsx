@@ -1,4 +1,8 @@
-import React, { ReactNode } from "react";
+import React, {
+  ButtonHTMLAttributes,
+  MouseEventHandler,
+  ReactNode,
+} from "react";
 import ReactDOM from "react-dom";
 // Стили
 import modalStyles from "./Modal.module.css";
@@ -14,7 +18,7 @@ const modalRoot = document.getElementById("react-modals")!;
 
 interface IModalProps {
   isOpen: boolean;
-  handleCloseModal: (e: any) => void;
+  handleCloseModal: (e: KeyboardEvent) => void;
   children?: ReactNode;
 }
 

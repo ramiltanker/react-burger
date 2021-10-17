@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router";
 
 // redux
-import { useSelector, useDispatch } from "react-redux";
-
 import { getIngridients } from "../../services/actions/burgerIngridients";
 // redux
 

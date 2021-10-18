@@ -210,7 +210,7 @@ export function handleRegistrationUser(
     register(name, email, password)
       .then((res) => {
         if (res && res.success) {
-          setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+          setCookie("accessToken", res.accessToken.split("Bearer ")[1], {});
           console.log(res);
           dispatch({
             type: USER_REGISTRATION_SUCCES,
@@ -241,7 +241,7 @@ export function handleLogin(email: string, password: string) {
       .then((res) => {
         if (res && res.success) {
           localStorage.setItem("refreshToken", res.refreshToken);
-          setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+          setCookie("accessToken", res.accessToken.split("Bearer ")[1], {});
           dispatch({
             type: USER_LOGIN_SUCCES,
             user: res.user,
@@ -269,7 +269,7 @@ export function handleCheckToken(refreshToken: string, nextFunc: () => void) {
     tokenCheck(refreshToken)
       .then((res) => {
         if (res && res.success) {
-          setCookie("accessToken", res.accessToken.split("Bearer ")[1]);
+          setCookie("accessToken", res.accessToken.split("Bearer ")[1], {});
           localStorage.setItem("refreshToken", res.refreshToken);
           nextFunc();
           dispatch({

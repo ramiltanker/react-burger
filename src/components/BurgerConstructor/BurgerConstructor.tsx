@@ -32,7 +32,7 @@ import { sendOrder } from "../../services/actions/burgerIngridients";
 
 // Компоненты
 import ConstructorBurgerCard from "../ConstructorBurgerCard/ConstructorBurgerCard";
-import { getCookie } from "../../utils/cookie.js";
+import { getCookie } from "../../utils/cookie";
 // Компоненты
 
 // Types

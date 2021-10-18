@@ -14,14 +14,17 @@ const modalRoot = document.getElementById("react-modals")!;
 
 interface IModalProps {
   isOpen: boolean;
-  handleCloseModal: (e: any) => void;
+  handleCloseModal: () => void;
   children?: ReactNode;
 }
 
 class Modal extends React.Component<IModalProps> {
+  handleCloseModal = () => {
+    if (this.props.handleCloseModal) this.props.handleCloseModal();
+  };
+
   render() {
     const { isOpen, handleCloseModal, children } = this.props;
-
     return ReactDOM.createPortal(
       <section
         className={isOpen ? modalStyles.modal : modalStyles.modal_hidden}

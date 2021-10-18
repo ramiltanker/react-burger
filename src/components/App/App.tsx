@@ -88,17 +88,17 @@ const App: FC<{}> = () => {
   }, [dispatch]);
 
   React.useEffect(() => {
-    const handleEscClose = (e: any) => {
+    const handleEscClose = (e: KeyboardEvent) => {
       if (e.keyCode === 27) {
-        handleCloseModal(e);
+        handleCloseModal();
       }
     };
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
       handleEscClose(e);
     });
 
     return () => {
-      document.removeEventListener("keydown", (e) => {
+      document.removeEventListener("keydown", (e: KeyboardEvent) => {
         handleEscClose(e);
       });
     };
@@ -111,8 +111,7 @@ const App: FC<{}> = () => {
   }
   // Indgridients Modal
 
-  function handleCloseModal(e: any) {
-    e.stopPropagation();
+  function handleCloseModal() {
     history.push("/");
     setIsIngridientModalOpen(false);
     setIsOrderDetailsOpen(false);
@@ -130,8 +129,7 @@ const App: FC<{}> = () => {
     setUserrderData(data);
   }
 
-  function handleCloseOrderModal(e: any) {
-    e.stopPropagation();
+  function handleCloseOrderModal() {
     history.push("/profile/orders");
     setIsProfileOrderModalOpen(false);
     setUserrderData(undefined);
@@ -144,8 +142,7 @@ const App: FC<{}> = () => {
     setFeedOrderData(data);
   }
 
-  function handleCloseFeedModal(e: any) {
-    e.stopPropagation();
+  function handleCloseFeedModal() {
     history.push("/feed");
     setIsFeedOrderModalOpen(false);
     setFeedOrderData(undefined);

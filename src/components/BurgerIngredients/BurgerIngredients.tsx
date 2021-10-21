@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from "react";
 
-import PropTypes from "prop-types";
 // Стили
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 // Стили
@@ -107,7 +106,7 @@ const BurgerIngredients: FC<IBurgerIngridientsProps> = (props) => {
             {buns.map((item) => (
               <Card
                 card={item}
-                key={item._id}
+                key={item._id!}
                 handleOpenIngridientsModal={props.handleOpenIngridientsModal}
               />
             ))}
@@ -123,7 +122,7 @@ const BurgerIngredients: FC<IBurgerIngridientsProps> = (props) => {
             {sauces.map((item) => (
               <Card
                 card={item}
-                key={item._id}
+                key={item._id!}
                 handleOpenIngridientsModal={props.handleOpenIngridientsModal}
               />
             ))}
@@ -139,7 +138,7 @@ const BurgerIngredients: FC<IBurgerIngridientsProps> = (props) => {
             {main.map((item) => (
               <Card
                 card={item}
-                key={item._id}
+                key={item._id!}
                 handleOpenIngridientsModal={props.handleOpenIngridientsModal}
               />
             ))}
@@ -148,10 +147,6 @@ const BurgerIngredients: FC<IBurgerIngridientsProps> = (props) => {
       </div>
     </section>
   );
-};
-
-BurgerIngredients.propTypes = {
-  handleOpenIngridientsModal: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredients;

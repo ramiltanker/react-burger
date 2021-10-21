@@ -20,6 +20,7 @@ import {
   TBurgerIngridients,
   TBurgerConstructorIngridients,
   TBurgerIngridientsOrder,
+  TIngridient,
 } from "../../types/burgerIngridients";
 // Types
 
@@ -33,7 +34,7 @@ type TBurgerIngridientsState = {
   burgerIngridientsFailed: boolean;
 
   burgerConstructorIngridients: TBurgerConstructorIngridients;
-  bun: any;
+  bun: TIngridient;
   burgerConstructorIngridientsFailed: boolean;
   burgerConstructorIngridientsRequest: boolean;
 
@@ -110,6 +111,7 @@ export const burgerIngridientsReducer = (
       };
     }
     case GET_BURGER_CONSTRUCTOR_ADD_ITEM: {
+      console.log(action.item);
       if (action.ingType === "bun") {
         return {
           ...state,
@@ -131,7 +133,7 @@ export const burgerIngridientsReducer = (
       if (action.ingType === "bun") {
         return {
           ...state,
-          bun: state.bun._id === action.id ? "" : state.bun,
+          bun: state.bun._id === action.id ? {} : state.bun,
         };
       }
       return {
@@ -182,12 +184,12 @@ export const burgerIngridientsReducer = (
     }
     case COST_TOTAL_PRICE: {
       const bunPrice = !(Object.keys(state.bun).length === 0)
-        ? state.bun.price * 2
+        ? state!.bun!.price! * 2
         : 0;
 
       const totalPrice = state.burgerConstructorIngridients.reduce(
-        (prev: any, cur: any) => {
-          return cur.price + prev;
+        (prev: number, cur: TIngridient) => {
+          return cur.price! + prev;
         },
         0
       );

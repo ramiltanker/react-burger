@@ -41,9 +41,9 @@ function RecoverPassword() {
     (state) => state.authUser.forgotPasswordSucces
   );
 
-  const email: any = useFormWithValidation();
+  const email = useFormWithValidation();
 
-  const forgotPasswordHandler = (e: any) => {
+  const forgotPasswordHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(handleForgotPassword(email.values.email));
   };

@@ -1,3 +1,5 @@
+import { MouseEvent } from "react";
+
 import { Link, useHistory } from "react-router-dom";
 
 import { handleUserLogout } from "../../services/actions/auth";
@@ -25,7 +27,7 @@ function RouteBox() {
   const isOrdersActive =
     history.location.pathname === "/profile/orders" ? true : false;
 
-  const handleLogout = (e: any) => {
+  const handleLogout = (e: MouseEvent) => {
     e.preventDefault();
     const refreshToken = localStorage.getItem("refreshToken");
     if (refreshToken) dispatch(handleUserLogout(refreshToken));
@@ -52,10 +54,8 @@ function RouteBox() {
       </Link>
       <Link
         className={`${routesStyles.link} mb-20`}
-        to="#"
-        onClick={(e) => {
-          handleLogout(e);
-        }}
+        to="/login"
+        onClick={handleLogout}
       >
         Выход
       </Link>

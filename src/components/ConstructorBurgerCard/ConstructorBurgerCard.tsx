@@ -33,7 +33,7 @@ interface IConstructorBurgerCard {
 type FC<P = IConstructorBurgerCard> = FunctionComponent<P>;
 
 const ConstructorBurgerCard: FC<IConstructorBurgerCard> = (props) => {
-  const ref = React.useRef<any | null>(null);
+  const ref = React.useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
   // DND
@@ -63,11 +63,11 @@ const ConstructorBurgerCard: FC<IConstructorBurgerCard> = (props) => {
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
 
       const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+        (hoverBoundingRect!.bottom - hoverBoundingRect!.top) / 2;
 
       const clientOffset: TClientOffset | null = monitor.getClientOffset();
 
-      const hoverClientY = clientOffset!.y - hoverBoundingRect.top;
+      const hoverClientY = clientOffset!.y - hoverBoundingRect!.top;
 
       if (dragIndex! < replacedIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -95,10 +95,10 @@ const ConstructorBurgerCard: FC<IConstructorBurgerCard> = (props) => {
       <DragIcon type="primary" />
       <ConstructorElement
         isLocked={false}
-        text={props.item.name}
+        text={props.item.name!}
         handleClose={props.close}
-        price={props.item.price}
-        thumbnail={props.item.image}
+        price={props.item.price!}
+        thumbnail={props.item.image!}
       />
     </div>
   );

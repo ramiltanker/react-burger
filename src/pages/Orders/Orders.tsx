@@ -53,7 +53,7 @@ const Orders: FC<IOrdersProps> = (props) => {
     ingridientsIds.map((id: string) => {
       return burgerIngridientsArr.forEach((item) => {
         if (item._id === id) {
-          imagesArr.push(item.image);
+          imagesArr.push(item.image!);
         }
       });
     });
@@ -71,8 +71,8 @@ const Orders: FC<IOrdersProps> = (props) => {
     });
 
     const totalPrice: number = totalPriceArr.reduce(
-      (prev: number, cur: TIngridient) => {
-        return cur.price + prev;
+      (prev: number, cur: TIngridient): number => {
+        return cur.price! + prev;
       },
       0
     );
@@ -86,15 +86,15 @@ const Orders: FC<IOrdersProps> = (props) => {
         <RouteBox />
         <div className={ordersStyles.container}>
           {orders &&
-            orders.map((order: any) => {
+            orders.map((order: TUserOrder) => {
               const imagesArr = handleGetIngImage(order.ingredients);
               const totalPrice = handleGetOrderPrice(order.ingredients);
 
               const createdTime = order.createdAt;
 
-              const time = createdTime.match(/\d\d:\d\d/gm)[0];
+              const time = createdTime.match(/\d\d:\d\d/gm)![0];
 
-              const day = +createdTime.match(/\d\dT/gm)[0].match(/\d\d/gm)[0];
+              const day = +createdTime.match(/\d\dT/gm)![0].match(/\d\d/gm)![0];
 
               return (
                 <OrderCard

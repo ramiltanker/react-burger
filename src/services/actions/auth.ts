@@ -17,6 +17,9 @@ import {
   TLogoutData,
   TUpdateUserData,
 } from "../../types/auth";
+import { Dispatch } from "react";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "../../types/index";
 // Типизация
 
 export const USER_REGISTRATION_REQUEST: "USER_REGISTRATION_REQUEST" =
@@ -110,7 +113,6 @@ export interface IUserLogoutRequestAction {
 
 export interface IUserLogoutSuccesAction {
   readonly type: typeof USER_LOGOUT_SUCCES;
-  readonly user: TLogoutData;
 }
 
 export interface IUserLogoutFailedAction {
@@ -203,7 +205,7 @@ export function handleRegistrationUser(
   email: string,
   password: string
 ) {
-  return function (dispatch: any) {
+  return function (dispatch: Dispatch<TAuthActions>) {
     dispatch({
       type: USER_REGISTRATION_REQUEST,
     });
@@ -211,7 +213,6 @@ export function handleRegistrationUser(
       .then((res) => {
         if (res && res.success) {
           setCookie("accessToken", res.accessToken.split("Bearer ")[1], {});
-          console.log(res);
           dispatch({
             type: USER_REGISTRATION_SUCCES,
             user: res.user,
@@ -233,7 +234,7 @@ export function handleRegistrationUser(
 }
 
 export function handleLogin(email: string, password: string) {
-  return function (dispatch: any) {
+  return function (dispatch: Dispatch<TAuthActions>) {
     dispatch({
       type: USER_LOGIN_REQUEST,
     });
@@ -261,8 +262,11 @@ export function handleLogin(email: string, password: string) {
   };
 }
 
-export function handleCheckToken(refreshToken: string, nextFunc: () => void) {
-  return function (dispatch: any) {
+export function handleCheckToken(
+  refreshToken: string,
+  nextFunc: () => void
+): ThunkAction<void, RootState, unknown, TAuthActions> {
+  return function (dispatch) {
     dispatch({
       type: TOKEN_CHECK_REQUEST,
     });
@@ -290,9 +294,14 @@ export function handleCheckToken(refreshToken: string, nextFunc: () => void) {
   };
 }
 
-export function handleGetUserData() {
+export function handleGetUserData(): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  TAuthActions
+> {
   const token = getCookie("accessToken");
-  return function (dispatch: any) {
+  return function (dispatch) {
     dispatch({
       type: GET_USER_REQUEST,
     });
@@ -323,8 +332,10 @@ export function handleGetUserData() {
   };
 }
 
-export function handleUserLogout(refreshToken: string) {
-  return function (dispatch: any) {
+export function handleUserLogout(
+  refreshToken: string
+): ThunkAction<void, RootState, unknown, TAuthActions> {
+  return function (dispatch) {
     dispatch({
       type: USER_LOGOUT_REQUEST,
     });
@@ -348,8 +359,12 @@ export function handleUserLogout(refreshToken: string) {
   };
 }
 
-export function handleUpdateUser(token: string, email: string, name: string) {
-  return function (dispatch: any) {
+export function handleUpdateUser(
+  token: string,
+  email: string,
+  name: string
+): ThunkAction<void, RootState, unknown, TAuthActions> {
+  return function (dispatch) {
     dispatch({ type: UPDATE_USER_REQUEST });
     updateUser(token, email, name)
       .then((res) => {
@@ -366,8 +381,10 @@ export function handleUpdateUser(token: string, email: string, name: string) {
   };
 }
 
-export function handleForgotPassword(email: string) {
-  return function (dispatch: any) {
+export function handleForgotPassword(
+  email: string
+): ThunkAction<void, RootState, unknown, TAuthActions> {
+  return function (dispatch) {
     dispatch({ type: FORGOT_PASSWORD_REQUEST });
     forgotPassword(email)
       .then((res) => {
@@ -384,8 +401,11 @@ export function handleForgotPassword(email: string) {
   };
 }
 
-export function handleResetPassword(password: string, token: string) {
-  return function (dispatch: any) {
+export function handleResetPassword(
+  password: string,
+  token: string
+): ThunkAction<void, RootState, unknown, TAuthActions> {
+  return function (dispatch) {
     dispatch({ type: RESET_PASSWORD_REQUEST });
     resetPassword(password, token)
       .then((res) => {

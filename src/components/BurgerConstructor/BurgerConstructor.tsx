@@ -122,18 +122,16 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
   const ingridientsIds = React.useMemo(() => {
     let ingridientsIdArr;
     ingridientsIdArr = burgerConstructorIngridients.map((ing) => {
-      return ing._id;
+      return ing._id!;
     });
     if (bun) {
-      ingridientsIdArr.push(bun._id, bun._id);
+      ingridientsIdArr.push(bun._id!, bun._id!);
     }
     return ingridientsIdArr;
   }, [burgerConstructorIngridients, bun]);
 
   // Отправка заказа
-  const handleSendOrder = (e: Event) => {
-    e.preventDefault();
-
+  const handleSendOrder = () => {
     if (!getCookie("accessToken")) {
       history.push("/login");
     } else {
@@ -154,6 +152,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
       dispatch({ type: DELETE_BURGER_CONSTRUCTOR_AFTER_ORDER });
     }
   };
+
   // Отправка заказа
 
   return (
@@ -168,8 +167,8 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
             type={"top"}
             isLocked={true}
             text={bun.name}
-            price={bun.price}
-            thumbnail={bun.image}
+            price={bun.price!}
+            thumbnail={bun.image!}
           />
         </div>
       )}
@@ -185,8 +184,8 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
             type={"bottom"}
             isLocked={true}
             text={bun.name}
-            price={bun.price}
-            thumbnail={bun.image}
+            price={bun.price!}
+            thumbnail={bun.image!}
           />
         </div>
       )}
@@ -195,13 +194,7 @@ const BurgerConstructor: FC<IBurgerConstructorProps> = (props) => {
           <p className={`mr-3`}>{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <Button
-          type="primary"
-          size="medium"
-          onClick={(e: Event) => {
-            handleSendOrder(e);
-          }}
-        >
+        <Button type="primary" size="medium" onClick={handleSendOrder}>
           Оформить заказ
         </Button>
       </div>

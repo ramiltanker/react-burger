@@ -13,10 +13,11 @@ import { DndProvider } from "react-dnd";
 
 // Стили
 import mainStyles from "./Main.module.css";
+import { TIngridient } from "../../types/burgerIngridients";
 // Стили
 
 interface IMainProps {
-  handleOpenIngridientsModal: (item: any) => void;
+  handleOpenIngridientsModal: (item: TIngridient) => void;
   handleOpenOrderDetailsModal: () => void;
   isSauce: Boolean;
   isMain: Boolean;

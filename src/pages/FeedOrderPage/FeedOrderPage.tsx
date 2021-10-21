@@ -8,6 +8,11 @@ import pageStyles from "./FeedOrderPage.module.css";
 import { wsInit } from "../../services/actions/wsActions";
 // Actions
 
+// Utils
+import getTimeAndDay from "../../utils/getTimeAndDay";
+import { TReturnObj } from "../../utils/getTimeAndDay";
+// Utils
+
 // Yandex UI
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 // Yandex UI
@@ -28,7 +33,8 @@ const FeedOrderPage: FC<{}> = () => {
   const [currentOrder, setCurrentOrder] = React.useState<TFeedOrder>();
   const [totalPrice, setTotalPrice] = React.useState<number>();
 
-  const [filteredIngridients, setFilteredIngridients] = React.useState<any>();
+  const [filteredIngridients, setFilteredIngridients] =
+    React.useState<Array<string>>();
 
   const dispatch = useDispatch();
 
@@ -55,16 +61,8 @@ const FeedOrderPage: FC<{}> = () => {
     setCurrentOrder(order);
   }, [id, orders]);
 
-  const date = new Date();
-
-  const todayDay = date.getDate();
-
-  const createdTime: any = currentOrder && currentOrder.createdAt;
-
-  const time = createdTime && createdTime.match(/\d\d:\d\d/gm)[0];
-
-  const day =
-    createdTime && +createdTime.match(/\d\dT/gm)[0].match(/\d\d/gm)[0];
+  const returnObj: TReturnObj | undefined =
+    currentOrder && getTimeAndDay(currentOrder);
 
   React.useEffect(() => {
     let totalPriceArr: Array<TIngridient> = [];
@@ -77,9 +75,12 @@ const FeedOrderPage: FC<{}> = () => {
         });
       });
 
-    const totalPrice: number = totalPriceArr.reduce((prev: any, cur: any) => {
-      return cur.price + prev;
-    }, 0);
+    const totalPrice: number = totalPriceArr.reduce(
+      (prev: number, cur: TIngridient): number => {
+        return cur.price! + prev;
+      },
+      0
+    );
 
     setTotalPrice(totalPrice);
   }, [burgerIngridientsArr, currentOrder]);
@@ -122,8 +123,8 @@ const FeedOrderPage: FC<{}> = () => {
           <h2 className={pageStyles.title}>Состав:</h2>
           <ul className={pageStyles.list}>
             {filteredIngridients &&
-              filteredIngridients.map((ingId: any) => {
-                let ingridient: any;
+              filteredIngridients.map((ingId: string) => {
+                let ingridient: TIngridient = {};
 
                 burgerIngridientsArr.forEach((item) => {
                   if (item._id === ingId) {
@@ -156,12 +157,12 @@ const FeedOrderPage: FC<{}> = () => {
             <p
               className={`text text_type_main-default text_color_inactive ${pageStyles.time}`}
             >
-              {todayDay === day
+              {returnObj!.todayDay === returnObj!.day
                 ? `Сегодня, `
-                : todayDay - day === 1
-                ? `${todayDay - day} день назад, `
-                : `${todayDay - day} дня назад, `}
-              {time} i-GMT+3
+                : returnObj!.todayDay - returnObj!.day === 1
+                ? `${returnObj!.todayDay - returnObj!.day} день назад, `
+                : `${returnObj!.todayDay - returnObj!.day} дня назад, `}
+              {returnObj!.time} i-GMT+3
             </p>
             <div className={pageStyles.price_box}>
               <p className={pageStyles.price}>{totalPrice}</p>

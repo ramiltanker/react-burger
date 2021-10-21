@@ -8,6 +8,8 @@ import {
   TBurgerIngridientsOrder,
   TIngridient,
 } from "../../types/burgerIngridients";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "../../types/index";
 // Types
 
 export const GET_BURGER_INGRIDIENTS_REQUEST: "GET_BURGER_INGRIDIENTS_REQUEST" =
@@ -76,7 +78,7 @@ export interface IGetBurgerConstructorAddItemAction {
   readonly type: typeof GET_BURGER_CONSTRUCTOR_ADD_ITEM;
   readonly ingType: string;
 
-  readonly item: any;
+  readonly item: TIngridient;
   readonly id: string;
 }
 
@@ -137,8 +139,13 @@ export type TburgerIngridientsActions =
   | IDeleteBurgerConstructorAfterOrderAction;
 // Union тип
 
-export function getIngridients() {
-  return function (dispatch: any) {
+export function getIngridients(): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  TburgerIngridientsActions
+> {
+  return function (dispatch) {
     dispatch({
       type: GET_BURGER_INGRIDIENTS_REQUEST,
     });
@@ -167,8 +174,8 @@ export function getIngridients() {
 export function sendOrder(
   burgerConstructorIngridients: TBurgerIngridientsArrayOfId,
   token: string | undefined
-) {
-  return function (dispatch: any) {
+): ThunkAction<void, RootState, unknown, TburgerIngridientsActions> {
+  return function (dispatch) {
     dispatch({
       type: POST_SEND_ORDER_REQUEST,
     });

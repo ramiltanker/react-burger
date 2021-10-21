@@ -17,8 +17,13 @@ const ProtectedAuthorized: FC<IProtectedAuthorizedProps> = ({
 }) => {
   const user = useSelector((state) => state.authUser.user);
 
+  const isUser = user.email !== "" && user.name !== "";
+
   return (
-    <Route {...rest} render={() => (!user ? children : <Redirect to="/" />)} />
+    <Route
+      {...rest}
+      render={() => (!isUser ? children : <Redirect to="/" />)}
+    />
   );
 };
 

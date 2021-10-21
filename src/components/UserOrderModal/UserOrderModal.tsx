@@ -6,6 +6,11 @@ import modalStyles from "./UserOrderModal.module.css";
 
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
+// Utils
+import getTimeAndDay from "../../utils/getTimeAndDay";
+import { TReturnObj } from "../../utils/getTimeAndDay";
+// Utils
+
 // Types
 import { TUserOrder } from "../../types/userOrders";
 import { TIngridient } from "../../types/burgerIngridients";
@@ -22,7 +27,8 @@ type FC<P = IUserOrderModalProps> = FunctionComponent<P>;
 
 const UserOrderModal: FC<IUserOrderModalProps> = (props) => {
   const [totalPrice, setTotalPrice] = React.useState<number>();
-
+  const [currentIngridient, setCurrenstIngridient] =
+    React.useState<TIngridient>();
   const [filteredIngridients, setFilteredIngridients] =
     React.useState<Array<string>>();
 
@@ -30,15 +36,8 @@ const UserOrderModal: FC<IUserOrderModalProps> = (props) => {
     (store) => store.burgerIngridients.burgerIngridientsArr
   );
 
-  const date = new Date();
-  const todayDay = date.getDate();
-
-  const createdTime: any = props.userOrderData && props.userOrderData.createdAt;
-
-  const time = createdTime && createdTime.match(/\d\d:\d\d/gm)[0];
-
-  const day =
-    createdTime && +createdTime.match(/\d\dT/gm)[0].match(/\d\d/gm)[0];
+  const returnObj: TReturnObj | undefined =
+    props.userOrderData && getTimeAndDay(props.userOrderData);
 
   React.useEffect(() => {
     let totalPriceArr: Array<TIngridient> = [];
@@ -51,8 +50,8 @@ const UserOrderModal: FC<IUserOrderModalProps> = (props) => {
         });
       });
 
-    const totalPrice = totalPriceArr.reduce((prev, cur) => {
-      return cur.price + prev;
+    const totalPrice = totalPriceArr.reduce((prev, cur): number => {
+      return cur.price! + prev;
     }, 0);
 
     setTotalPrice(totalPrice);
@@ -98,11 +97,10 @@ const UserOrderModal: FC<IUserOrderModalProps> = (props) => {
         <ul className={modalStyles.list}>
           {filteredIngridients &&
             filteredIngridients.map((ingId) => {
-              let ingridient: any;
-
+              let ingredient: TIngridient = {};
               burgerIngridientsArr.forEach((item) => {
                 if (item._id === ingId) {
-                  ingridient = item;
+                  ingredient = item;
                 }
               });
 
@@ -110,16 +108,16 @@ const UserOrderModal: FC<IUserOrderModalProps> = (props) => {
                 <li className={modalStyles.li} key={ingId}>
                   <img
                     className={modalStyles.image}
-                    src={ingridient && ingridient.image}
-                    alt={ingridient && ingridient.name}
+                    src={ingredient && ingredient.image}
+                    alt={ingredient && ingredient.name}
                   />
                   <p className={`text ${modalStyles.ing_name}`}>
-                    {ingridient && ingridient.name}
+                    {ingredient && ingredient.name}
                   </p>
                   <div className={modalStyles.price_box}>
                     <p className={modalStyles.price}>
                       {counters[ingId] > 1 ? counters[ingId] + ` x ` : ""}
-                      {ingridient && ingridient.price}
+                      {ingredient && ingredient.price}
                     </p>
                     <CurrencyIcon type={"secondary"} />
                   </div>
@@ -131,12 +129,12 @@ const UserOrderModal: FC<IUserOrderModalProps> = (props) => {
           <p
             className={`text text_type_main-default text_color_inactive ${modalStyles.time}`}
           >
-            {todayDay === day
+            {returnObj!.todayDay === returnObj!.day
               ? `Сегодня, `
-              : todayDay - day === 1
-              ? `${todayDay - day} день назад, `
-              : `${todayDay - day} дня назад, `}
-            {time} i-GMT+3
+              : returnObj!.todayDay - returnObj!.day === 1
+              ? `${returnObj!.todayDay - returnObj!.day} день назад, `
+              : `${returnObj!.todayDay - returnObj!.day} дня назад, `}
+            {returnObj!.time} i-GMT+3
           </p>
           <div className={modalStyles.price_box}>
             <p className={modalStyles.price}>{totalPrice}</p>

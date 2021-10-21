@@ -46,9 +46,7 @@ const FeedCard: FC<IFeedCardProps> = (props) => {
   return (
     <Link
       className={feedCardStyles.link}
-      onClick={(e) => {
-        props.handleOpenFeedModal();
-      }}
+      onClick={props.handleOpenFeedModal}
       to={{
         pathname: `/feed/${props.order._id}`,
         state: { background: location },

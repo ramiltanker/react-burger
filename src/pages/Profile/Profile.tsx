@@ -1,4 +1,4 @@
-import React from "react";
+import React, { MouseEvent } from "react";
 
 // Стили
 import profileStyles from "./Profile.module.css";
@@ -41,7 +41,7 @@ function Profile() {
 
   const dispatch = useDispatch();
 
-  const onChange = (event: any) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUser({ ...user, [event.target.name]: event.target.value });
   };
 
@@ -51,7 +51,7 @@ function Profile() {
       : setIsButtonsActive(true);
   }, [email, name, user.email, user.name]);
 
-  const handleUpdateUserData = (e: any) => {
+  const handleUpdateUserData = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const accessToken = getCookie("accessToken");
     if (accessToken) {
@@ -59,7 +59,7 @@ function Profile() {
     }
   };
 
-  const handleResetChanges = (e: any) => {
+  const handleResetChanges = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setUser({ name: name, email: email });
   };
@@ -71,7 +71,7 @@ function Profile() {
           <RouteBox />
           <form
             className={profileStyles.form}
-            onSubmit={(e) => {
+            onSubmit={(e: React.FormEvent<HTMLFormElement>) => {
               handleUpdateUserData(e);
             }}
             onReset={(e) => {

@@ -1,4 +1,4 @@
-import React, { FunctionComponent, KeyboardEvent, MouseEvent } from "react";
+import React, { FunctionComponent } from "react";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 
 // Redux
@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 // Redux
 
 import { handleGetUserData } from "../../services/actions/auth";
+import { getIngridients } from "../../services/actions/burgerIngridients";
 
 // Компоненты
 import AppHeader from "../AppHeader/AppHeader";
@@ -37,7 +38,6 @@ import { TLocation } from "../../types";
 import { TIngridient } from "../../types/burgerIngridients";
 import { TUserOrder } from "../../types/userOrders";
 import { TFeedOrder } from "../../types/feed";
-import { getIngridients } from "../../services/actions/burgerIngridients";
 // Types
 
 type FC<P = {}> = FunctionComponent<P>;
@@ -73,30 +73,24 @@ const App: FC<{}> = () => {
 
   // Переменные состояния для FeedOrderModalOpen
   const [isFeedOrderModalOpen, setIsFeedOrderModalOpen] = React.useState(false);
-  const [feedOrderData, setFeedOrderData] = React.useState<
-    TFeedOrder | undefined
-  >();
+  const [feedOrderData, setFeedOrderData] = React.useState<TFeedOrder>();
   // Переменные состояния для FeedOrderModalOpen
 
   React.useEffect(() => {
     dispatch(getIngridients());
-  }, [dispatch]);
-
-  React.useEffect(() => {
     const accessToken = getCookie("accessToken");
     accessToken && dispatch(handleGetUserData());
   }, [dispatch]);
 
   React.useEffect(() => {
     const handleEscClose = (e: KeyboardEvent) => {
-      if (e.keyCode === 27) {
+      if (e.key === "Escape") {
         handleCloseModal();
       }
     };
     document.addEventListener("keydown", (e: KeyboardEvent) => {
       handleEscClose(e);
     });
-
     return () => {
       document.removeEventListener("keydown", (e: KeyboardEvent) => {
         handleEscClose(e);
@@ -145,9 +139,9 @@ const App: FC<{}> = () => {
   function handleCloseFeedModal() {
     history.push("/feed");
     setIsFeedOrderModalOpen(false);
-    setFeedOrderData(undefined);
   }
   // FeedOrderModalOpen
+
   const background =
     history.action === "PUSH" && location.state && location.state.background;
 

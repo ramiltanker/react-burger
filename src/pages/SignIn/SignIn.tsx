@@ -33,7 +33,7 @@ function SignIn() {
   const email = useFormWithValidation();
   const password = useFormWithValidation();
 
-  const handleUserLogin = (e: any) => {
+  const handleUserLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const emailValue = email.values.email;
     const passwordValue = password.values.password;

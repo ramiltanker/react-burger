@@ -34,6 +34,7 @@ export const feedReducer = (state = initialState, action: TWsActions) => {
       };
 
     case WS_CONNECTION_ERROR:
+      console.log(action.payload);
       return {
         ...state,
         wsError: action.payload,

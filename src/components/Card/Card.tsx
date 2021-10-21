@@ -48,10 +48,10 @@ const Card: FC<ICardProps> = (props) => {
     const counter: TCounter = {};
 
     burgerConstructorIngridients.forEach((ingredient: TIngridient) => {
-      if (!counter[ingredient._id]) counter[ingredient._id] = 0;
-      counter[ingredient._id]++;
+      if (!counter[ingredient._id!]) counter[ingredient._id!] = 0;
+      counter[ingredient._id!]++;
     });
-    if (bun) counter[bun._id] = 2;
+    if (bun) counter[bun._id!] = 2;
     return counter;
   }, [burgerConstructorIngridients, bun]);
 
@@ -80,7 +80,7 @@ const Card: FC<ICardProps> = (props) => {
         state: { background: location },
       }}
     >
-      <Counter count={counters[props.card._id]} />
+      <Counter count={counters[props.card._id!]} />
       <img
         className={cardStyles.image}
         src={props.card.image}

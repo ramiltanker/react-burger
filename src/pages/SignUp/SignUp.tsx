@@ -40,7 +40,7 @@ function SignUp() {
   const email = useFormWithValidation();
   const password = useFormWithValidation();
 
-  const handleRegister = (e: any) => {
+  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const nameValue = nameInput.values.name;
@@ -85,14 +85,14 @@ function SignUp() {
               placeholder="E-mail"
               name="email"
               onChange={email.handleChange}
-              value={email.values.name || ""}
+              value={email.values.email || ""}
             />
           </fieldset>
           <fieldset className={`${signUpStyles.fieldset} mb-6`}>
             <PasswordInput
               name="password"
               onChange={password.handleChange}
-              value={password.values.name || ""}
+              value={password.values.password || ""}
             />
           </fieldset>
           <Button type="primary" size="medium">

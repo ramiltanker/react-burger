@@ -4,9 +4,12 @@ import React, { FunctionComponent } from "react";
 import modalStyles from "./FeedOrderModal.module.css";
 // Стили
 
-import { getIngridients } from "../../services/actions/burgerIngridients";
-
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+
+// Utils
+import getTimeAndDay from "../../utils/getTimeAndDay";
+import { TReturnObj } from "../../utils/getTimeAndDay";
+// Utils
 
 // Types
 import { TFeedOrder } from "../../types/feed";
@@ -34,16 +37,8 @@ const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
     (store) => store.burgerIngridients.burgerIngridientsArr
   );
 
-  const date = new Date();
-  const todayDay = date.getDate();
-
-  const createdTime: string | undefined =
-    props.feedOrderData && props.feedOrderData.createdAt;
-
-  const time = createdTime && createdTime.match(/\d\d:\d\d/gm)![0];
-
-  const day: string | undefined =
-    createdTime && createdTime.match(/\d\dT/gm)![0].match(/\d\d/gm)![0];
+  const returnObj: TReturnObj | undefined =
+    props.feedOrderData && getTimeAndDay(props.feedOrderData);
 
   React.useEffect(() => {
     let totalPriceArr: Array<TIngridient> = [];
@@ -56,8 +51,8 @@ const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
         });
       });
 
-    const totalPrice: number = totalPriceArr.reduce((prev, cur) => {
-      return cur.price + prev;
+    const totalPrice: number = totalPriceArr.reduce((prev, cur): number => {
+      return cur.price! + prev;
     }, 0);
 
     setTotalPrice(totalPrice);
@@ -103,25 +98,26 @@ const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
         <ul className={modalStyles.list}>
           {filteredIngridients &&
             filteredIngridients.map((ingId) => {
+              let ingredient: TIngridient = {};
               burgerIngridientsArr.forEach((item) => {
                 if (item._id === ingId) {
-                  setIngridient(item);
+                  ingredient = item;
                 }
               });
               return (
                 <li className={modalStyles.li} key={ingId}>
                   <img
                     className={modalStyles.image}
-                    src={ingridient!.image}
-                    alt={ingridient!.name}
+                    src={ingredient && ingredient.image}
+                    alt={ingredient && ingredient.name}
                   />
                   <p className={`text ${modalStyles.ing_name}`}>
-                    {ingridient!.name}
+                    {ingredient && ingredient.name}
                   </p>
                   <div className={modalStyles.price_box}>
                     <p className={modalStyles.price}>
                       {counters[ingId] > 1 ? counters[ingId] + ` x ` : ""}
-                      {ingridient!.price}
+                      {ingredient && ingredient.price}
                     </p>
                     <CurrencyIcon type={"secondary"} />
                   </div>
@@ -133,12 +129,12 @@ const FeedOrderModal: FC<IFeedOrderModalProps> = (props) => {
           <p
             className={`text text_type_main-default text_color_inactive ${modalStyles.time}`}
           >
-            {todayDay === Number(day)
+            {returnObj!.todayDay === Number(returnObj!.day)
               ? `Сегодня, `
-              : todayDay - Number(day) === 1
-              ? `${todayDay - Number(day)} день назад, `
-              : `${todayDay - Number(day)} дня назад, `}
-            {time} i-GMT+3
+              : returnObj!.todayDay - Number(returnObj!.day) === 1
+              ? `${returnObj!.todayDay - Number(returnObj!.day)} день назад, `
+              : `${returnObj!.todayDay - Number(returnObj!.day)} дня назад, `}
+            {returnObj!.time} i-GMT+3
           </p>
           <div className={modalStyles.price_box}>
             <p className={modalStyles.price}>{totalPrice}</p>

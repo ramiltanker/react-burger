@@ -19,6 +19,7 @@ import { TFeedOrder } from "../../types/feed";
 import { TIngridients, TImages, TPriceArr } from "../../types";
 
 import { useDispatch, useSelector } from "../../types/typedHooks";
+import { TIngridient } from "../../types/burgerIngridients";
 // Types
 
 interface IFeedProps {
@@ -63,10 +64,10 @@ const Feed: FC<IFeedProps> = (props) => {
 
   const handleGetIngImage = (ingridientsIds: TIngridients) => {
     let imagesArr: TImages = [];
-    ingridientsIds.map((id: any) => {
+    ingridientsIds.map((id: string) => {
       return burgerIngridientsArr.forEach((item) => {
         if (item._id === id) {
-          imagesArr.push(item.image);
+          imagesArr.push(item!.image!);
         }
       });
     });
@@ -75,7 +76,7 @@ const Feed: FC<IFeedProps> = (props) => {
 
   const handleGetOrderPrice = (ingridientsIds: TIngridients) => {
     let totalPriceArr: TPriceArr = [];
-    ingridientsIds.map((id: any) => {
+    ingridientsIds.map((id: string) => {
       return burgerIngridientsArr.forEach((item) => {
         if (item._id === id) {
           totalPriceArr.push(item);
@@ -83,9 +84,12 @@ const Feed: FC<IFeedProps> = (props) => {
       });
     });
 
-    const totalPrice: number = totalPriceArr.reduce((prev: any, cur: any) => {
-      return cur.price + prev;
-    }, 0);
+    const totalPrice: number = totalPriceArr.reduce(
+      (prev: number, cur: TIngridient) => {
+        return cur!.price! + prev;
+      },
+      0
+    );
 
     return totalPrice;
   };
@@ -102,15 +106,17 @@ const Feed: FC<IFeedProps> = (props) => {
           <div className={feedStyles.box}>
             <div className={`${feedStyles.orders} mr-15`}>
               {orders &&
-                orders.map((item: any) => {
-                  const createdTime = item.createdAt;
+                orders.map((item: TFeedOrder) => {
+                  const createdTime: string = item! && item!.createdAt!;
 
-                  const time: string = createdTime.match(/\d\d:\d\d/gm)[0];
+                  const time =
+                    createdTime && createdTime.match(/\d\d:\d\d/gm)![0];
 
-                  const day = +createdTime
-                    .match(/\d\dT/gm)[0]
-                    .match(/\d\d/gm)[0];
+                  const dayString: string =
+                    createdTime &&
+                    createdTime.match(/\d\dT/gm)![0].match(/\d\d/gm)![0];
 
+                  const day: number = Number.parseInt(dayString);
                   const images = handleGetIngImage(item.ingredients);
                   const price = handleGetOrderPrice(item.ingredients);
 

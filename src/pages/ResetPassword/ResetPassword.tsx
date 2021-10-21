@@ -43,10 +43,10 @@ function ResetPassword() {
     (state) => state.authUser.forgotPasswordSucces
   );
 
-  const password: any = useFormWithValidation();
-  const code: any = useFormWithValidation();
+  const password = useFormWithValidation();
+  const code = useFormWithValidation();
 
-  const resetPasswordHandler = (e: any) => {
+  const resetPasswordHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const passwordValue = password.values.password;

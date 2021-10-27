@@ -1,5 +1,7 @@
-const getUserData = (token) => {
-  return fetch(`https://norma.nomoreparties.space/api/auth/user`, {
+import { API_URL } from "./constants";
+
+const getUserData = (token?: string) => {
+  return fetch(`${API_URL}/auth/user`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

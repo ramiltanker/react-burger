@@ -1,3 +1,5 @@
+import { Middleware } from "redux";
+
 import {
   WS_CONNECTION_CLOSED,
   WS_CONNECTION_ERROR,
@@ -7,9 +9,9 @@ import {
   WS_SEND_MESSAGE,
 } from "../actions/wsActions";
 
-export const socketMiddleware = (wsUrl) => {
+export const socketMiddleware = (wsUrl: string): Middleware => {
   return (store) => {
-    let socket = null;
+    let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;

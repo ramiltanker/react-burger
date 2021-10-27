@@ -1,12 +1,13 @@
-const updateUser = (token, email, name) => {
-  return fetch(`https://norma.nomoreparties.space/api/auth/user`, {
-    method: "PATCH",
+import { API_URL } from "./constants";
+
+const login = (email: string, password: string) => {
+  return fetch(`${API_URL}/auth/login`, {
+    method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify({ email: email, name: name }),
+    body: JSON.stringify({ email, password }),
   })
     .then((res) => {
       if (!res.ok) {
@@ -19,4 +20,4 @@ const updateUser = (token, email, name) => {
     });
 };
 
-export default updateUser;
+export default login;

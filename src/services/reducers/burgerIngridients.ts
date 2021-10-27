@@ -111,7 +111,6 @@ export const burgerIngridientsReducer = (
       };
     }
     case GET_BURGER_CONSTRUCTOR_ADD_ITEM: {
-      console.log(action.item);
       if (action.ingType === "bun") {
         return {
           ...state,

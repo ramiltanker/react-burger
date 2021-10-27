@@ -1,5 +1,7 @@
+import { API_URL } from "./constants";
+
 const getOrders = () => {
-  return fetch(`https://norma.nomoreparties.space/orders/all`, {
+  return fetch(`${API_URL}/orders/all`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

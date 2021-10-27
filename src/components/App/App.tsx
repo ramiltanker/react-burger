@@ -82,6 +82,19 @@ const App: FC<{}> = () => {
     accessToken && dispatch(handleGetUserData());
   }, [dispatch]);
 
+  const handleCloseModal = React.useCallback(() => {
+    let backgroundPath: string = "";
+    if (location.state) {
+      backgroundPath =
+        location.state.background && location.state.background.pathname;
+    }
+    setIsIngridientModalOpen(false);
+    setIsOrderDetailsOpen(false);
+    setIsFeedOrderModalOpen(false);
+    setIsProfileOrderModalOpen(false);
+    history.push(backgroundPath);
+  }, [history, location.state]);
+
   React.useEffect(() => {
     const handleEscClose = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -96,7 +109,7 @@ const App: FC<{}> = () => {
         handleEscClose(e);
       });
     };
-  }, []);
+  }, [handleCloseModal]);
 
   // Indgridients Modal
   function handleOpenIngridientsModal(item: TIngridient): void {
@@ -104,12 +117,6 @@ const App: FC<{}> = () => {
     setIngridientInfo(item);
   }
   // Indgridients Modal
-
-  function handleCloseModal() {
-    history.push("/");
-    setIsIngridientModalOpen(false);
-    setIsOrderDetailsOpen(false);
-  }
 
   //  OrderDetaulsModal
   function handleOpenOrderDetailsModal(): void {
@@ -122,23 +129,12 @@ const App: FC<{}> = () => {
     setIsProfileOrderModalOpen(true);
     setUserrderData(data);
   }
-
-  function handleCloseOrderModal() {
-    history.push("/profile/orders");
-    setIsProfileOrderModalOpen(false);
-    setUserrderData(undefined);
-  }
   // OrderModal
 
   // FeedOrderModalOpen
   function handleOpenFeedModal(data: TFeedOrder) {
     setIsFeedOrderModalOpen(true);
     setFeedOrderData(data);
-  }
-
-  function handleCloseFeedModal() {
-    history.push("/feed");
-    setIsFeedOrderModalOpen(false);
   }
   // FeedOrderModalOpen
 
@@ -210,7 +206,7 @@ const App: FC<{}> = () => {
         <Route path="/feed/:id">
           <Modal
             isOpen={isFeedOrderModalOpen}
-            handleCloseModal={handleCloseFeedModal}
+            handleCloseModal={handleCloseModal}
           >
             <FeedOrderModal feedOrderData={feedOrderData} />
           </Modal>
@@ -220,7 +216,7 @@ const App: FC<{}> = () => {
         <Route path="/profile/orders/:id">
           <Modal
             isOpen={isProfileOrderModalOpen}
-            handleCloseModal={handleCloseOrderModal}
+            handleCloseModal={handleCloseModal}
           >
             <UserOrderModal userOrderData={userOrderData} />
           </Modal>

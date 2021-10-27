@@ -4,7 +4,7 @@ import React, { FunctionComponent } from "react";
 import cardStyles from "./Card.module.css";
 // Стили
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useHistory } from "react-router-dom";
 
 // redux
 import { useDispatch } from "react-redux";
@@ -39,6 +39,7 @@ type FC<P = ICardProps> = FunctionComponent<P>;
 
 const Card: FC<ICardProps> = (props) => {
   const location = useLocation();
+  const history = useHistory();
 
   const { burgerConstructorIngridients, bun } = useSelector(
     (store) => store.burgerIngridients
@@ -68,7 +69,6 @@ const Card: FC<ICardProps> = (props) => {
     }),
   });
   // DND
-
   return (
     <Link
       className={cardStyles.card}

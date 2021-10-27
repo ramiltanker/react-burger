@@ -153,12 +153,12 @@ function UserOrderPage() {
             <p
               className={`text text_type_main-default text_color_inactive ${pageStyles.time}`}
             >
-              {returnObj!.todayDay === returnObj!.day
+              {returnObj?.todayDay === returnObj?.day
                 ? `Сегодня, `
                 : returnObj!.todayDay! - returnObj!.day === 1
                 ? `${returnObj!.todayDay! - returnObj!.day} день назад, `
                 : `${returnObj!.todayDay! - returnObj!.day!} дня назад, `}
-              {returnObj!.time} i-GMT+3
+              {returnObj?.time} i-GMT+3
             </p>
             <div className={pageStyles.price_box}>
               <p className={pageStyles.price}>{totalPrice}</p>

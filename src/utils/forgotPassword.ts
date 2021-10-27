@@ -1,11 +1,13 @@
-const resetPassword = (password, token) => {
-  return fetch(`https://norma.nomoreparties.space/api/password-reset/reset`, {
+import { API_URL } from "./constants";
+
+const forgotPassword = (email: string) => {
+  return fetch(`${API_URL}/password-reset`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ password: password, token: token }),
+    body: JSON.stringify({ email: email }),
   })
     .then((res) => {
       if (!res.ok) {
@@ -18,4 +20,4 @@ const resetPassword = (password, token) => {
     });
 };
 
-export default resetPassword;
+export default forgotPassword;

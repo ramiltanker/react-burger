@@ -1,5 +1,5 @@
-import ingridientsApi from "../../utils/IngridientsApi";
-import sendOrderApi from "../../utils/SendingOrderApi";
+import getInitialIngridients from "../../utils/IngridientsApi";
+import postSendingOrderApi from "../../utils/SendingOrderApi";
 
 // Types
 import {
@@ -8,8 +8,7 @@ import {
   TBurgerIngridientsOrder,
   TIngridient,
 } from "../../types/burgerIngridients";
-import { ThunkAction } from "redux-thunk";
-import { RootState } from "../../types/index";
+import { AppThunk } from "../../types/index";
 // Types
 
 export const GET_BURGER_INGRIDIENTS_REQUEST: "GET_BURGER_INGRIDIENTS_REQUEST" =
@@ -139,18 +138,12 @@ export type TburgerIngridientsActions =
   | IDeleteBurgerConstructorAfterOrderAction;
 // Union тип
 
-export function getIngridients(): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  TburgerIngridientsActions
-> {
+export const getIngridients: AppThunk = () => {
   return function (dispatch) {
     dispatch({
       type: GET_BURGER_INGRIDIENTS_REQUEST,
     });
-    ingridientsApi
-      .getInitialIngridients()
+    getInitialIngridients()
       .then((res) => {
         if (res && res.success) {
           dispatch({
@@ -169,18 +162,17 @@ export function getIngridients(): ThunkAction<
         }
       });
   };
-}
+};
 
-export function sendOrder(
+export const sendOrder: AppThunk = (
   burgerConstructorIngridients: TBurgerIngridientsArrayOfId,
   token: string | undefined
-): ThunkAction<void, RootState, unknown, TburgerIngridientsActions> {
+) => {
   return function (dispatch) {
     dispatch({
       type: POST_SEND_ORDER_REQUEST,
     });
-    sendOrderApi
-      .postSendingOrderApi(burgerConstructorIngridients, token)
+    postSendingOrderApi(burgerConstructorIngridients, token)
       .then((res) => {
         if (res && res.success) {
           dispatch({
@@ -200,4 +192,4 @@ export function sendOrder(
         }
       });
   };
-}
+};

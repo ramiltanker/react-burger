@@ -1,5 +1,7 @@
-const tokenCheck = (refreshToken) => {
-  return fetch(`https://norma.nomoreparties.space/api/auth/token`, {
+import { API_URL } from "./constants";
+
+const tokenCheck = (refreshToken: string | null) => {
+  return fetch(`${API_URL}/auth/token`, {
     method: "POST",
     headers: {
       Accept: "application/json",

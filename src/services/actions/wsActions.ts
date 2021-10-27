@@ -1,4 +1,4 @@
-import { ThunkAction } from "redux-thunk";
+import { AppThunk } from "../../types/index";
 
 import { RootState } from "../../types/index";
 
@@ -90,23 +90,18 @@ export type TWsActions =
   | WsAuthConnectionGetMessageAction
   | WsAuthConnectionSendMessageAction;
 
-export function wsInit(): ThunkAction<void, RootState, unknown, TWsActions> {
+export const wsInit: AppThunk = () => {
   return function (dispatch) {
     dispatch({
       type: WS_CONNECTION_START,
     });
   };
-}
+};
 
-export function wsAuthInit(): ThunkAction<
-  void,
-  RootState,
-  unknown,
-  TWsActions
-> {
+export const wsAuthInit: AppThunk = () => {
   return function (dispatch) {
     dispatch({
       type: WS_AUTH_CONNECTION_START,
     });
   };
-}
+};

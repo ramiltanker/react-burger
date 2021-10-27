@@ -1,4 +1,5 @@
 import { getCookie, setCookie } from "../../utils/cookie";
+import { Middleware } from "redux";
 
 import {
   WS_AUTH_CONNECTION_CLOSED,
@@ -11,9 +12,9 @@ import {
 
 import tokenCheck from "../../utils/tokenCheck";
 
-export const socketMiddlewareAuth = (wsUrl) => {
+export const socketMiddlewareAuth = (wsUrl: string): Middleware => {
   return (store) => {
-    let socket = null;
+    let socket: WebSocket | null = null;
 
     return (next) => (action) => {
       const { dispatch } = store;
